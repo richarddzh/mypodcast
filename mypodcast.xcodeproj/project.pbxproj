@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		79046421198CABFC00FF6C22 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7932AD80198A37C300151759 /* AudioToolbox.framework */; };
+		79046430198E263600FF6C22 /* DZAudioQueuePlayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7904642E198E263600FF6C22 /* DZAudioQueuePlayer.cpp */; };
+		79046433198E418000FF6C22 /* DZAudioPlayer.mm in Sources */ = {isa = PBXBuildFile; fileRef = 79046432198E418000FF6C22 /* DZAudioPlayer.mm */; };
+		7921C37A198A68AA00A6B408 /* DZCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 7921C379198A68AA00A6B408 /* DZCache.m */; };
 		7932AD4D198A1B5000151759 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7932AD4C198A1B5000151759 /* Foundation.framework */; };
 		7932AD4F198A1B5000151759 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7932AD4E198A1B5000151759 /* CoreGraphics.framework */; };
 		7932AD51198A1B5000151759 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7932AD50198A1B5000151759 /* UIKit.framework */; };
@@ -19,6 +23,9 @@
 		7932AD68198A1B5000151759 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7932AD50198A1B5000151759 /* UIKit.framework */; };
 		7932AD70198A1B5000151759 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 7932AD6E198A1B5000151759 /* InfoPlist.strings */; };
 		7932AD72198A1B5000151759 /* mypodcastTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 7932AD71198A1B5000151759 /* mypodcastTests.m */; };
+		7932AD7C198A1B9D00151759 /* Storyboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7932AD7B198A1B9D00151759 /* Storyboard.storyboard */; };
+		7932AD7F198A36FA00151759 /* DZPlayViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7932AD7E198A36FA00151759 /* DZPlayViewController.m */; };
+		795AB51E198B522B00A083CD /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 795AB51D198B522B00A083CD /* SystemConfiguration.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -32,6 +39,13 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		7904641C198CA84100FF6C22 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
+		7904642E198E263600FF6C22 /* DZAudioQueuePlayer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DZAudioQueuePlayer.cpp; sourceTree = "<group>"; };
+		7904642F198E263600FF6C22 /* DZAudioQueuePlayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DZAudioQueuePlayer.h; sourceTree = "<group>"; };
+		79046431198E418000FF6C22 /* DZAudioPlayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DZAudioPlayer.h; sourceTree = "<group>"; };
+		79046432198E418000FF6C22 /* DZAudioPlayer.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = DZAudioPlayer.mm; sourceTree = "<group>"; };
+		7921C378198A68AA00A6B408 /* DZCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DZCache.h; sourceTree = "<group>"; };
+		7921C379198A68AA00A6B408 /* DZCache.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DZCache.m; sourceTree = "<group>"; };
 		7932AD49198A1B5000151759 /* mypodcast.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = mypodcast.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7932AD4C198A1B5000151759 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		7932AD4E198A1B5000151759 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -48,6 +62,11 @@
 		7932AD6D198A1B5000151759 /* mypodcastTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "mypodcastTests-Info.plist"; sourceTree = "<group>"; };
 		7932AD6F198A1B5000151759 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		7932AD71198A1B5000151759 /* mypodcastTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = mypodcastTests.m; sourceTree = "<group>"; };
+		7932AD7B198A1B9D00151759 /* Storyboard.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Storyboard.storyboard; sourceTree = "<group>"; };
+		7932AD7D198A36FA00151759 /* DZPlayViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DZPlayViewController.h; sourceTree = "<group>"; };
+		7932AD7E198A36FA00151759 /* DZPlayViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DZPlayViewController.m; sourceTree = "<group>"; };
+		7932AD80198A37C300151759 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
+		795AB51D198B522B00A083CD /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -55,6 +74,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				79046421198CABFC00FF6C22 /* AudioToolbox.framework in Frameworks */,
+				795AB51E198B522B00A083CD /* SystemConfiguration.framework in Frameworks */,
 				7932AD4F198A1B5000151759 /* CoreGraphics.framework in Frameworks */,
 				7932AD51198A1B5000151759 /* UIKit.framework in Frameworks */,
 				7932AD4D198A1B5000151759 /* Foundation.framework in Frameworks */,
@@ -96,6 +117,9 @@
 		7932AD4B198A1B5000151759 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				7904641C198CA84100FF6C22 /* AVFoundation.framework */,
+				795AB51D198B522B00A083CD /* SystemConfiguration.framework */,
+				7932AD80198A37C300151759 /* AudioToolbox.framework */,
 				7932AD4C198A1B5000151759 /* Foundation.framework */,
 				7932AD4E198A1B5000151759 /* CoreGraphics.framework */,
 				7932AD50198A1B5000151759 /* UIKit.framework */,
@@ -111,6 +135,15 @@
 				7932AD5C198A1B5000151759 /* DZAppDelegate.m */,
 				7932AD5E198A1B5000151759 /* Images.xcassets */,
 				7932AD53198A1B5000151759 /* Supporting Files */,
+				7932AD7B198A1B9D00151759 /* Storyboard.storyboard */,
+				7932AD7D198A36FA00151759 /* DZPlayViewController.h */,
+				7932AD7E198A36FA00151759 /* DZPlayViewController.m */,
+				7921C378198A68AA00A6B408 /* DZCache.h */,
+				7921C379198A68AA00A6B408 /* DZCache.m */,
+				7904642E198E263600FF6C22 /* DZAudioQueuePlayer.cpp */,
+				7904642F198E263600FF6C22 /* DZAudioQueuePlayer.h */,
+				79046431198E418000FF6C22 /* DZAudioPlayer.h */,
+				79046432198E418000FF6C22 /* DZAudioPlayer.mm */,
 			);
 			path = mypodcast;
 			sourceTree = "<group>";
@@ -192,6 +225,13 @@
 				LastUpgradeCheck = 0510;
 				ORGANIZATIONNAME = "Richard Dong";
 				TargetAttributes = {
+					7932AD48198A1B5000151759 = {
+						SystemCapabilities = {
+							com.apple.BackgroundModes = {
+								enabled = 1;
+							};
+						};
+					};
 					7932AD63198A1B5000151759 = {
 						TestTargetID = 7932AD48198A1B5000151759;
 					};
@@ -222,6 +262,7 @@
 			files = (
 				7932AD57198A1B5000151759 /* InfoPlist.strings in Resources */,
 				7932AD5F198A1B5000151759 /* Images.xcassets in Resources */,
+				7932AD7C198A1B9D00151759 /* Storyboard.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -241,7 +282,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				7932AD5D198A1B5000151759 /* DZAppDelegate.m in Sources */,
+				79046430198E263600FF6C22 /* DZAudioQueuePlayer.cpp in Sources */,
+				7932AD7F198A36FA00151759 /* DZPlayViewController.m in Sources */,
+				7921C37A198A68AA00A6B408 /* DZCache.m in Sources */,
 				7932AD59198A1B5000151759 /* main.m in Sources */,
+				79046433198E418000FF6C22 /* DZAudioPlayer.mm in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -438,6 +483,7 @@
 				7932AD77198A1B5000151759 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		7932AD78198A1B5000151759 /* Build configuration list for PBXNativeTarget "mypodcastTests" */ = {
 			isa = XCConfigurationList;
@@ -446,6 +492,7 @@
 				7932AD7A198A1B5000151759 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
