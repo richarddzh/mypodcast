@@ -100,7 +100,8 @@ void DZAudioQueuePlayer::onPackets(UInt32 numBytes, UInt32 numPackets, const voi
     if (numBytes <= 0 || numPackets <= 0 || data == NULL) {
         return;
     }
-    printf("Free Buffer: %u, Queue Buffer: %u\n", this->_numFreeBuffer, this->_numQueueBuffer);
+    // [Debug] observe buffer usage
+    // printf("Free Buffer: %u, Queue Buffer: %u\n", this->_numFreeBuffer, this->_numQueueBuffer);
     int idx = -1;
     AudioQueueBufferRef buffer = NULL;
     for (int i = 0; i < kDZMaxNumBuffers; ++i) {
