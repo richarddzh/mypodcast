@@ -102,6 +102,7 @@ void DZAudioQueuePlayer::onPackets(UInt32 numBytes, UInt32 numPackets, const voi
     }
     // [Debug] observe buffer usage
     // printf("Free Buffer: %u, Queue Buffer: %u\n", this->_numFreeBuffer, this->_numQueueBuffer);
+    // printf("Current time: %lf\n", this->getCurrentTime());
     int idx = -1;
     AudioQueueBufferRef buffer = NULL;
     for (int i = 0; i < kDZMaxNumBuffers; ++i) {
@@ -175,9 +176,9 @@ OSStatus DZAudioQueuePlayer::pause()
     return AudioQueuePause(this->_queue);
 }
 
-OSStatus DZAudioQueuePlayer::stop()
+OSStatus DZAudioQueuePlayer::stop(bool immediately)
 {
-    return AudioQueueStop(this->_queue, true);
+    return AudioQueueStop(this->_queue, immediately);
 }
 
 Float64 DZAudioQueuePlayer::getCurrentTime()
@@ -185,6 +186,11 @@ Float64 DZAudioQueuePlayer::getCurrentTime()
     AudioTimeStamp timeStamp;
     AudioQueueGetCurrentTime(this->_queue, NULL, &(timeStamp), NULL);
     return timeStamp.mSampleTime / this->_format.mSampleRate;
+}
+
+bool DZAudioQueuePlayer::isBufferOverloaded()
+{
+    return this->_numQueueBuffer > kDZMaxNumBuffers;
 }
 
 

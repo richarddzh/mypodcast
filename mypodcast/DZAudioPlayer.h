@@ -9,7 +9,7 @@
 #import <Foundation/Foundation.h>
 
 const UInt32 kDZBufferSize = 40000;
-const UInt32 kDZNumPreloadBuffer = 3;
+const UInt32 kDZNumPreloadBuffer = 4;
 
 @interface DZAudioPlayer : NSObject
 {

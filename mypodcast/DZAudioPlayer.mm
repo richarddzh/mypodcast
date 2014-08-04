@@ -44,7 +44,14 @@
 
 - (void)playFile:(NSTimer *)timer
 {
-    NSInteger read = [self->_fstream read:self->_buffer maxLength:20009];
+    if (self->_player->isBufferOverloaded()) {
+        return;
+    }
+    if ([self->_fstream hasBytesAvailable] == NO) {
+        self->_player->flush();
+        self->_player->stop(false);
+    }
+    NSInteger read = [self->_fstream read:self->_buffer maxLength:kDZBufferSize];
     self->_player->parse(self->_buffer, read);
 }
 

@@ -11,7 +11,7 @@
 
 #include <AudioToolbox/AudioToolbox.h>
 
-const UInt32 kDZMaxNumBuffers = 16;
+const UInt32 kDZMaxNumBuffers = 4;
 
 class DZAudioQueuePlayer {
     AudioQueueRef _queue;
@@ -32,9 +32,11 @@ public:
     OSStatus prime();
     OSStatus start();
     OSStatus pause();
-    OSStatus stop();
+    OSStatus stop(bool immediately = true);
     OSStatus flush();
     Float64 getCurrentTime();
+    
+    bool isBufferOverloaded();
     
     void onProperty(AudioFileStreamPropertyID pID);
     void onPackets(UInt32 numBytes, UInt32 numPackets, const void * data, AudioStreamPacketDescription * packetDesc);
