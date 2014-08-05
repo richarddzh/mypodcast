@@ -9,6 +9,7 @@
 #import "DZPlayViewController.h"
 #import "DZCache.h"
 #import "DZAudioPlayer.h"
+#import "DZURLSessionForAudioStream.h"
 
 @interface DZPlayViewController ()
 
@@ -37,7 +38,7 @@
                              self.imageView.image = [UIImage imageWithData:data];
                      }];
     DZAudioPlayer * player = [[DZAudioPlayer alloc]init];
-    [player playFileAtPath:[cache getDownloadFilePathWithURL:@"http://richarddzh.github.io/podcast/demo.mp3"]];
+    [player playStreamWithURL:@"http://richarddzh.github.io/podcast/demo.mp3"];
 }
 
 - (void)didReceiveMemoryWarning

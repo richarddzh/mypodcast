@@ -26,6 +26,8 @@
 		7932AD7C198A1B9D00151759 /* Storyboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7932AD7B198A1B9D00151759 /* Storyboard.storyboard */; };
 		7932AD7F198A36FA00151759 /* DZPlayViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7932AD7E198A36FA00151759 /* DZPlayViewController.m */; };
 		795AB51E198B522B00A083CD /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 795AB51D198B522B00A083CD /* SystemConfiguration.framework */; };
+		7978CB32198F63B00032AD4C /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7904641C198CA84100FF6C22 /* AVFoundation.framework */; };
+		7978CB35198F81080032AD4C /* DZURLSessionForAudioStream.m in Sources */ = {isa = PBXBuildFile; fileRef = 7978CB34198F81080032AD4C /* DZURLSessionForAudioStream.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -67,6 +69,8 @@
 		7932AD7E198A36FA00151759 /* DZPlayViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DZPlayViewController.m; sourceTree = "<group>"; };
 		7932AD80198A37C300151759 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
 		795AB51D198B522B00A083CD /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
+		7978CB33198F81080032AD4C /* DZURLSessionForAudioStream.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DZURLSessionForAudioStream.h; sourceTree = "<group>"; };
+		7978CB34198F81080032AD4C /* DZURLSessionForAudioStream.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DZURLSessionForAudioStream.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -74,6 +78,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7978CB32198F63B00032AD4C /* AVFoundation.framework in Frameworks */,
 				79046421198CABFC00FF6C22 /* AudioToolbox.framework in Frameworks */,
 				795AB51E198B522B00A083CD /* SystemConfiguration.framework in Frameworks */,
 				7932AD4F198A1B5000151759 /* CoreGraphics.framework in Frameworks */,
@@ -144,6 +149,8 @@
 				7904642F198E263600FF6C22 /* DZAudioQueuePlayer.h */,
 				79046431198E418000FF6C22 /* DZAudioPlayer.h */,
 				79046432198E418000FF6C22 /* DZAudioPlayer.mm */,
+				7978CB33198F81080032AD4C /* DZURLSessionForAudioStream.h */,
+				7978CB34198F81080032AD4C /* DZURLSessionForAudioStream.m */,
 			);
 			path = mypodcast;
 			sourceTree = "<group>";
@@ -285,6 +292,7 @@
 				79046430198E263600FF6C22 /* DZAudioQueuePlayer.cpp in Sources */,
 				7932AD7F198A36FA00151759 /* DZPlayViewController.m in Sources */,
 				7921C37A198A68AA00A6B408 /* DZCache.m in Sources */,
+				7978CB35198F81080032AD4C /* DZURLSessionForAudioStream.m in Sources */,
 				7932AD59198A1B5000151759 /* main.m in Sources */,
 				79046433198E418000FF6C22 /* DZAudioPlayer.mm in Sources */,
 			);

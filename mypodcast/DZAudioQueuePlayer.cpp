@@ -38,7 +38,10 @@ DZAudioQueuePlayer::DZAudioQueuePlayer(AudioFileTypeID typeHint)
     this->_queue = NULL;
     this->_magicCookie = NULL;
     this->_magicCookieSize = 0;
-    AudioFileStreamOpen(this, OnProperty, OnPackets, typeHint, &(this->_parser));
+    if (noErr != AudioFileStreamOpen(this, OnProperty, OnPackets, typeHint, &(this->_parser))) {
+        this->_parser = NULL;
+        fprintf(stdout, "Open Audio File Stream Failed.\n");
+    }
     for (int i = 0; i < kDZMaxNumBuffers; ++i) {
         this->_freeBuffers[i] = NULL;
     }
@@ -71,6 +74,7 @@ void DZAudioQueuePlayer::onProperty(AudioFileStreamPropertyID pID)
             if (noErr == AudioFileStreamGetProperty(this->_parser, pID, &(propertySize), &(this->_format))) {
                 if (noErr != AudioQueueNewOutput(&(this->_format), QueueCallback, this, CFRunLoopGetCurrent(), kCFRunLoopCommonModes, 0, &(this->_queue))) {
                     this->_queue = NULL;
+                    fprintf(stdout, "Create new output audio queue failed.\n");
                 }
             }
             break;
