@@ -62,7 +62,11 @@ DZAudioQueuePlayer::~DZAudioQueuePlayer()
 
 OSStatus DZAudioQueuePlayer::parse(const void *data, UInt32 length)
 {
-    return AudioFileStreamParseBytes(this->_parser, length, data, 0);
+    OSStatus ret = AudioFileStreamParseBytes(this->_parser, length, data, 0);
+    if (ret != noErr) {
+        fprintf(stderr, "Audio file stream parse error.\n");
+    }
+    return ret;
 }
 
 void DZAudioQueuePlayer::onProperty(AudioFileStreamPropertyID pID)

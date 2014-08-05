@@ -54,11 +54,14 @@ typedef void (^DZReadyHandler)();
 
 - (NSURLSessionDataTask *)makeNewTask
 {
-    if (self->_task != nil) {
-        [self->_task cancel];
-    }
     NSInteger freeLength = self->_bufferSize + self->_totalConsumed - self->_totalBuffered;
-    if (freeLength * 2 < self->_bufferSize || self->_url == nil) {
+    if (freeLength * 2 < self->_bufferSize ||
+        (self->_task != nil && self->_task.state == NSURLSessionTaskStateRunning &&
+         freeLength < self->_bufferSize)) {
+        return self->_task;
+    }
+    [self->_task cancel];
+    if (self->_url == nil) {
         self->_task = nil;
     } else {
         NSMutableURLRequest * req = [[NSURLRequest requestWithURL:self->_url]mutableCopy];
@@ -132,6 +135,7 @@ typedef void (^DZReadyHandler)();
 
 - (NSInteger)read:(uint8_t *)dataBuffer maxLength:(NSUInteger)len
 {
+    NSLog(@"Reading: %u/%u/%u", self->_totalConsumed, self->_totalBuffered, self->_totalDataLength);
     NSRange range[2];
     NSInteger dataOffset = 0;
     NSInteger bufferLength = self->_totalBuffered - self->_totalConsumed;
@@ -154,7 +158,7 @@ typedef void (^DZReadyHandler)();
             dataOffset += range[i].length;
         }
     }
-    if (self->_totalConsumed >= self->_totalDataLength) {
+    if (self->_totalBuffered >= self->_totalDataLength) {
         self->_url = nil;
         [self->_task cancel];
         self->_task = nil;
