@@ -16,5 +16,6 @@
 - (BOOL)hasBytesAvailable;
 
 @property (nonatomic, assign) UInt32 readySize;
+@property (nonatomic, weak) UIProgressView * bufferProgressView;
 
 @end

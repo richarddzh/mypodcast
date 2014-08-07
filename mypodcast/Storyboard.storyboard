@@ -28,7 +28,11 @@
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" ambiguous="YES" misplaced="YES" progress="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="eyo-mA-3Yz">
+                            <slider opaque="NO" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="1" minValue="0.0" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="lpT-4T-Jd8" customClass="DZSlider">
+                                <rect key="frame" x="18" y="435" width="284" height="31"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </slider>
+                            <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" ambiguous="YES" misplaced="YES" progress="1" translatesAutoresizingMaskIntoConstraints="NO" id="eyo-mA-3Yz">
                                 <rect key="frame" x="20" y="450" width="280" height="2"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </progressView>
@@ -88,6 +92,7 @@
                         <constraints>
                             <constraint firstItem="eyo-mA-3Yz" firstAttribute="top" secondItem="t3p-5d-AqV" secondAttribute="bottom" constant="8" id="Bpu-1E-p2Q"/>
                             <constraint firstItem="dVF-rl-2mE" firstAttribute="top" secondItem="v5H-1v-BiD" secondAttribute="bottom" constant="20" id="MAM-T5-TFc"/>
+                            <constraint firstItem="is0-vk-7Bx" firstAttribute="top" secondItem="lpT-4T-Jd8" secondAttribute="bottom" constant="11" id="dMd-ku-9Zw"/>
                             <constraint firstItem="dVF-rl-2mE" firstAttribute="top" secondItem="9f8-t7-bBt" secondAttribute="bottom" constant="20" id="jUy-Qo-iIu"/>
                             <constraint firstItem="dVF-rl-2mE" firstAttribute="top" secondItem="is0-vk-7Bx" secondAttribute="bottom" constant="20" id="rSa-5H-b6z"/>
                             <constraint firstItem="is0-vk-7Bx" firstAttribute="top" secondItem="eyo-mA-3Yz" secondAttribute="bottom" constant="24" id="x3H-iM-qWe"/>
@@ -96,11 +101,16 @@
                     </view>
                     <connections>
                         <outlet property="imageView" destination="UMC-eo-6k5" id="1au-bb-tpV"/>
+                        <outlet property="playButton" destination="9f8-t7-bBt" id="bdu-Zg-QOu"/>
+                        <outlet property="playTime" destination="t3p-5d-AqV" id="VyU-ka-EAQ"/>
+                        <outlet property="progress" destination="eyo-mA-3Yz" id="SWt-BL-oWp"/>
+                        <outlet property="remainTime" destination="bIR-I2-L9d" id="GhL-iP-kxA"/>
+                        <outlet property="slider" destination="lpT-4T-Jd8" id="0eI-cy-toe"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="9W9-6A-Jm8" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="356" y="65"/>
+            <point key="canvasLocation" x="171" y="-195"/>
         </scene>
     </scenes>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">

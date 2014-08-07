@@ -12,6 +12,9 @@
 #import "DZURLSessionForAudioStream.h"
 
 @interface DZPlayViewController ()
+{
+    DZAudioPlayer * _player;
+}
 
 @end
 
@@ -38,7 +41,13 @@
                              self.imageView.image = [UIImage imageWithData:data];
                      }];
     DZAudioPlayer * player = [[DZAudioPlayer alloc]init];
+    player.bufferProgress = self.progress;
+    player.playSlider = self.slider;
+    player.playTime = self.playTime;
+    player.remainTime = self.remainTime;
+    player.audioDuration = 370;
     [player playStreamWithURL:@"http://richarddzh.github.io/podcast/demo.mp3"];
+    self->_player = player;
 }
 
 - (void)didReceiveMemoryWarning
@@ -57,5 +66,10 @@
     // Pass the selected object to the new view controller.
 }
 */
+
+- (void)onPlayButton:(id)sender
+{
+    
+}
 
 @end

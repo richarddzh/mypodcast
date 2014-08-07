@@ -19,6 +19,11 @@ const UInt32 kDZNumPreloadBuffer = 4;
 }
 
 @property (nonatomic, retain) NSTimer * timer;
+@property (nonatomic, assign) NSTimeInterval audioDuration;
+@property (nonatomic, weak) UILabel * playTime;
+@property (nonatomic, weak) UILabel * remainTime;
+@property (nonatomic, weak) UIProgressView * bufferProgress;
+@property (nonatomic, weak) UISlider * playSlider;
 
 - (void)playFileAtPath:(NSString *)path;
 - (void)playStreamWithURL:(NSString *)url;

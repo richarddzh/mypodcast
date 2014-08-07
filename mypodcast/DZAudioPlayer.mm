@@ -21,9 +21,12 @@ static AVAudioSession * _sharedAudioSession = nil;
 - (void)playFile:(NSTimer *)timer;
 - (void)playStream:(NSTimer *)timer;
 - (void)configureAudioSession;
+- (void)updatePlayProgress;
 @end
 
 @implementation DZAudioPlayer
+
+@synthesize playSlider, bufferProgress, playTime, remainTime, timer, audioDuration;
 
 - (void)configureAudioSession
 {
@@ -60,9 +63,11 @@ static AVAudioSession * _sharedAudioSession = nil;
     if (self->_fstream != nil) {
         [self->_fstream close];
     }
+    self.bufferProgress.progress = 1;
     self->_player = new DZAudioQueuePlayer(0);
     self->_fstream = [[NSInputStream alloc]initWithFileAtPath:path];
     [self->_fstream open];
+    [self updatePlayProgress];
     for (int i = 0; i < kDZNumPreloadBuffer; ++i) {
         NSInteger read = [self->_fstream read:self->_buffer maxLength:kDZBufferSize];
         if (read > 0) {
@@ -80,12 +85,15 @@ static AVAudioSession * _sharedAudioSession = nil;
 
 - (void)playFile:(NSTimer *)timer
 {
+    [self updatePlayProgress];
+    self.playSlider.value = self->_player->getCurrentTime() / self.audioDuration;
     if (self->_player->isBufferOverloaded()) {
         return;
     }
     if ([self->_fstream hasBytesAvailable] == NO) {
         self->_player->flush();
         self->_player->stop(false);
+        [self.timer invalidate];
     }
     NSInteger read = [self->_fstream read:self->_buffer maxLength:kDZBufferSize];
     if (read > 0) {
@@ -101,8 +109,11 @@ static AVAudioSession * _sharedAudioSession = nil;
     if (self->_fstream != nil) {
         [self->_fstream close];
     }
+    self.bufferProgress.progress = 0;
     self->_player = new DZAudioQueuePlayer(0);
     self->_session.readySize = kDZBufferSize * kDZMaxNumBuffers;
+    self->_session.bufferProgressView = self.bufferProgress;
+    [self updatePlayProgress];
     [self->_session prepareForURL:[NSURL URLWithString:url] handler:^{
         for (int i = 0; i < kDZNumPreloadBuffer; ++i) {
             NSInteger read = [self->_session read:self->_buffer maxLength:kDZBufferSize];
@@ -122,17 +133,30 @@ static AVAudioSession * _sharedAudioSession = nil;
 
 - (void)playStream:(NSTimer *)timer
 {
+    [self updatePlayProgress];
     if (self->_player->isBufferOverloaded()) {
         return;
     }
     if ([self->_session hasBytesAvailable] == NO) {
         self->_player->flush();
         self->_player->stop(false);
+        [self.timer invalidate];
     }
     NSInteger read = [self->_session read:self->_buffer maxLength:kDZBufferSize];
     if (read > 0) {
         self->_player->parse(self->_buffer, (UInt32)read);
     }
+}
+
+- (void)updatePlayProgress
+{
+    unsigned int playerTime = (unsigned int)round(self->_player->getCurrentTime());
+    unsigned int playerRemainTime = self->audioDuration > playerTime ? (unsigned int)round(self->audioDuration - playerTime) : 0;
+    self.playSlider.value = playerTime / self.audioDuration;
+    self.playTime.text = [NSString stringWithFormat:@"%02u:%02u",
+                          playerTime / 60, playerTime % 60];
+    self.remainTime.text = [NSString stringWithFormat:@"-%02u:%02u",
+                            playerRemainTime / 60, playerRemainTime % 60];
 }
 
 @end

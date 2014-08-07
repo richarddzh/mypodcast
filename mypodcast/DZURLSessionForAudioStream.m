@@ -27,7 +27,7 @@ typedef void (^DZReadyHandler)();
 
 @implementation DZURLSessionForAudioStream
 
-@synthesize readySize;
+@synthesize readySize, bufferProgressView;
 
 - (id)initWithBufferSize:(UInt32)size operationQueue:(NSOperationQueue *)queue
 {
@@ -131,11 +131,13 @@ typedef void (^DZReadyHandler)();
         self->_readyHandler();
         self->_readyHandler = nil;
     }
+    if (self->_totalDataLength > 0) {
+        self.bufferProgressView.progress = (float)(self->_totalBuffered) / self->_totalDataLength;
+    }
 }
 
 - (NSInteger)read:(uint8_t *)dataBuffer maxLength:(NSUInteger)len
 {
-    NSLog(@"Reading: %u/%u/%u", self->_totalConsumed, self->_totalBuffered, self->_totalDataLength);
     NSRange range[2];
     NSInteger dataOffset = 0;
     NSInteger bufferLength = self->_totalBuffered - self->_totalConsumed;
