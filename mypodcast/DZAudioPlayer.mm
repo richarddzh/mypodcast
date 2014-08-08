@@ -111,7 +111,7 @@ static AVAudioSession * _sharedAudioSession = nil;
     }
     self.bufferProgress.progress = 0;
     self->_player = new DZAudioQueuePlayer(0);
-    self->_session.readySize = kDZBufferSize * kDZMaxNumBuffers;
+    self->_session.readySize = kDZBufferSize * kDZNumPreloadBuffer;
     self->_session.bufferProgressView = self.bufferProgress;
     [self updatePlayProgress];
     [self->_session prepareForURL:[NSURL URLWithString:url] handler:^{

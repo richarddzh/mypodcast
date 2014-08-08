@@ -11,7 +11,9 @@
 
 #include <AudioToolbox/AudioToolbox.h>
 
-const UInt32 kDZMaxNumBuffers = 4;
+const UInt32 kDZMaxNumFreeBuffers = 8;
+
+class DZAudioQueueBufferList;
 
 class DZAudioQueuePlayer {
     AudioQueueRef _queue;
@@ -19,10 +21,8 @@ class DZAudioQueuePlayer {
     AudioStreamBasicDescription _format;
     void * _magicCookie;
     UInt32 _magicCookieSize;
-    AudioQueueBufferRef _freeBuffers[kDZMaxNumBuffers];
     
-    UInt32 _numQueueBuffer;
-    UInt32 _numFreeBuffer;
+    DZAudioQueueBufferList * _bufferList;
     
 public:
     DZAudioQueuePlayer(AudioFileTypeID typeHint);
@@ -36,8 +36,15 @@ public:
     OSStatus flush();
     Float64 getCurrentTime();
     
+    // The following function judges only on buffer number and is not accurate.
     bool isBufferOverloaded();
+    // Should use the following function to observe buffer status.
+    UInt32 getNumByteQueued();
+    UInt32 getNumFreeBuffer();
+    UInt32 getNumQueueBuffer();
     
+    // The following functions are called by callback function.
+    // They shall not be directly called.
     void onProperty(AudioFileStreamPropertyID pID);
     void onPackets(UInt32 numBytes, UInt32 numPackets, const void * data, AudioStreamPacketDescription * packetDesc);
     void onFinishBuffer(AudioQueueBufferRef buffer);
