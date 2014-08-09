@@ -34,10 +34,10 @@ public:
     OSStatus pause();
     OSStatus stop(bool immediately = true);
     OSStatus flush();
+    // Negative return value means that seeking is failed.
+    SInt64 seek(float time);
     Float64 getCurrentTime();
     
-    // The following function judges only on buffer number and is not accurate.
-    bool isBufferOverloaded();
     // Should use the following function to observe buffer status.
     UInt32 getNumByteQueued();
     UInt32 getNumFreeBuffer();
