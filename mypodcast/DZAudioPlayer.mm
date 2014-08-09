@@ -8,17 +8,18 @@
 
 #import "DZAudioPlayer.h"
 #import "DZAudioQueuePlayer.h"
-#import "DZURLSessionForAudioStream.h"
+#import "DZFileStream.h"
 #import <AVFoundation/AVFoundation.h>
 
 static AVAudioSession * _sharedAudioSession = nil;
 
 @interface DZAudioPlayer ()
 {
+    uint8_t _buffer[kDZBufferSize];
     DZAudioQueuePlayer * _player;
-    DZURLSessionForAudioStream * _session;
+    DZFileStream * _stream;
+    BOOL _isPlaying;
 }
-- (void)playFile:(NSTimer *)timer;
 - (void)playStream:(NSTimer *)timer;
 - (void)configureAudioSession;
 - (void)updatePlayProgress;
@@ -49,56 +50,8 @@ static AVAudioSession * _sharedAudioSession = nil;
     self = [super init];
     if (self != nil) {
         [self configureAudioSession];
-        self->_session = [[DZURLSessionForAudioStream alloc]initWithBufferSize:kDZStreamSize
-                                                                operationQueue:[NSOperationQueue currentQueue]];
     }
     return self;
-}
-
-- (void)playFileAtPath:(NSString *)path
-{
-    if (self->_player != NULL) {
-        delete self->_player;
-    }
-    if (self->_fstream != nil) {
-        [self->_fstream close];
-    }
-    self.bufferProgress.progress = 1;
-    self->_player = new DZAudioQueuePlayer(0);
-    self->_fstream = [[NSInputStream alloc]initWithFileAtPath:path];
-    [self->_fstream open];
-    [self updatePlayProgress];
-    for (int i = 0; i < kDZNumPreloadBuffer; ++i) {
-        NSInteger read = [self->_fstream read:self->_buffer maxLength:kDZBufferSize];
-        if (read > 0) {
-            self->_player->parse(self->_buffer, (UInt32)read);
-        }
-    }
-    self->_player->prime();
-    self->_player->start();
-    self.timer = [NSTimer scheduledTimerWithTimeInterval:0.5
-                                                  target:self
-                                                selector:@selector(playFile:)
-                                                userInfo:nil
-                                                 repeats:YES];
-}
-
-- (void)playFile:(NSTimer *)timer
-{
-    [self updatePlayProgress];
-    self.playSlider.value = self->_player->getCurrentTime() / self.audioDuration;
-    if (self->_player->isBufferOverloaded()) {
-        return;
-    }
-    if ([self->_fstream hasBytesAvailable] == NO) {
-        self->_player->flush();
-        self->_player->stop(false);
-        [self.timer invalidate];
-    }
-    NSInteger read = [self->_fstream read:self->_buffer maxLength:kDZBufferSize];
-    if (read > 0) {
-        self->_player->parse(self->_buffer, (UInt32)read);
-    }
 }
 
 - (void)playStreamWithURL:(NSString *)url
@@ -106,43 +59,39 @@ static AVAudioSession * _sharedAudioSession = nil;
     if (self->_player != NULL) {
         delete self->_player;
     }
-    if (self->_fstream != nil) {
-        [self->_fstream close];
+    if (self->_stream != nil) {
+        [self->_stream close];
     }
     self.bufferProgress.progress = 0;
     self->_player = new DZAudioQueuePlayer(0);
-    self->_session.readySize = kDZBufferSize * kDZNumPreloadBuffer;
-    self->_session.bufferProgressView = self.bufferProgress;
+    self->_stream = [DZFileStream streamWithURL:[NSURL URLWithString:url]];
+    self->_isPlaying = false;
     [self updatePlayProgress];
-    [self->_session prepareForURL:[NSURL URLWithString:url] handler:^{
-        for (int i = 0; i < kDZNumPreloadBuffer; ++i) {
-            NSInteger read = [self->_session read:self->_buffer maxLength:kDZBufferSize];
-            if (read > 0) {
-                self->_player->parse(self->_buffer, (UInt32)read);
-            }
-        }
-        self->_player->prime();
-        self->_player->start();
-        self.timer = [NSTimer scheduledTimerWithTimeInterval:0.5
-                                                      target:self
-                                                    selector:@selector(playStream:)
-                                                    userInfo:nil
-                                                     repeats:YES];
-    }];
+    self.timer = [NSTimer scheduledTimerWithTimeInterval:0.5
+                                                  target:self
+                                                selector:@selector(playStream:)
+                                                userInfo:nil
+                                                 repeats:YES];
 }
 
 - (void)playStream:(NSTimer *)timer
 {
     [self updatePlayProgress];
-    if (self->_player->isBufferOverloaded()) {
+    if (self->_player->getNumByteQueued() > kDZMaxQueueDataSize) {
+        if (self->_isPlaying == false) {
+            self->_player->prime();
+            self->_player->start();
+            self->_isPlaying = true;
+        }
         return;
     }
-    if ([self->_session hasBytesAvailable] == NO) {
+    if ([self->_stream hasBytesAvailable] == NO) {
         self->_player->flush();
         self->_player->stop(false);
+        self->_isPlaying = false;
         [self.timer invalidate];
     }
-    NSInteger read = [self->_session read:self->_buffer maxLength:kDZBufferSize];
+    NSInteger read = [self->_stream read:self->_buffer maxLength:kDZBufferSize];
     if (read > 0) {
         self->_player->parse(self->_buffer, (UInt32)read);
     }
@@ -157,6 +106,7 @@ static AVAudioSession * _sharedAudioSession = nil;
                           playerTime / 60, playerTime % 60];
     self.remainTime.text = [NSString stringWithFormat:@"-%02u:%02u",
                             playerRemainTime / 60, playerRemainTime % 60];
+    self.bufferProgress.progress = (float)self->_stream.numByteDownloaded / self->_stream.numByteFileLength;
 }
 
 @end

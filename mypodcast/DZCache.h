@@ -15,26 +15,16 @@ typedef enum : NSInteger {
     ReachableViaWWAN
 } NetworkStatus;
 
-typedef void (^DZCacheDataHandler)(NSData * data, NSError * error);
 
 @interface DZCache : NSObject <NSURLSessionDataDelegate>
 {
     SCNetworkReachabilityRef _netReachability;
-    NSURLCache * _urlCache;
-    NSURLSession * _cacheDataSession;
-    NSOperationQueue * _backgroundQueue;
 }
 
-@property (nonatomic, assign) BOOL shouldOnlyUseWIFI;
-@property (nonatomic, assign, readonly) NetworkStatus networkStatus;
+@property (nonatomic, assign) NetworkStatus networkStatus;
 
 + (DZCache *)sharedInstance;
 
-- (id)initWithRemoteHost:(NSString *)host;
-- (void)dealloc;
-
-- (NSString *)getDownloadFilePathWithURL:(NSString *)url;
-- (void)getAllDataWithURL:(NSString *)url shouldDownload:(BOOL)download handler:(DZCacheDataHandler)handler;
-
+- (NSString *)getDownloadFilePathWithURL:(NSURL *)url;
 
 @end

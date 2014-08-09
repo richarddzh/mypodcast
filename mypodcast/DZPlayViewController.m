@@ -9,7 +9,6 @@
 #import "DZPlayViewController.h"
 #import "DZCache.h"
 #import "DZAudioPlayer.h"
-#import "DZURLSessionForAudioStream.h"
 
 @interface DZPlayViewController ()
 {
@@ -33,13 +32,6 @@
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    DZCache * cache = [DZCache sharedInstance];
-    [cache getAllDataWithURL:@"http://richarddzh.github.io/podcast/demo.jpg"
-              shouldDownload:YES
-                     handler:^(NSData *data, NSError *error) {
-                         if (data != nil && error == nil)
-                             self.imageView.image = [UIImage imageWithData:data];
-                     }];
     DZAudioPlayer * player = [[DZAudioPlayer alloc]init];
     player.bufferProgress = self.progress;
     player.playSlider = self.slider;

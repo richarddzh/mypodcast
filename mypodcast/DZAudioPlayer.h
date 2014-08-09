@@ -8,15 +8,10 @@
 
 #import <Foundation/Foundation.h>
 
-const UInt32 kDZStreamSize = 10000000;  //10M
-const UInt32 kDZBufferSize = 40000;     //40K
-const UInt32 kDZNumPreloadBuffer = 4;
+const UInt32 kDZBufferSize = 40000;         //40K
+const UInt32 kDZMaxQueueDataSize = 100000;  //100K
 
 @interface DZAudioPlayer : NSObject
-{
-    NSInputStream * _fstream;
-    uint8_t _buffer[kDZBufferSize];
-}
 
 @property (nonatomic, retain) NSTimer * timer;
 @property (nonatomic, assign) NSTimeInterval audioDuration;
@@ -25,7 +20,6 @@ const UInt32 kDZNumPreloadBuffer = 4;
 @property (nonatomic, weak) UIProgressView * bufferProgress;
 @property (nonatomic, weak) UISlider * playSlider;
 
-- (void)playFileAtPath:(NSString *)path;
 - (void)playStreamWithURL:(NSString *)url;
 
 @end
