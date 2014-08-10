@@ -23,6 +23,7 @@ class DZAudioQueuePlayer {
     UInt32 _magicCookieSize;
     
     DZAudioQueueBufferList * _bufferList;
+    Float64 _timeAmendment;
     
 public:
     DZAudioQueuePlayer(AudioFileTypeID typeHint);

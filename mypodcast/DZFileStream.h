@@ -19,6 +19,7 @@
 - (NSInteger)read:(uint8_t *)dataBuffer maxLength:(NSUInteger)len;
 - (BOOL)hasBytesAvailable;
 - (BOOL)seek:(NSUInteger)offset;
+- (BOOL)shallWait:(NSUInteger)len;
 - (void)close;
 
 @end

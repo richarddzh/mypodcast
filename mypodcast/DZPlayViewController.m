@@ -7,7 +7,6 @@
 //
 
 #import "DZPlayViewController.h"
-#import "DZCache.h"
 #import "DZAudioPlayer.h"
 
 @interface DZPlayViewController ()
@@ -32,14 +31,19 @@
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    DZAudioPlayer * player = [[DZAudioPlayer alloc]init];
-    player.bufferProgress = self.progress;
-    player.playSlider = self.slider;
-    player.playTime = self.playTime;
-    player.remainTime = self.remainTime;
-    player.audioDuration = 370;
-    [player playStreamWithURL:@"http://richarddzh.github.io/podcast/demo.mp3"];
-    self->_player = player;
+    if (self->_player == nil) {
+        DZAudioPlayer * player = [[DZAudioPlayer alloc]init];
+        player.bufferProgressView = self.progressView;
+        player.playSlider = self.slider;
+        player.playTimeLabel = self.playTimeLabel;
+        player.remainTimeLabel = self.remainTimeLabel;
+        player.playButton = self.playButton;
+        self.playButton.titleLabel.textAlignment = NSTextAlignmentCenter;
+        self->_player = player;
+    }
+    self->_player.audioDuration = 370;
+    [self->_player prepareForURL:@"http://richarddzh.github.io/podcast/demo.mp3"];
+    [self->_player playPause];
 }
 
 - (void)didReceiveMemoryWarning
@@ -61,7 +65,18 @@
 
 - (void)onPlayButton:(id)sender
 {
-    
+    [self->_player playPause];
+}
+
+- (void)onSliderBeginDrag:(id)sender
+{
+    self->_player.isDraggingSlider = YES;
+}
+
+- (void)onSliderChangeValue:(id)sender
+{
+    self->_player.isDraggingSlider = NO;
+    [self->_player seekTo:self->_player.audioDuration * self.slider.value];
 }
 
 @end

@@ -10,16 +10,20 @@
 
 const UInt32 kDZBufferSize = 40000;         //40K
 const UInt32 kDZMaxQueueDataSize = 100000;  //100K
+const UInt32 kDZMinPreloadSize = 1000000;   //1M
 
 @interface DZAudioPlayer : NSObject
 
-@property (nonatomic, retain) NSTimer * timer;
 @property (nonatomic, assign) NSTimeInterval audioDuration;
-@property (nonatomic, weak) UILabel * playTime;
-@property (nonatomic, weak) UILabel * remainTime;
-@property (nonatomic, weak) UIProgressView * bufferProgress;
+@property (nonatomic, weak) UILabel * playTimeLabel;
+@property (nonatomic, weak) UILabel * remainTimeLabel;
+@property (nonatomic, weak) UIProgressView * bufferProgressView;
 @property (nonatomic, weak) UISlider * playSlider;
+@property (nonatomic, weak) UIButton * playButton;
+@property (nonatomic, assign) BOOL isDraggingSlider;
 
-- (void)playStreamWithURL:(NSString *)url;
+- (void)prepareForURL:(NSString *)url;
+- (void)playPause;
+- (void)seekTo:(NSTimeInterval)time;
 
 @end

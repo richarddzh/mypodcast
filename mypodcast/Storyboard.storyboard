@@ -32,38 +32,44 @@
                                 <rect key="frame" x="0.0" y="84" width="320" height="320"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </imageView>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" text="Label" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bIR-I2-L9d">
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" text="-00:00" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bIR-I2-L9d">
                                 <rect key="frame" x="204" y="421" width="96" height="21"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="t3p-5d-AqV">
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" text="00:00" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="t3p-5d-AqV">
                                 <rect key="frame" x="20" y="421" width="96" height="21"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <slider opaque="NO" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="1" minValue="0.0" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="lpT-4T-Jd8" customClass="DZSlider">
+                            <slider opaque="NO" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="1" minValue="0.0" maxValue="1" continuous="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lpT-4T-Jd8" customClass="DZSlider">
                                 <rect key="frame" x="18" y="435" width="284" height="31"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <connections>
+                                    <action selector="onSliderBeginDrag:" destination="4Sc-Nx-oaU" eventType="touchDown" id="CwS-W1-NmY"/>
+                                    <action selector="onSliderChangeValue:" destination="4Sc-Nx-oaU" eventType="valueChanged" id="Gqj-9J-9dv"/>
+                                </connections>
                             </slider>
                             <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" ambiguous="YES" misplaced="YES" progress="1" translatesAutoresizingMaskIntoConstraints="NO" id="eyo-mA-3Yz">
                                 <rect key="frame" x="20" y="450" width="280" height="2"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </progressView>
-                            <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="249" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9f8-t7-bBt">
+                            <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="249" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9f8-t7-bBt">
                                 <rect key="frame" x="124" y="476" width="72" height="72"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="72" id="0G3-1g-jSj"/>
+                                    <constraint firstAttribute="width" constant="72" id="RcJ-OZ-WLh"/>
                                 </constraints>
-                                <fontDescription key="fontDescription" name="Helvetica-Bold" family="Helvetica" pointSize="36"/>
-                                <state key="normal" title="▶︎">
-                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
+                                <state key="normal" image="play-button.png"/>
+                                <state key="highlighted" image="play-button-highlight.png"/>
+                                <connections>
+                                    <action selector="onPlayButton:" destination="4Sc-Nx-oaU" eventType="touchUpInside" id="1fw-9x-CT3"/>
+                                </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="v5H-1v-BiD">
                                 <rect key="frame" x="204" y="476" width="72" height="72"/>
@@ -102,6 +108,7 @@
                             <constraint firstAttribute="trailing" secondItem="UMC-eo-6k5" secondAttribute="trailing" id="LQv-o8-xBS"/>
                             <constraint firstItem="is0-vk-7Bx" firstAttribute="top" secondItem="eyo-mA-3Yz" secondAttribute="bottom" constant="24" id="Nhb-Nt-KIr"/>
                             <constraint firstItem="t3p-5d-AqV" firstAttribute="top" secondItem="UMC-eo-6k5" secondAttribute="bottom" constant="17" id="Nje-cL-zFD"/>
+                            <constraint firstAttribute="centerX" secondItem="9f8-t7-bBt" secondAttribute="centerX" id="OEL-2q-gS7"/>
                             <constraint firstItem="UMC-eo-6k5" firstAttribute="top" secondItem="Mzf-tH-Bbh" secondAttribute="bottom" constant="8" id="QU3-h9-2yP"/>
                             <constraint firstItem="eyo-mA-3Yz" firstAttribute="top" secondItem="t3p-5d-AqV" secondAttribute="bottom" constant="8" id="Reb-1t-Xjj"/>
                             <constraint firstItem="dVF-rl-2mE" firstAttribute="top" secondItem="v5H-1v-BiD" secondAttribute="bottom" constant="20" id="aBr-v4-a64"/>
@@ -112,17 +119,21 @@
                     <connections>
                         <outlet property="imageView" destination="UMC-eo-6k5" id="1au-bb-tpV"/>
                         <outlet property="playButton" destination="9f8-t7-bBt" id="bdu-Zg-QOu"/>
-                        <outlet property="playTime" destination="t3p-5d-AqV" id="VyU-ka-EAQ"/>
-                        <outlet property="progress" destination="eyo-mA-3Yz" id="SWt-BL-oWp"/>
-                        <outlet property="remainTime" destination="bIR-I2-L9d" id="GhL-iP-kxA"/>
+                        <outlet property="playTimeLabel" destination="t3p-5d-AqV" id="wuL-le-5E6"/>
+                        <outlet property="progressView" destination="eyo-mA-3Yz" id="CAQ-Pw-W9F"/>
+                        <outlet property="remainTimeLabel" destination="bIR-I2-L9d" id="qkk-al-syL"/>
                         <outlet property="slider" destination="lpT-4T-Jd8" id="0eI-cy-toe"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="9W9-6A-Jm8" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="171" y="-195"/>
+            <point key="canvasLocation" x="-1561" y="-1137"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="play-button-highlight.png" width="72" height="72"/>
+        <image name="play-button.png" width="72" height="72"/>
+    </resources>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>
         <simulatedOrientationMetrics key="orientation"/>

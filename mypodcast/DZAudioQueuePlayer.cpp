@@ -166,6 +166,7 @@ DZAudioQueuePlayer::DZAudioQueuePlayer(AudioFileTypeID typeHint)
         this->_parser = NULL;
     }
     this->_bufferList = new DZAudioQueueBufferList();
+    this->_timeAmendment = 0;
 }
 
 DZAudioQueuePlayer::~DZAudioQueuePlayer()
@@ -192,10 +193,13 @@ void DZAudioQueuePlayer::onProperty(AudioFileStreamPropertyID pID)
         case kAudioFileStreamProperty_DataFormat:
             propertySize = sizeof(this->_format);
             if (dzDebugOK(AudioFileStreamGetProperty(this->_parser, pID, &(propertySize), &(this->_format)), "Fail to get audio file stream property: DataFormat.")) {
-                if (dzDebugError(AudioQueueNewOutput(&(this->_format), QueueCallback, this, CFRunLoopGetCurrent(), kCFRunLoopCommonModes, 0, &(this->_queue)), "Create new output audio queue failed.")) {
-                    this->_queue = NULL;
+                if (this->_queue != NULL) {
+                    dzDebug(!noErr, "Audio file stream duplicated data format.");
+                } else {
+                    if (dzDebugError(AudioQueueNewOutput(&(this->_format), QueueCallback, this, CFRunLoopGetCurrent(), kCFRunLoopCommonModes, 0, &(this->_queue)), "Create new output audio queue failed.")) {
+                        this->_queue = NULL;
+                    }
                 }
-                
             }
             break;
         case kAudioFileStreamProperty_MagicCookieData:
@@ -275,12 +279,25 @@ Float64 DZAudioQueuePlayer::getCurrentTime()
                      "Fail to get audio queue current time.")) {
         return 0;
     }
-    return timeStamp.mSampleTime / this->_format.mSampleRate;
+    return timeStamp.mSampleTime / this->_format.mSampleRate + this->_timeAmendment;
 }
 
 SInt64 DZAudioQueuePlayer::seek(float time)
 {
     if (this->_format.mSampleRate <= 0 || this->_format.mFramesPerPacket <= 0) {
+        return -1;
+    }
+    SInt64 dataOffset = 0;
+    UInt32 propertySize = sizeof(dataOffset);
+    if (dzDebugError(AudioFileStreamGetProperty(this->_parser, kAudioFileStreamProperty_DataOffset, &propertySize, &dataOffset), "Fail to get stream data offset.")) {
+        return -1;
+    }
+    if (dzDebugError(AudioQueueReset(this->_queue), "Fail to reset audio queue.")) {
+        return -1;
+    }
+    AudioTimeStamp timeStamp;
+    if (dzDebugError(AudioQueueGetCurrentTime(this->_queue, NULL, &(timeStamp), NULL),
+                     "Fail to get audio queue current time.")) {
         return -1;
     }
     SInt64 packetOffset = round(time * this->_format.mSampleRate / this->_format.mFramesPerPacket);
@@ -290,7 +307,8 @@ SInt64 DZAudioQueuePlayer::seek(float time)
                      "Fail to seek in audio file stream.")) {
         return -1;
     }
-    return byteOffset;
+    this->_timeAmendment = time - timeStamp.mSampleTime / this->_format.mSampleRate;
+    return byteOffset + dataOffset;
 }
 
 UInt32 DZAudioQueuePlayer::getNumByteQueued()

@@ -62,6 +62,14 @@ static NSURLSession * _urlSession = nil;
     return 0 == fseek(self->_fp, offset, SEEK_SET);
 }
 
+- (BOOL)shallWait:(NSUInteger)len
+{
+    if (self->_fp == NULL) {
+        return YES;
+    }
+    return NO;
+}
+
 - (void)close
 {
     if (self->_fp != NULL) {
@@ -192,6 +200,15 @@ static NSURLSession * _urlSession = nil;
         return read;
     }
     return 0;
+}
+
+- (BOOL)shallWait:(NSUInteger)len
+{
+    NSInteger fileRemain = self->_numByteFileLength - self->_readPosition;
+    NSInteger downloadRemain = self->_numByteDownloaded - self->_readPosition;
+    NSInteger shallRead = len < fileRemain ? len : fileRemain;
+    NSInteger canRead = len < downloadRemain ? len : downloadRemain;
+    return canRead < shallRead;
 }
 
 - (BOOL)hasBytesAvailable
