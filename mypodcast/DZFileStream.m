@@ -178,7 +178,7 @@ static NSURLSession * _urlSession = nil;
         self->_task = nil;
     }
     NSMutableURLRequest * req = [[NSURLRequest requestWithURL:self->_url]mutableCopy];
-    NSString * range = [NSString stringWithFormat:@"bytes=%u-", self->_numByteDownloaded];
+    NSString * range = [NSString stringWithFormat:@"bytes=%ld-", (long)self->_numByteDownloaded];
     [req setValue:range forHTTPHeaderField:@"Range"];
     req.cachePolicy = NSURLRequestReloadIgnoringLocalAndRemoteCacheData;
     self->_task = [_urlSession dataTaskWithRequest:req];
