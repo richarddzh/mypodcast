@@ -34,6 +34,7 @@
 		795539FD19971EFD00D103D0 /* play-button-highlight.png in Resources */ = {isa = PBXBuildFile; fileRef = 795539F919971EFD00D103D0 /* play-button-highlight.png */; };
 		795539FE19971EFD00D103D0 /* play-button-highlight@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 795539FA19971EFD00D103D0 /* play-button-highlight@2x.png */; };
 		795AB51E198B522B00A083CD /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 795AB51D198B522B00A083CD /* SystemConfiguration.framework */; };
+		795F8A6D19978C0E00270D51 /* slide-thumb@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 795F8A6C19978C0E00270D51 /* slide-thumb@2x.png */; };
 		7978CB32198F63B00032AD4C /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7904641C198CA84100FF6C22 /* AVFoundation.framework */; };
 		798CAF601994F5C000172D13 /* DZFileStream.m in Sources */ = {isa = PBXBuildFile; fileRef = 798CAF5F1994F5C000172D13 /* DZFileStream.m */; };
 		79FC98C119932D1E00FBC8DB /* DZSlider.m in Sources */ = {isa = PBXBuildFile; fileRef = 79FC98C019932D1E00FBC8DB /* DZSlider.m */; };
@@ -87,6 +88,7 @@
 		795539F919971EFD00D103D0 /* play-button-highlight.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "play-button-highlight.png"; sourceTree = "<group>"; };
 		795539FA19971EFD00D103D0 /* play-button-highlight@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "play-button-highlight@2x.png"; sourceTree = "<group>"; };
 		795AB51D198B522B00A083CD /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
+		795F8A6C19978C0E00270D51 /* slide-thumb@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "slide-thumb@2x.png"; sourceTree = "<group>"; };
 		798CAF5E1994F5C000172D13 /* DZFileStream.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DZFileStream.h; sourceTree = "<group>"; };
 		798CAF5F1994F5C000172D13 /* DZFileStream.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DZFileStream.m; sourceTree = "<group>"; };
 		79FC98BF19932D1E00FBC8DB /* DZSlider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DZSlider.h; sourceTree = "<group>"; };
@@ -211,6 +213,7 @@
 		79FC98B91993162B00FBC8DB /* images */ = {
 			isa = PBXGroup;
 			children = (
+				795F8A6C19978C0E00270D51 /* slide-thumb@2x.png */,
 				795539F719971EFD00D103D0 /* pause-button-highlight.png */,
 				795539F819971EFD00D103D0 /* pause-button-highlight@2x.png */,
 				795539F919971EFD00D103D0 /* play-button-highlight.png */,
@@ -311,6 +314,7 @@
 				795539F319971C0200D103D0 /* pause-button.png in Resources */,
 				79FC98CE19932E0400FBC8DB /* slide-thumb.png in Resources */,
 				7932AD57198A1B5000151759 /* InfoPlist.strings in Resources */,
+				795F8A6D19978C0E00270D51 /* slide-thumb@2x.png in Resources */,
 				795539F519971C0200D103D0 /* play-button.png in Resources */,
 				795539F419971C0200D103D0 /* pause-button@2x.png in Resources */,
 				7932AD5F198A1B5000151759 /* Images.xcassets in Resources */,

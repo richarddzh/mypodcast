@@ -22,7 +22,7 @@
     self = [super initWithFrame:frame];
     if (self) {
         // Initialization code
-        UIImage * thumbImage = [UIImage imageNamed:@"slide-thumb"];
+        UIImage * thumbImage = [[UIImage imageNamed:@"slide-thumb"]imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
         [self setThumbImage:thumbImage forState:UIControlStateDisabled];
         [self setThumbImage:thumbImage forState:UIControlStateHighlighted];
         [self setThumbImage:thumbImage forState:UIControlStateNormal];
@@ -36,7 +36,7 @@
     self = [super initWithCoder:aDecoder];
     if (self) {
         // Initialization code
-        UIImage * thumbImage = [UIImage imageNamed:@"slide-thumb"];
+        UIImage * thumbImage = [[UIImage imageNamed:@"slide-thumb"]imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
         [self setThumbImage:thumbImage forState:UIControlStateDisabled];
         [self setThumbImage:thumbImage forState:UIControlStateHighlighted];
         [self setThumbImage:thumbImage forState:UIControlStateNormal];
