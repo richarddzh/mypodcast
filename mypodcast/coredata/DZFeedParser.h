@@ -18,9 +18,9 @@
 
 @end
 
-@interface DZFeedParser : NSObject
+@interface DZFeedParser : NSObject <NSXMLParserDelegate>
 
-+ (DZChannel *)parseFeed:(NSData *)data
+- (DZChannel *)parseFeed:(NSData *)data
                    atURL:(NSString *)url
        withObjectFactory:(id<DZObjectFactory>)factory;
 

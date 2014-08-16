@@ -101,6 +101,9 @@
     if (result == nil || result.count < 1) {
         return nil;
     }
+    if (result.count > 1) {
+        NSLog(@"[WARNING] fetch one from result of %d objects.", result.count);
+    }
     return result.firstObject;
 }
 
@@ -138,6 +141,8 @@
         [channel addItemsObject:item];
         item.channel = channel;
         item.guid = guid;
+        item.stored = NO;
+        item.read = @(0);
     }
     return item;
 }
