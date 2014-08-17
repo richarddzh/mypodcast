@@ -74,4 +74,23 @@ static void _reachabilityCallback(SCNetworkReachabilityRef target,
     return nil;
 }
 
+- (void)getDataWithURL:(NSURL *)url shallDownload:(BOOL)shallDownload dataHandler:(void (^)(NSData *, NSError *))handler
+{
+    NSString * path = [self getDownloadFilePathWithURL:url];
+    NSFileManager * fmgr = [NSFileManager defaultManager];
+    if ([fmgr fileExistsAtPath:path]) {
+        handler([NSData dataWithContentsOfFile:path], nil);
+        return;
+    }
+    NSURLSession * session = [NSURLSession sharedSession];
+    NSURLSessionTask * task = [session dataTaskWithURL:url completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
+        handler(data, error);
+        if (data != nil && error == nil) {
+            [fmgr createDirectoryAtPath:[path stringByDeletingLastPathComponent] withIntermediateDirectories:YES attributes:nil error:&error];
+            [fmgr createFileAtPath:path contents:data attributes:nil];
+        }
+    }];
+    [task resume];
+}
+
 @end

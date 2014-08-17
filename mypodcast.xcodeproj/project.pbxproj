@@ -10,6 +10,9 @@
 		79046421198CABFC00FF6C22 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7932AD80198A37C300151759 /* AudioToolbox.framework */; };
 		79046430198E263600FF6C22 /* DZAudioQueuePlayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7904642E198E263600FF6C22 /* DZAudioQueuePlayer.cpp */; };
 		79046433198E418000FF6C22 /* DZAudioPlayer.mm in Sources */ = {isa = PBXBuildFile; fileRef = 79046432198E418000FF6C22 /* DZAudioPlayer.mm */; };
+		7910CCC219A03035006AB321 /* DZFeedViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7910CCC119A03035006AB321 /* DZFeedViewController.m */; };
+		7910CCC519A032A7006AB321 /* DZFeedHeaderCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 7910CCC419A032A7006AB321 /* DZFeedHeaderCell.m */; };
+		7910CCC819A032C8006AB321 /* DZFeedItemCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 7910CCC719A032C8006AB321 /* DZFeedItemCell.m */; };
 		7921C37A198A68AA00A6B408 /* DZCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 7921C379198A68AA00A6B408 /* DZCache.m */; };
 		7932AD4D198A1B5000151759 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7932AD4C198A1B5000151759 /* Foundation.framework */; };
 		7932AD4F198A1B5000151759 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7932AD4E198A1B5000151759 /* CoreGraphics.framework */; };
@@ -66,6 +69,12 @@
 		7904642F198E263600FF6C22 /* DZAudioQueuePlayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DZAudioQueuePlayer.h; sourceTree = "<group>"; };
 		79046431198E418000FF6C22 /* DZAudioPlayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DZAudioPlayer.h; sourceTree = "<group>"; };
 		79046432198E418000FF6C22 /* DZAudioPlayer.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = DZAudioPlayer.mm; sourceTree = "<group>"; };
+		7910CCC019A03035006AB321 /* DZFeedViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DZFeedViewController.h; sourceTree = "<group>"; };
+		7910CCC119A03035006AB321 /* DZFeedViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DZFeedViewController.m; sourceTree = "<group>"; };
+		7910CCC319A032A7006AB321 /* DZFeedHeaderCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DZFeedHeaderCell.h; sourceTree = "<group>"; };
+		7910CCC419A032A7006AB321 /* DZFeedHeaderCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DZFeedHeaderCell.m; sourceTree = "<group>"; };
+		7910CCC619A032C8006AB321 /* DZFeedItemCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DZFeedItemCell.h; sourceTree = "<group>"; };
+		7910CCC719A032C8006AB321 /* DZFeedItemCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DZFeedItemCell.m; sourceTree = "<group>"; };
 		7921C378198A68AA00A6B408 /* DZCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DZCache.h; sourceTree = "<group>"; };
 		7921C379198A68AA00A6B408 /* DZCache.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DZCache.m; sourceTree = "<group>"; };
 		7932AD49198A1B5000151759 /* mypodcast.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = mypodcast.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -200,6 +209,12 @@
 				798CAF5E1994F5C000172D13 /* DZFileStream.h */,
 				798CAF5F1994F5C000172D13 /* DZFileStream.m */,
 				7939A220199DE38A00EF6339 /* Model.xcdatamodeld */,
+				7910CCC019A03035006AB321 /* DZFeedViewController.h */,
+				7910CCC119A03035006AB321 /* DZFeedViewController.m */,
+				7910CCC319A032A7006AB321 /* DZFeedHeaderCell.h */,
+				7910CCC419A032A7006AB321 /* DZFeedHeaderCell.m */,
+				7910CCC619A032C8006AB321 /* DZFeedItemCell.h */,
+				7910CCC719A032C8006AB321 /* DZFeedItemCell.m */,
 			);
 			path = mypodcast;
 			sourceTree = "<group>";
@@ -387,8 +402,11 @@
 				7921C37A198A68AA00A6B408 /* DZCache.m in Sources */,
 				7939A222199DE38A00EF6339 /* Model.xcdatamodeld in Sources */,
 				7932AD59198A1B5000151759 /* main.m in Sources */,
+				7910CCC219A03035006AB321 /* DZFeedViewController.m in Sources */,
 				79FC98C119932D1E00FBC8DB /* DZSlider.m in Sources */,
 				796BADBF199F3BA500F8115F /* DZItem.m in Sources */,
+				7910CCC519A032A7006AB321 /* DZFeedHeaderCell.m in Sources */,
+				7910CCC819A032C8006AB321 /* DZFeedItemCell.m in Sources */,
 				79046433198E418000FF6C22 /* DZAudioPlayer.mm in Sources */,
 				7939A234199DE99500EF6339 /* DZDatabase.m in Sources */,
 				7939A22C199DE93800EF6339 /* DZChannel.m in Sources */,

@@ -218,7 +218,8 @@ static NSURLSession * _urlSession = nil;
 
 - (BOOL)seek:(NSUInteger)offset
 {
-    if (offset < self->_numByteDownloaded) {
+    // Allow to seek beyond download, then reader shall wait.
+    if (offset < self->_numByteFileLength) {
         self->_readPosition = offset;
         return true;
     }

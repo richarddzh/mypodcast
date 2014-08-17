@@ -26,5 +26,6 @@ typedef enum : NSInteger {
 + (DZCache *)sharedInstance;
 
 - (NSString *)getDownloadFilePathWithURL:(NSURL *)url;
+- (void)getDataWithURL:(NSURL *)url shallDownload:(BOOL)shallDownload dataHandler:(void(^)(NSData *, NSError *))handler;
 
 @end

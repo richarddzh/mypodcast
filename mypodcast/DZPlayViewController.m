@@ -8,29 +8,25 @@
 
 #import "DZPlayViewController.h"
 #import "DZAudioPlayer.h"
+#import "DZItem.h"
+#import "DZCache.h"
+#import "DZChannel.h"
 
 @interface DZPlayViewController ()
 {
     DZAudioPlayer * _player;
+    DZItem * _feedItem;
 }
-
+- (void)playFeedItem;
 @end
 
 @implementation DZPlayViewController
-
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
-{
-    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-    if (self) {
-        // Custom initialization
-    }
-    return self;
-}
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    NSLog(@"Load play view");
     if (self->_player == nil) {
         DZAudioPlayer * player = [[DZAudioPlayer alloc]init];
         player.bufferProgressView = self.progressView;
@@ -38,12 +34,11 @@
         player.playTimeLabel = self.playTimeLabel;
         player.remainTimeLabel = self.remainTimeLabel;
         player.playButton = self.playButton;
-        self.playButton.titleLabel.textAlignment = NSTextAlignmentCenter;
         self->_player = player;
     }
-    self->_player.audioDuration = 370;
-    [self->_player prepareForURL:@"http://richarddzh.github.io/podcast/demo.mp3"];
-    [self->_player playPause];
+    if (self->_feedItem != nil) {
+        [self playFeedItem];
+    }
 }
 
 - (void)didReceiveMemoryWarning
@@ -63,20 +58,52 @@
 }
 */
 
-- (void)onPlayButton:(id)sender
+- (IBAction)onPlayButton:(id)sender
 {
     [self->_player playPause];
 }
 
-- (void)onSliderBeginDrag:(id)sender
+- (IBAction)onSliderBeginDrag:(id)sender
 {
     self->_player.isDraggingSlider = YES;
 }
 
-- (void)onSliderChangeValue:(id)sender
+- (IBAction)onSliderChangeValue:(id)sender
 {
     self->_player.isDraggingSlider = NO;
     [self->_player seekTo:self->_player.audioDuration * self.slider.value];
+}
+
+- (DZItem *)feedItem
+{
+    return self->_feedItem;
+}
+
+- (void)setFeedItem:(DZItem *)feedItem
+{
+    if (self->_feedItem != feedItem) {
+        self->_feedItem = feedItem;
+        if (feedItem != nil) {
+            [self playFeedItem];
+        }
+    }
+}
+
+- (void)playFeedItem
+{
+    DZItem * feedItem = self->_feedItem;
+    if (self->_player != nil && feedItem != nil) {
+        self.title = feedItem.title;
+        DZCache * cache = [DZCache sharedInstance];
+        [cache getDataWithURL:[NSURL URLWithString:feedItem.channel.image] shallDownload:YES dataHandler:^(NSData * data, NSError * error) {
+            if (data != nil && error == nil) {
+                self.imageView.image = [UIImage imageWithData:data];
+            }
+        }];
+        self->_player.audioDuration = [feedItem.duration doubleValue];
+        [self->_player prepareForURL:feedItem.url];
+        [self->_player playPause];
+    }
 }
 
 @end
