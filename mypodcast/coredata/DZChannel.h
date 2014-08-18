@@ -2,7 +2,7 @@
 //  DZChannel.h
 //  mypodcast
 //
-//  Created by Richard Dong on 14-8-15.
+//  Created by Richard Dong on 14-8-17.
 //  Copyright (c) 2014年 Richard Dong. All rights reserved.
 //
 
@@ -13,10 +13,10 @@
 
 @interface DZChannel : NSManagedObject
 
-@property (nonatomic, retain) NSString * url;
-@property (nonatomic, retain) NSString * title;
 @property (nonatomic, retain) NSString * descriptions;
 @property (nonatomic, retain) NSString * image;
+@property (nonatomic, retain) NSString * title;
+@property (nonatomic, retain) NSString * url;
 @property (nonatomic, retain) NSSet *items;
 @end
 

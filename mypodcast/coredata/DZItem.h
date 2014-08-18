@@ -2,7 +2,7 @@
 //  DZItem.h
 //  mypodcast
 //
-//  Created by Richard Dong on 14-8-16.
+//  Created by Richard Dong on 14-8-17.
 //  Copyright (c) 2014年 Richard Dong. All rights reserved.
 //
 
@@ -21,6 +21,7 @@
 @property (nonatomic, retain) NSNumber * stored;
 @property (nonatomic, retain) NSString * title;
 @property (nonatomic, retain) NSString * url;
+@property (nonatomic, retain) NSNumber * lastPlay;
 @property (nonatomic, retain) DZChannel *channel;
 
 @end

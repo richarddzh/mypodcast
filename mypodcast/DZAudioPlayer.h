@@ -7,23 +7,32 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "DZEventSource.h"
 
-const UInt32 kDZBufferSize = 40000;         //40K
-const UInt32 kDZMaxQueueDataSize = 100000;  //100K
-const UInt32 kDZMinPreloadSize = 1000000;   //1M
+FOUNDATION_EXTERN NSString * const kDZPlayerIsPlaying;
+FOUNDATION_EXTERN NSString * const kDZPlayerDidFinishPlaying;
+FOUNDATION_EXTERN NSString * const kDZPlayerWillStartPlaying;
 
-@interface DZAudioPlayer : NSObject
+typedef enum _dz_player_status_ {
+    DZPlayerStatus_Stop = 0,
+    DZPlayerStatus_Play,
+    DZPlayerStatus_PauseWait,
+    DZPlayerStatus_UserPause,
+} DZPlayerStatus;
 
-@property (nonatomic, assign) NSTimeInterval audioDuration;
-@property (nonatomic, weak) UILabel * playTimeLabel;
-@property (nonatomic, weak) UILabel * remainTimeLabel;
-@property (nonatomic, weak) UIProgressView * bufferProgressView;
-@property (nonatomic, weak) UISlider * playSlider;
-@property (nonatomic, weak) UIButton * playButton;
-@property (nonatomic, assign) BOOL isDraggingSlider;
+@class DZItem;
+@class DZAudioPlayer;
+@class DZFileStream;
 
-- (void)prepareForURL:(NSString *)url;
+@interface DZAudioPlayer : DZEventSource
+
+@property (nonatomic,retain) DZItem * feedItem;
+
++ (DZAudioPlayer *)sharedInstance;
+
 - (void)playPause;
 - (void)seekTo:(NSTimeInterval)time;
+- (DZPlayerStatus)status;
+- (float)downloadBufferProgress;
 
 @end

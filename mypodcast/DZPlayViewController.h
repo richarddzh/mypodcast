@@ -7,10 +7,11 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "DZEventSource.h"
 
 @class DZItem;
 
-@interface DZPlayViewController : UIViewController
+@interface DZPlayViewController : UIViewController <DZEventHandler>
 
 @property (nonatomic,retain) IBOutlet UIImageView * imageView;
 @property (nonatomic,retain) IBOutlet UISlider * slider;
@@ -18,7 +19,6 @@
 @property (nonatomic,retain) IBOutlet UIButton * playButton;
 @property (nonatomic,retain) IBOutlet UILabel * playTimeLabel;
 @property (nonatomic,retain) IBOutlet UILabel * remainTimeLabel;
-@property (nonatomic,retain) DZItem * feedItem;
 
 - (IBAction)onPlayButton:(id)sender;
 - (IBAction)onSliderChangeValue:(id)sender;

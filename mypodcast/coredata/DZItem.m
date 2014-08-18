@@ -2,7 +2,7 @@
 //  DZItem.m
 //  mypodcast
 //
-//  Created by Richard Dong on 14-8-16.
+//  Created by Richard Dong on 14-8-17.
 //  Copyright (c) 2014年 Richard Dong. All rights reserved.
 //
 
@@ -20,6 +20,7 @@
 @dynamic stored;
 @dynamic title;
 @dynamic url;
+@dynamic lastPlay;
 @dynamic channel;
 
 @end

@@ -9,16 +9,19 @@
 #import "DZAudioPlayer.h"
 #import "DZAudioQueuePlayer.h"
 #import "DZFileStream.h"
+#import "DZItem.h"
 #import <AVFoundation/AVFoundation.h>
 
-static AVAudioSession * _sharedAudioSession = nil;
+const UInt32 kDZBufferSize = 40000;         //40K
+const UInt32 kDZMaxQueueDataSize = 100000;  //100K
+const UInt32 kDZMinPreloadSize = 1000000;   //1M
 
-typedef enum _dz_player_status_ {
-    DZPlayerStatusStop = 0,
-    DZPlayerStatusPlay,
-    DZPlayerStatusPauseWait,
-    DZPlayerStatusUserPause,
-} DZPlayerStatus;
+FOUNDATION_EXTERN NSString * const kDZPlayerIsPlaying = @"kDZPlayerIsPlaying";
+FOUNDATION_EXTERN NSString * const kDZPlayerDidFinishPlaying = @"kDZPlayerDidFinishPlaying";
+FOUNDATION_EXTERN NSString * const kDZPlayerWillStartPlaying = @"kDZPlayerWillStartPlaying";
+
+static AVAudioSession * _sharedAudioSession = nil;
+static DZAudioPlayer * _sharedInstance = nil;
 
 @interface DZAudioPlayer ()
 {
@@ -26,18 +29,25 @@ typedef enum _dz_player_status_ {
     DZAudioQueuePlayer * _player;
     DZFileStream * _stream;
     DZPlayerStatus _status;
-    NSString * _url;
+    DZItem * _feedItem;
     NSTimer * _timer;
+    BOOL _shallSeekWhenStarted;
+    NSTimeInterval _seekTime;
 }
 - (void)playStream:(NSTimer *)timer;
 - (void)configureAudioSession;
-- (void)updatePlayProgress;
-- (void)setPlayButtonImageWithName:(NSString *)name;
+- (void)prepareBeforePlay;
 @end
 
 @implementation DZAudioPlayer
 
-@synthesize playSlider, bufferProgressView, playTimeLabel, remainTimeLabel, playButton, audioDuration;
++ (DZAudioPlayer *)sharedInstance
+{
+    if (_sharedInstance == nil) {
+        _sharedInstance = [[DZAudioPlayer alloc]init];
+    }
+    return _sharedInstance;
+}
 
 - (void)configureAudioSession
 {
@@ -61,16 +71,22 @@ typedef enum _dz_player_status_ {
     if (self != nil) {
         [self configureAudioSession];
         self->_player = NULL;
-        self->_status = DZPlayerStatusStop;
-        self->_url = nil;
+        self->_status = DZPlayerStatus_Stop;
+        self->_feedItem = nil;
         self->_stream = nil;
-        self.isDraggingSlider = NO;
+        self->_shallSeekWhenStarted = NO;
     }
     return self;
 }
 
-- (void)prepareForURL:(NSString *)url
+- (void)dealloc
 {
+    if (self->_feedItem != nil && self->_player != NULL
+        && (self->_player->getStatus() == DZAudioQueuePlayerStatus_Running
+            || self->_player->getStatus() == DZAudioQueuePlayerStatus_Paused))
+    {
+        self->_feedItem.lastPlay = @(self->_player->getCurrentTime());
+    }
     if (self->_timer != nil) {
         [self->_timer invalidate];
         self->_timer = nil;
@@ -83,27 +99,80 @@ typedef enum _dz_player_status_ {
         [self->_stream close];
         self->_stream = nil;
     }
-    self->_url = url;
-    self->_stream = [DZFileStream streamWithURL:[NSURL URLWithString:url]];
-    if (url == nil || self->_stream == nil) {
+    if (self->_feedItem != nil) {
+        self->_feedItem = nil;
+    }
+}
+
+- (DZItem *)feedItem
+{
+    return self->_feedItem;
+}
+
+- (void)setFeedItem:(DZItem *)feedItem
+{
+    if (feedItem == self->_feedItem) {
         return;
     }
-    self->_status = DZPlayerStatusUserPause;
-    [self setPlayButtonImageWithName:@"play"];
+    self->_feedItem = feedItem;
+    [self prepareBeforePlay];
+}
+
+- (void)prepareBeforePlay
+{
+    if (self->_feedItem == nil || self->_feedItem.url == nil) {
+        return;
+    }
+    if (self->_feedItem != nil && self->_player != NULL
+        && (self->_player->getStatus() == DZAudioQueuePlayerStatus_Running
+            || self->_player->getStatus() == DZAudioQueuePlayerStatus_Paused))
+    {
+            self->_feedItem.lastPlay = @(self->_player->getCurrentTime());
+    }
+    if (self->_timer != nil) {
+        [self->_timer invalidate];
+        self->_timer = nil;
+    }
+    if (self->_player != NULL) {
+        delete self->_player;
+        self->_player = NULL;
+    }
+    if (self->_stream != nil) {
+        [self->_stream close];
+        self->_stream = nil;
+    }
+    self->_stream = [DZFileStream streamWithURL:[NSURL URLWithString:self->_feedItem.url]];
+    if (self->_stream == nil) {
+        return;
+    }
+    self->_status = DZPlayerStatus_UserPause;
     self->_player = new DZAudioQueuePlayer(0);
     self->_timer = [NSTimer scheduledTimerWithTimeInterval:0.5
                                                     target:self
                                                   selector:@selector(playStream:)
                                                   userInfo:nil
                                                    repeats:YES];
+    if ([self->_feedItem.lastPlay doubleValue] > 0) {
+        [self seekTo:[self->_feedItem.lastPlay doubleValue]];
+    }
+    [self fireEventWithInfo:kDZPlayerWillStartPlaying];
 }
 
 - (void)playStream:(NSTimer *)timer
 {
-    if (self->_player == NULL || self->_stream == nil || self->_status == DZPlayerStatusStop) {
+    if (self->_player == NULL || self->_stream == nil || self->_status == DZPlayerStatus_Stop) {
         return;
     }
-    [self updatePlayProgress];
+    
+    [self fireEventWithInfo:kDZPlayerIsPlaying];
+    
+    // If a seek is made before the queue is started, seek when it is ready.
+    if (self->_shallSeekWhenStarted && self->_player->getStatus() == DZAudioQueuePlayerStatus_Running) {
+        self->_shallSeekWhenStarted = NO;
+        [self seekTo:self->_seekTime];
+    }
+    
+    // Feed data to the queue player anyway.
     if (self->_player->getNumByteQueued() < kDZMaxQueueDataSize) {
         if ([self->_stream hasBytesAvailable]) {
             NSInteger read = [self->_stream read:self->_buffer maxLength:kDZBufferSize];
@@ -114,23 +183,28 @@ typedef enum _dz_player_status_ {
             self->_player->flush();
         }
     }
+    
+    // All buffered data played and no more data to read, then stop.
     if (self->_player->getNumQueueBuffer() == 0 && ![self->_stream hasBytesAvailable]) {
         self->_player->stop(false);
+        // Release stream and timer, but cannot stop and delete queue because playing may continue.
         [self->_stream close];
         self->_stream = nil;
-        self->_status = DZPlayerStatusStop;
+        self->_status = DZPlayerStatus_Stop;
         [self->_timer invalidate];
         self->_timer = nil;
-        [self setPlayButtonImageWithName:@"play"];
+        self->_feedItem.read = @(YES);
+        self->_feedItem.lastPlay = @(0.0f);
+        [self fireEventWithInfo:kDZPlayerDidFinishPlaying];
         return;
     }
-    if ([self->_stream shallWait:kDZMinPreloadSize]
-        && self->_status == DZPlayerStatusPlay) {
-        self->_status = DZPlayerStatusPauseWait;
+    
+    // Wait for the stream to prepare for data.
+    if ([self->_stream shallWait:kDZMinPreloadSize] && self->_status == DZPlayerStatus_Play) {
+        self->_status = DZPlayerStatus_PauseWait;
         self->_player->pause();
-    } else if (![self->_stream shallWait:kDZMinPreloadSize]
-               && self->_status == DZPlayerStatusPauseWait) {
-        self->_status = DZPlayerStatusPlay;
+    } else if (![self->_stream shallWait:kDZMinPreloadSize] && self->_status == DZPlayerStatus_PauseWait) {
+        self->_status = DZPlayerStatus_Play;
         self->_player->start();
     }
 }
@@ -138,53 +212,36 @@ typedef enum _dz_player_status_ {
 - (void)playPause
 {
     switch (self->_status) {
-        case DZPlayerStatusPlay:
+        case DZPlayerStatus_Play:
             self->_player->pause();
-        case DZPlayerStatusPauseWait:
-            self->_status = DZPlayerStatusUserPause;
+        case DZPlayerStatus_PauseWait:
+            // Audio queue has already paused to wait for streaming data.
+            self->_status = DZPlayerStatus_UserPause;
             break;
-        case DZPlayerStatusStop:
-            if (self->_url != nil) {
-                [self prepareForURL:self->_url];
-            }
-        case DZPlayerStatusUserPause:
-            self->_status = DZPlayerStatusPauseWait;
+        case DZPlayerStatus_Stop:
+            // Start over and play.
+            [self prepareBeforePlay];
+            // Fall through to set PauseWait so that playback will begin when data are ready.
+        case DZPlayerStatus_UserPause:
+            self->_status = DZPlayerStatus_PauseWait;
             break;
         default:
             break;
     }
 }
 
-- (void)updatePlayProgress
-{
-    unsigned int playerTime = (unsigned int)round(self->_player->getCurrentTime());
-    unsigned int playerRemainTime = self->audioDuration > playerTime ? (unsigned int)round(self->audioDuration - playerTime) : 0;
-    if (self.isDraggingSlider == NO) {
-        self.playSlider.value = playerTime / self.audioDuration;
-    }
-    self.playTimeLabel.text = [NSString stringWithFormat:@"%02u:%02u", playerTime / 60, playerTime % 60];
-    self.remainTimeLabel.text = [NSString stringWithFormat:@"-%02u:%02u", playerRemainTime / 60, playerRemainTime % 60];
-    self.bufferProgressView.progress = (float)self->_stream.numByteDownloaded / self->_stream.numByteFileLength;
-    if (self->_status == DZPlayerStatusStop || self->_status == DZPlayerStatusUserPause) {
-        [self setPlayButtonImageWithName:@"play"];
-    } else {
-        [self setPlayButtonImageWithName:@"pause"];
-    }
-}
-
-- (void)setPlayButtonImageWithName:(NSString *)name
-{
-    [self.playButton setImage:[[UIImage imageNamed:[name stringByAppendingString:@"-button"]]
-                               imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate]
-                     forState:UIControlStateNormal];
-    [self.playButton setImage:[[UIImage imageNamed:[name stringByAppendingString:@"-button-highlight"]]
-                               imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate]
-                     forState:UIControlStateHighlighted];
-}
-
 - (void)seekTo:(NSTimeInterval)time
 {
-    if (self->_player == NULL || self->_stream == NULL || self->_status == DZPlayerStatusStop) {
+    if (self->_player == NULL
+        || self->_stream == NULL
+        || self->_status == DZPlayerStatus_Stop
+        || self->_feedItem == nil) {
+        return;
+    }
+    if (self->_player->getStatus() == DZAudioQueuePlayerStatus_NotReady
+        || self->_player->getStatus() == DZAudioQueuePlayerStatus_ReadyToStart) {
+        self->_shallSeekWhenStarted = YES;
+        self->_seekTime = time;
         return;
     }
     Float64 oldTime = self->_player->getCurrentTime();
@@ -194,10 +251,23 @@ typedef enum _dz_player_status_ {
             byteOffset = self->_player->seek(oldTime);
             [self->_stream seek:(NSUInteger)byteOffset];
         }
-        if (self->_status == DZPlayerStatusPlay) {
-            self->_status = DZPlayerStatusPauseWait;
+        if (self->_status == DZPlayerStatus_Play) {
+            self->_status = DZPlayerStatus_PauseWait;
         }
     }
+}
+
+- (float)downloadBufferProgress
+{
+    if (self->_stream.numByteFileLength == 0) {
+        return 0;
+    }
+    return (float)(self->_stream.numByteDownloaded) / self->_stream.numByteFileLength;
+}
+
+- (DZPlayerStatus)status
+{
+    return self->_status;
 }
 
 

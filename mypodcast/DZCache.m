@@ -68,8 +68,9 @@ static void _reachabilityCallback(SCNetworkReachabilityRef target,
 - (NSString *)getDownloadFilePathWithURL:(NSURL *)url
 {
     if ([url.scheme.lowercaseString compare:@"http"] == NSOrderedSame) {
-        return [[NSHomeDirectory() stringByAppendingPathComponent:@"Documents"]
-                stringByAppendingString:url.path];
+        NSString * path = [[NSHomeDirectory() stringByAppendingPathComponent:@"Documents"]
+                           stringByAppendingString:url.path];
+        return path;
     }
     return nil;
 }

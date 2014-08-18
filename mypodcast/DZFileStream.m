@@ -157,6 +157,9 @@ static NSURLSession * _urlSession = nil;
         }
         [fmgr createDirectoryAtPath:[path stringByDeletingLastPathComponent] withIntermediateDirectories:YES attributes:nil error:nil];
         self->_fp = fopen([self->_tempPath UTF8String], "a+");
+        if (self->_fp == NULL) {
+            NSLog(@"[ERROR] cannot open file %@", self->_tempPath);
+        }
         [self issueNewTask];
     }
     return self;
@@ -165,6 +168,7 @@ static NSURLSession * _urlSession = nil;
 - (void)close
 {
     [self->_task cancel];
+    self->_task = nil;
     [super close];
 }
 
@@ -241,9 +245,16 @@ static NSURLSession * _urlSession = nil;
 
 - (void)URLSession:(NSURLSession *)session dataTask:(NSURLSessionDataTask *)dataTask didReceiveData:(NSData *)data
 {
+    if (self->_task != dataTask) {
+        return;
+    }
     [data enumerateByteRangesUsingBlock:^(const void *bytes, NSRange byteRange, BOOL *stop) {
-        NSInteger written = fwrite(bytes, 1, byteRange.length, self->_fp);
-        self->_numByteDownloaded += written;
+        // If task is canceled, self->_task is not nil but self->_fp is closed and nil.
+        // Weird !!!
+        if (self->_fp != NULL) {
+            NSInteger written = fwrite(bytes, 1, byteRange.length, self->_fp);
+            self->_numByteDownloaded += written;
+        }
     }];
 }
 
@@ -261,6 +272,9 @@ static NSURLSession * _urlSession = nil;
         NSFileManager * fmgr = [NSFileManager defaultManager];
         [fmgr moveItemAtPath:self->_tempPath toPath:self->_path error:nil];
         self->_fp = fopen([self->_path UTF8String], "r");
+        if (self->_fp == NULL) {
+            NSLog(@"[ERROR] cannot open file %@", self->_path);
+        }
     }
 }
 

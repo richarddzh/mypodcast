@@ -65,6 +65,12 @@ DZAudioQueueBufferList::~DZAudioQueueBufferList()
 
 AudioQueueBufferRef DZAudioQueueBufferList::getFreeBufferForSize(UInt32 byteSize, AudioQueueRef audioQueue)
 {
+    // AudioQueue shall not be null in case it is used to allocate new buffer.
+    if (audioQueue == NULL) {
+        return NULL;
+    }
+    
+    // Find a free buffer that can hold date of byteSize.
     int idx = -1;
     for (int i = 0; i < kDZMaxNumFreeBuffers; ++i) {
         if (this->_freeBuffers[i] == NULL || this->_freeBuffers[i]->mAudioDataBytesCapacity < byteSize) {
@@ -74,6 +80,8 @@ AudioQueueBufferRef DZAudioQueueBufferList::getFreeBufferForSize(UInt32 byteSize
             idx = i;
         }
     }
+    
+    // Use the free buffer if available, otherwise allocate new buffer.
     AudioQueueBufferRef buffer = NULL;
     if (idx != -1) {
         buffer = this->_freeBuffers[idx];
@@ -96,10 +104,9 @@ void DZAudioQueueBufferList::recycleBuffer(AudioQueueBufferRef bufferRef) {
     }
     this->_numQueueBuffers--;
     this->_numByteQueued -= bufferRef->mAudioDataByteSize;
-    // fprintf(stderr, "Try recycle buffer, free %u, queue %u(%u)\n",
-    //        (unsigned int)this->_numFreeBuffers,
-    //        (unsigned int)this->_numQueueBuffers,
-    //        (unsigned int)this->_numByteQueued);
+    
+    // Find a position for the buffer in free buffer list.
+    // If not a position is found, find the buffer with minimal capacity.
     int idx = -1;
     for (int i = 0; i < kDZMaxNumFreeBuffers; ++i) {
         if (this->_freeBuffers[i] != NULL &&
@@ -112,6 +119,8 @@ void DZAudioQueueBufferList::recycleBuffer(AudioQueueBufferRef bufferRef) {
             return;
         }
     }
+    
+    // Drop buffer with minimal capacity.
     dzDebugError(!noErr, "Free buffers list is full. Will drop the smallest buffer.");
     AudioQueueBufferRef bufferToDrop = bufferRef;
     if (bufferRef->mAudioDataBytesCapacity > this->_freeBuffers[idx]->mAudioDataBytesCapacity) {
@@ -167,29 +176,38 @@ DZAudioQueuePlayer::DZAudioQueuePlayer(AudioFileTypeID typeHint)
     }
     this->_bufferList = new DZAudioQueueBufferList();
     this->_timeAmendment = 0;
+    this->_status = DZAudioQueuePlayerStatus_NotReady;
 }
 
 DZAudioQueuePlayer::~DZAudioQueuePlayer()
 {
+    // AudioQueueDispose will free its audio queue buffers.
+    if (this->_queue != NULL) {
+        AudioQueueDispose(this->_queue, true);
+    }
+    if (this->_parser != NULL) {
+        AudioFileStreamClose(this->_parser);
+    }
+    
     // Destructor of DZAudioQueueBufferList shall not free any
     // audio queue buffers allocated by the audio queue.
     delete this->_bufferList;
-    
-    // AudioQueueDispose will free its audio queue buffers.
-    AudioQueueDispose(this->_queue, true);
-    AudioFileStreamClose(this->_parser);
 }
 
 OSStatus DZAudioQueuePlayer::parse(const void *data, UInt32 length)
 {
-    return dzDebug(AudioFileStreamParseBytes(this->_parser, length, data, 0),
-                   "Audio file stream parse error.");
+    if (this->_parser != NULL && data != NULL) {
+        return dzDebug(AudioFileStreamParseBytes(this->_parser, length, data, 0),
+                       "Audio file stream parse error.");
+    }
+    return dzDebug(!noErr, "Null audio file stream or null data.");
 }
 
 void DZAudioQueuePlayer::onProperty(AudioFileStreamPropertyID pID)
 {
     UInt32 propertySize = 0;
     switch (pID) {
+        // Create audio queue with given data format.
         case kAudioFileStreamProperty_DataFormat:
             propertySize = sizeof(this->_format);
             if (dzDebugOK(AudioFileStreamGetProperty(this->_parser, pID, &(propertySize), &(this->_format)), "Fail to get audio file stream property: DataFormat.")) {
@@ -202,6 +220,8 @@ void DZAudioQueuePlayer::onProperty(AudioFileStreamPropertyID pID)
                 }
             }
             break;
+            
+        // Extract magic cookie data.
         case kAudioFileStreamProperty_MagicCookieData:
             if (noErr == AudioFileStreamGetPropertyInfo(this->_parser, pID, &(propertySize), NULL)) {
                 this->_magicCookie = malloc(propertySize);
@@ -213,9 +233,14 @@ void DZAudioQueuePlayer::onProperty(AudioFileStreamPropertyID pID)
                 }
             }
             break;
+            
+        // Set magic cookie data if any. (Queue shall be already created.)
         case kAudioFileStreamProperty_ReadyToProducePackets:
             if (this->_queue != NULL && this->_magicCookie != NULL) {
                 dzDebug(AudioQueueSetProperty(this->_queue, kAudioQueueProperty_MagicCookie, this->_magicCookie, this->_magicCookieSize), "Fail to set audio queue property: MagicCookie.");
+            }
+            if (this->_queue != NULL && this->_parser != NULL) {
+                this->_status = DZAudioQueuePlayerStatus_ReadyToStart;
             }
             break;
         default:
@@ -225,7 +250,7 @@ void DZAudioQueuePlayer::onProperty(AudioFileStreamPropertyID pID)
 
 void DZAudioQueuePlayer::onPackets(UInt32 numBytes, UInt32 numPackets, const void *data, AudioStreamPacketDescription *packetDesc)
 {
-    if (numBytes <= 0 || numPackets <= 0 || data == NULL) {
+    if (numBytes <= 0 || numPackets <= 0 || data == NULL || this->_queue == NULL) {
         return;
     }
     AudioQueueBufferRef buffer = this->_bufferList->getFreeBufferForSize(numBytes, this->_queue);
@@ -234,6 +259,8 @@ void DZAudioQueuePlayer::onPackets(UInt32 numBytes, UInt32 numPackets, const voi
         memcpy(buffer->mAudioData, data, numBytes);
         dzDebug(AudioQueueEnqueueBuffer(this->_queue, buffer, packetDesc ? numPackets : 0, packetDesc),
                 "Fail to enqueue audio queue buffer.") ;
+    } else {
+        dzDebug(!noErr, "Cannot get free buffer to hold newly coming data packet.");
     }
 }
 
@@ -244,37 +271,76 @@ void DZAudioQueuePlayer::onFinishBuffer(AudioQueueBufferRef buffer)
 
 OSStatus DZAudioQueuePlayer::flush()
 {
+    if (this->_queue == NULL) {
+        return dzDebug(!noErr, "Null audio queue to flush.");
+    }
     return dzDebug(AudioQueueFlush(this->_queue), "Fail to flush audio queue.");
 }
 
 OSStatus DZAudioQueuePlayer::prime()
 {
+    if (this->_queue == NULL) {
+        return dzDebug(!noErr, "Null audio queue to prime.");
+    }
     return dzDebug(AudioQueuePrime(this->_queue, 0, NULL), "Fail to prime audio queue.");
 }
 
 OSStatus DZAudioQueuePlayer::start()
 {
+    if (this->_queue == NULL
+        || this->_status == DZAudioQueuePlayerStatus_NotReady
+        || this->_status == DZAudioQueuePlayerStatus_Error) {
+        return dzDebug(!noErr, "Audio queue cannot start because it is not ready.");
+    }
     dzDebug(AudioQueueSetParameter(this->_queue, kAudioQueueParam_Volume, 1.0),
             "Fail to set audio queue property: Volumn.");
-    return dzDebug(AudioQueueStart(this->_queue, NULL), "Fail to start audio queue.");
+    OSStatus ret = dzDebug(AudioQueueStart(this->_queue, NULL), "Fail to start audio queue.");
+    if (ret == noErr) {
+        this->_status = DZAudioQueuePlayerStatus_Running;
+    }
+    return ret;
 }
 
 OSStatus DZAudioQueuePlayer::pause()
 {
-    return dzDebug(AudioQueuePause(this->_queue), "Fail to pause audio queue.");
+    if (this->_queue == NULL || this->_status != DZAudioQueuePlayerStatus_Running) {
+        return dzDebug(!noErr, "Audio queue cannot pause because it is not running.");
+    }
+    OSStatus ret = dzDebug(AudioQueuePause(this->_queue), "Fail to pause audio queue.");
+    if (ret == noErr) {
+        this->_status = DZAudioQueuePlayerStatus_Paused;
+    }
+    return ret;
 }
 
 OSStatus DZAudioQueuePlayer::stop(bool immediately)
 {
-    return dzDebug(AudioQueueStop(this->_queue, immediately), "Fail to stop audio queue.");
+    if (this->_queue == NULL || (this->_status != DZAudioQueuePlayerStatus_Paused
+                                 && this->_status != DZAudioQueuePlayerStatus_Running)) {
+        return dzDebug(!noErr, "Audio queue cannot stop because it is not started.");
+    }
+    OSStatus ret = dzDebug(AudioQueueStop(this->_queue, immediately), "Fail to stop audio queue.");
+    if (ret == noErr) {
+        this->_status = DZAudioQueuePlayerStatus_Stopped;
+    }
+    return ret;
 }
 
 Float64 DZAudioQueuePlayer::getCurrentTime()
 {
-    AudioTimeStamp timeStamp;
+    // 0 if audio queue is not started.
+    if (this->_queue == NULL || (this->_status != DZAudioQueuePlayerStatus_Running
+                                 && this->_status != DZAudioQueuePlayerStatus_Paused)) {
+        return 0;
+    }
+    
+    // 0 if sample rate is not known.
     if (this->_format.mSampleRate == 0) {
         return 0;
     }
+    
+    // Get the time elapsed after last seek, plus the amendment.
+    AudioTimeStamp timeStamp;
     if (dzDebugError(AudioQueueGetCurrentTime(this->_queue, NULL, &(timeStamp), NULL),
                      "Fail to get audio queue current time.")) {
         return 0;
@@ -284,22 +350,38 @@ Float64 DZAudioQueuePlayer::getCurrentTime()
 
 SInt64 DZAudioQueuePlayer::seek(float time)
 {
+    // Cannot seek if parameters not available or parser/queue not ready.
     if (this->_format.mSampleRate <= 0 || this->_format.mFramesPerPacket <= 0) {
         return -1;
     }
+    if (this->_parser == NULL || this->_queue == NULL
+        || this->_status == DZAudioQueuePlayerStatus_NotReady
+        || this->_status == DZAudioQueuePlayerStatus_Error) {
+        return -1;
+    }
+    
+    // Get audio data offset.
     SInt64 dataOffset = 0;
     UInt32 propertySize = sizeof(dataOffset);
     if (dzDebugError(AudioFileStreamGetProperty(this->_parser, kAudioFileStreamProperty_DataOffset, &propertySize, &dataOffset), "Fail to get stream data offset.")) {
         return -1;
     }
+    
+    // Reset audio queue to clear the current queue buffer.
     if (dzDebugError(AudioQueueReset(this->_queue), "Fail to reset audio queue.")) {
         return -1;
     }
+    
+    // Get audio queue current time.
     AudioTimeStamp timeStamp;
-    if (dzDebugError(AudioQueueGetCurrentTime(this->_queue, NULL, &(timeStamp), NULL),
+    if (this->_status == DZAudioQueuePlayerStatus_ReadyToStart) {
+        timeStamp.mSampleTime = 0;
+    } else if (dzDebugError(AudioQueueGetCurrentTime(this->_queue, NULL, &(timeStamp), NULL),
                      "Fail to get audio queue current time.")) {
         return -1;
     }
+    
+    // Calculate packet offset and so the byte offset.
     SInt64 packetOffset = round(time * this->_format.mSampleRate / this->_format.mFramesPerPacket);
     SInt64 byteOffset = 0;
     UInt32 ioFlag = 0;
@@ -326,3 +408,7 @@ UInt32 DZAudioQueuePlayer::getNumQueueBuffer()
     return this->_bufferList->getNumQueueBuffers();
 }
 
+DZAudioQueuePlayerStatus DZAudioQueuePlayer::getStatus()
+{
+    return this->_status;
+}

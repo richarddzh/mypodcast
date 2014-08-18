@@ -141,8 +141,9 @@
         [channel addItemsObject:item];
         item.channel = channel;
         item.guid = guid;
-        item.stored = NO;
-        item.read = @(0);
+        item.stored = @(NO);
+        item.read = @(NO);
+        item.lastPlay = @(0.0f);
     }
     return item;
 }

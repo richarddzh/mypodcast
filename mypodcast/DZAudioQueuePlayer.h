@@ -14,6 +14,16 @@
 const UInt32 kDZMaxNumFreeBuffers = 8;
 
 class DZAudioQueueBufferList;
+class DZAudioQueuePlayer;
+
+typedef enum _dz_audio_queue_player_status_ {
+    DZAudioQueuePlayerStatus_NotReady = 0,
+    DZAudioQueuePlayerStatus_ReadyToStart,
+    DZAudioQueuePlayerStatus_Running,
+    DZAudioQueuePlayerStatus_Paused,
+    DZAudioQueuePlayerStatus_Stopped,
+    DZAudioQueuePlayerStatus_Error = -1
+} DZAudioQueuePlayerStatus;
 
 class DZAudioQueuePlayer {
     AudioQueueRef _queue;
@@ -24,6 +34,7 @@ class DZAudioQueuePlayer {
     
     DZAudioQueueBufferList * _bufferList;
     Float64 _timeAmendment;
+    DZAudioQueuePlayerStatus _status;
     
 public:
     DZAudioQueuePlayer(AudioFileTypeID typeHint);
@@ -43,6 +54,7 @@ public:
     UInt32 getNumByteQueued();
     UInt32 getNumFreeBuffer();
     UInt32 getNumQueueBuffer();
+    DZAudioQueuePlayerStatus getStatus();
     
     // The following functions are called by callback function.
     // They shall not be directly called.

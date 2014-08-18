@@ -2,7 +2,7 @@
 //  DZChannel.m
 //  mypodcast
 //
-//  Created by Richard Dong on 14-8-15.
+//  Created by Richard Dong on 14-8-17.
 //  Copyright (c) 2014年 Richard Dong. All rights reserved.
 //
 
@@ -12,10 +12,10 @@
 
 @implementation DZChannel
 
-@dynamic url;
-@dynamic title;
 @dynamic descriptions;
 @dynamic image;
+@dynamic title;
+@dynamic url;
 @dynamic items;
 
 @end

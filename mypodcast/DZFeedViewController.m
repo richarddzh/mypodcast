@@ -7,11 +7,11 @@
 //
 
 #import "DZFeedViewController.h"
-#import "DZPlayViewController.h"
 #import "DZFeedHeaderCell.h"
 #import "DZFeedItemCell.h"
 #import "DZChannel.h"
 #import "DZDatabase.h"
+#import "DZAudioPlayer.h"
 
 @interface DZFeedViewController ()
 {
@@ -143,10 +143,14 @@
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
     if ([segue.identifier compare:@"DZSeguePlayItem"] == NSOrderedSame) {
-        DZPlayViewController * dest = (DZPlayViewController *)[segue destinationViewController];
+        DZAudioPlayer * player = [DZAudioPlayer sharedInstance];
         NSIndexPath * selection = [self.tableView indexPathForSelectedRow];
         if (selection != nil && self->_tableItems != nil) {
-            dest.feedItem = [self->_tableItems objectAtIndex:selection.row];
+            DZItem * feedItem = [self->_tableItems objectAtIndex:selection.row];
+            if (player.feedItem != feedItem) {
+                player.feedItem = [self->_tableItems objectAtIndex:selection.row];
+                [player playPause];
+            }
         }
     }
 }

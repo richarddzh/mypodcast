@@ -11,13 +11,15 @@
 #import "DZItem.h"
 #import "DZCache.h"
 #import "DZChannel.h"
+#import "DZFileStream.h"
 
 @interface DZPlayViewController ()
 {
     DZAudioPlayer * _player;
-    DZItem * _feedItem;
+    BOOL _isDraggingSlider;
 }
-- (void)playFeedItem;
+- (void)showAlbumArtImage;
+- (void)showPlayingStatus;
 @end
 
 @implementation DZPlayViewController
@@ -26,19 +28,19 @@
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    NSLog(@"Load play view");
-    if (self->_player == nil) {
-        DZAudioPlayer * player = [[DZAudioPlayer alloc]init];
-        player.bufferProgressView = self.progressView;
-        player.playSlider = self.slider;
-        player.playTimeLabel = self.playTimeLabel;
-        player.remainTimeLabel = self.remainTimeLabel;
-        player.playButton = self.playButton;
-        self->_player = player;
-    }
-    if (self->_feedItem != nil) {
-        [self playFeedItem];
-    }
+    self->_isDraggingSlider = NO;
+    self->_player = [DZAudioPlayer sharedInstance];
+    [self showAlbumArtImage];
+}
+
+- (void)viewWillAppear:(BOOL)animated
+{
+    [self->_player addEventTarget:self];
+}
+
+- (void)viewWillDisappear:(BOOL)animated
+{
+    [self->_player removeEventTarget:self];
 }
 
 - (void)didReceiveMemoryWarning
@@ -65,33 +67,28 @@
 
 - (IBAction)onSliderBeginDrag:(id)sender
 {
-    self->_player.isDraggingSlider = YES;
+    self->_isDraggingSlider = YES;
 }
 
 - (IBAction)onSliderChangeValue:(id)sender
 {
-    self->_player.isDraggingSlider = NO;
-    [self->_player seekTo:self->_player.audioDuration * self.slider.value];
+    self->_isDraggingSlider = NO;
+    [self->_player seekTo:[self->_player.feedItem.duration doubleValue] * self.slider.value];
 }
 
-- (DZItem *)feedItem
+- (void)handleEvent:(DZEvent *)event
 {
-    return self->_feedItem;
-}
-
-- (void)setFeedItem:(DZItem *)feedItem
-{
-    if (self->_feedItem != feedItem) {
-        self->_feedItem = feedItem;
-        if (feedItem != nil) {
-            [self playFeedItem];
-        }
+    NSString * info = event.userInfo;
+    if (info == kDZPlayerIsPlaying) {
+        [self showPlayingStatus];
+    } else if (info == kDZPlayerWillStartPlaying) {
+        [self showAlbumArtImage];
     }
 }
 
-- (void)playFeedItem
+- (void)showAlbumArtImage
 {
-    DZItem * feedItem = self->_feedItem;
+    DZItem * feedItem = self->_player.feedItem;
     if (self->_player != nil && feedItem != nil) {
         self.title = feedItem.title;
         DZCache * cache = [DZCache sharedInstance];
@@ -100,10 +97,16 @@
                 self.imageView.image = [UIImage imageWithData:data];
             }
         }];
-        self->_player.audioDuration = [feedItem.duration doubleValue];
-        [self->_player prepareForURL:feedItem.url];
-        [self->_player playPause];
     }
+}
+
+- (void)showPlayingStatus
+{
+    DZItem * feedItem = self->_player.feedItem;
+    if (self->_player == nil || feedItem == nil) {
+        return;
+    }
+    self.progressView.progress = [self->_player downloadBufferProgress];
 }
 
 @end
