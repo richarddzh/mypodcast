@@ -9,7 +9,12 @@
 #import "DZFileStream.h"
 #import "DZCache.h"
 
+@interface DZURLSessionDelegate : NSObject <NSURLSessionDataDelegate>
+@end
+
 static NSURLSession * _urlSession = nil;
+static NSMutableDictionary * _urlTaskMap = nil;
+static DZURLSessionDelegate * _urlDelegate = nil;
 
 @interface DZFileStream ()
 {
@@ -132,11 +137,17 @@ static NSURLSession * _urlSession = nil;
 {
     self = [super init];
     if (self != nil) {
+        if (_urlDelegate == nil) {
+            _urlDelegate = [[DZURLSessionDelegate alloc]init];
+        }
         if (_urlSession == nil) {
             NSURLSessionConfiguration * config = [NSURLSessionConfiguration defaultSessionConfiguration];
             config.requestCachePolicy = NSURLRequestReloadIgnoringLocalAndRemoteCacheData;
             NSOperationQueue * queue = [NSOperationQueue currentQueue];
-            _urlSession = [NSURLSession sessionWithConfiguration:config delegate:self delegateQueue:queue];
+            _urlSession = [NSURLSession sessionWithConfiguration:config delegate:_urlDelegate delegateQueue:queue];
+        }
+        if (_urlTaskMap == nil) {
+            _urlTaskMap = [NSMutableDictionary dictionary];
         }
         self->_url = url;
         self->_path = path;
@@ -179,6 +190,7 @@ static NSURLSession * _urlSession = nil;
     }
     if (self->_task != nil) {
         [self->_task cancel];
+        [_urlTaskMap removeObjectForKey:@(self->_task.taskIdentifier)];
         self->_task = nil;
     }
     NSMutableURLRequest * req = [[NSURLRequest requestWithURL:self->_url]mutableCopy];
@@ -186,6 +198,7 @@ static NSURLSession * _urlSession = nil;
     [req setValue:range forHTTPHeaderField:@"Range"];
     req.cachePolicy = NSURLRequestReloadIgnoringLocalAndRemoteCacheData;
     self->_task = [_urlSession dataTaskWithRequest:req];
+    [_urlTaskMap setObject:self forKey:@(self->_task.taskIdentifier)];
     [self->_task resume];
 }
 
@@ -245,22 +258,20 @@ static NSURLSession * _urlSession = nil;
 
 - (void)URLSession:(NSURLSession *)session dataTask:(NSURLSessionDataTask *)dataTask didReceiveData:(NSData *)data
 {
-    if (self->_task != dataTask) {
-        return;
+    if (self->_fp != NULL && self->_task == dataTask) {
+        [data enumerateByteRangesUsingBlock:^(const void *bytes, NSRange byteRange, BOOL *stop) {
+            if (self->_fp != NULL) {
+                NSInteger written = fwrite(bytes, 1, byteRange.length, self->_fp);
+                self->_numByteDownloaded += written;
+            }
+        }];
     }
-    [data enumerateByteRangesUsingBlock:^(const void *bytes, NSRange byteRange, BOOL *stop) {
-        // If task is canceled, self->_task is not nil but self->_fp is closed and nil.
-        // Weird !!!
-        if (self->_fp != NULL) {
-            NSInteger written = fwrite(bytes, 1, byteRange.length, self->_fp);
-            self->_numByteDownloaded += written;
-        }
-    }];
 }
 
 - (void)URLSession:(NSURLSession *)session task:(NSURLSessionTask *)task didCompleteWithError:(NSError *)error
 {
     if (self->_task == task) {
+        [_urlTaskMap removeObjectForKey:@(task.taskIdentifier)];
         self->_task = nil;
     }
     if (error != nil || self->_numByteDownloaded < self->_numByteFileLength) {
@@ -276,6 +287,29 @@ static NSURLSession * _urlSession = nil;
             NSLog(@"[ERROR] cannot open file %@", self->_path);
         }
     }
+}
+
+
+@end
+
+@implementation DZURLSessionDelegate
+
+- (void)URLSession:(NSURLSession *)session dataTask:(NSURLSessionDataTask *)dataTask didReceiveData:(NSData *)data
+{
+    DZFileStreamHttp * fs = [_urlTaskMap objectForKey:@(dataTask.taskIdentifier)];
+    [fs URLSession:session dataTask:dataTask didReceiveData:data];
+}
+
+- (void)URLSession:(NSURLSession *)session dataTask:(NSURLSessionDataTask *)dataTask didReceiveResponse:(NSURLResponse *)response completionHandler:(void (^)(NSURLSessionResponseDisposition))completionHandler
+{
+    DZFileStreamHttp * fs = [_urlTaskMap objectForKey:@(dataTask.taskIdentifier)];
+    [fs URLSession:session dataTask:dataTask didReceiveResponse:response completionHandler:completionHandler];
+}
+
+- (void)URLSession:(NSURLSession *)session task:(NSURLSessionTask *)task didCompleteWithError:(NSError *)error
+{
+    DZFileStreamHttp * fs = [_urlTaskMap objectForKey:@(task.taskIdentifier)];
+    [fs URLSession:session task:task didCompleteWithError:error];
 }
 
 @end
