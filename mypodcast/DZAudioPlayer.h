@@ -34,5 +34,6 @@ typedef enum _dz_player_status_ {
 - (void)seekTo:(NSTimeInterval)time;
 - (DZPlayerStatus)status;
 - (float)downloadBufferProgress;
+- (NSTimeInterval)currentTime;
 
 @end

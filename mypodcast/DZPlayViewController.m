@@ -20,6 +20,7 @@
 }
 - (void)showAlbumArtImage;
 - (void)showPlayingStatus;
+- (NSString *)stringFromTime:(NSTimeInterval)time;
 @end
 
 @implementation DZPlayViewController
@@ -28,6 +29,9 @@
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    self.playTimeLabel.text = @"00:00";
+    self.remainTimeLabel.text = @"00:00";
+    self.slider.value = 0;
     self->_isDraggingSlider = NO;
     self->_player = [DZAudioPlayer sharedInstance];
     [self showAlbumArtImage];
@@ -83,6 +87,7 @@
         [self showPlayingStatus];
     } else if (info == kDZPlayerWillStartPlaying) {
         [self showAlbumArtImage];
+        [self showPlayingStatus];
     }
 }
 
@@ -107,6 +112,24 @@
         return;
     }
     self.progressView.progress = [self->_player downloadBufferProgress];
+    if (self->_isDraggingSlider == NO) {
+        if (self->_player.feedItem.duration != nil && [self->_player.feedItem.duration doubleValue] > 0) {
+            NSTimeInterval duration = [self->_player.feedItem.duration doubleValue];
+            NSTimeInterval playtime = [self->_player currentTime];
+            self.slider.value = playtime / duration;
+            self.playTimeLabel.text = [self stringFromTime:playtime];
+            self.remainTimeLabel.text = [self stringFromTime:playtime - duration];
+        }
+    }
+}
+
+- (NSString *)stringFromTime:(NSTimeInterval)time
+{
+    int itime = round(time);
+    return [NSString stringWithFormat:@"%@%02u:%02u",
+            (itime >= 0 ? @"" : @"-"),
+            abs(itime) / 60,
+            abs(itime) % 60];
 }
 
 @end

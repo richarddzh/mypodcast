@@ -270,5 +270,10 @@ static DZAudioPlayer * _sharedInstance = nil;
     return self->_status;
 }
 
+- (NSTimeInterval)currentTime
+{
+    return self->_player->getCurrentTime();
+}
+
 
 @end
