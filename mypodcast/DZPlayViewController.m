@@ -17,10 +17,12 @@
 {
     DZAudioPlayer * _player;
     BOOL _isDraggingSlider;
+    NSString * _playButtonName;
 }
 - (void)showAlbumArtImage;
 - (void)showPlayingStatus;
 - (NSString *)stringFromTime:(NSTimeInterval)time;
+- (void)setPlayButtonImageWithName:(NSString *)name;
 @end
 
 @implementation DZPlayViewController
@@ -35,6 +37,8 @@
     self->_isDraggingSlider = NO;
     self->_player = [DZAudioPlayer sharedInstance];
     [self showAlbumArtImage];
+    self->_playButtonName = nil;
+    [self setPlayButtonImageWithName:nil];
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -85,9 +89,13 @@
     NSString * info = event.userInfo;
     if (info == kDZPlayerIsPlaying) {
         [self showPlayingStatus];
+        [self setPlayButtonImageWithName:nil];
     } else if (info == kDZPlayerWillStartPlaying) {
         [self showAlbumArtImage];
         [self showPlayingStatus];
+        [self setPlayButtonImageWithName:@"pause"];
+    } else if (info == kDZPlayerDidFinishPlaying) {
+        [self setPlayButtonImageWithName:@"play"];
     }
 }
 
@@ -130,6 +138,23 @@
             (itime >= 0 ? @"" : @"-"),
             abs(itime) / 60,
             abs(itime) % 60];
+}
+
+- (void)setPlayButtonImageWithName:(NSString *)name
+{
+    if ([@"play" compare:name] != NSOrderedSame && [@"pause" compare:name] != NSOrderedSame) {
+        DZPlayerStatus status = [self->_player status];
+        if (status == DZPlayerStatus_Stop || status == DZPlayerStatus_UserPause) {
+            name = @"play";
+        } else {
+            name = @"pause";
+        }
+    }
+    if ([name compare:self->_playButtonName] != NSOrderedSame) {
+        self->_playButtonName = name;
+        [self.playButton setImage:[[UIImage imageNamed:[name stringByAppendingString:@"-button"]]imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate] forState:UIControlStateNormal];
+        [self.playButton setImage:[[UIImage imageNamed:[name stringByAppendingString:@"-button-highlight"]]imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate] forState:UIControlStateHighlighted];
+    }
 }
 
 @end

@@ -37,6 +37,7 @@ static DZAudioPlayer * _sharedInstance = nil;
 - (void)playStream:(NSTimer *)timer;
 - (void)configureAudioSession;
 - (void)prepareBeforePlay;
+- (void)abortCurrentPlayback;
 @end
 
 @implementation DZAudioPlayer
@@ -81,6 +82,11 @@ static DZAudioPlayer * _sharedInstance = nil;
 
 - (void)dealloc
 {
+    [self abortCurrentPlayback];
+}
+
+- (void)abortCurrentPlayback
+{
     if (self->_feedItem != nil && self->_player != NULL
         && (self->_player->getStatus() == DZAudioQueuePlayerStatus_Running
             || self->_player->getStatus() == DZAudioQueuePlayerStatus_Paused))
@@ -114,6 +120,7 @@ static DZAudioPlayer * _sharedInstance = nil;
     if (feedItem == self->_feedItem) {
         return;
     }
+    [self abortCurrentPlayback];
     self->_feedItem = feedItem;
     [self prepareBeforePlay];
 }
@@ -122,12 +129,6 @@ static DZAudioPlayer * _sharedInstance = nil;
 {
     if (self->_feedItem == nil || self->_feedItem.url == nil) {
         return;
-    }
-    if (self->_feedItem != nil && self->_player != NULL
-        && (self->_player->getStatus() == DZAudioQueuePlayerStatus_Running
-            || self->_player->getStatus() == DZAudioQueuePlayerStatus_Paused))
-    {
-            self->_feedItem.lastPlay = @(self->_player->getCurrentTime());
     }
     if (self->_timer != nil) {
         [self->_timer invalidate];
@@ -152,6 +153,8 @@ static DZAudioPlayer * _sharedInstance = nil;
                                                   selector:@selector(playStream:)
                                                   userInfo:nil
                                                    repeats:YES];
+    self->_shallSeekWhenStarted = NO;
+    self->_seekTime = 0;
     if ([self->_feedItem.lastPlay doubleValue] > 0) {
         [self seekTo:[self->_feedItem.lastPlay doubleValue]];
     }

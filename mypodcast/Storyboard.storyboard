@@ -131,11 +131,11 @@ demo</string>
                         <rect key="frame" x="0.0" y="64" width="320" height="504"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="UMC-eo-6k5">
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="UMC-eo-6k5">
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="320"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </imageView>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="-00:00" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bIR-I2-L9d">
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="-00:00" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bIR-I2-L9d">
                                 <rect key="frame" x="204" y="328" width="96" height="21"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <constraints>
@@ -146,7 +146,7 @@ demo</string>
                                 <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="00:00" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="t3p-5d-AqV">
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="00:00" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="t3p-5d-AqV">
                                 <rect key="frame" x="20" y="328" width="96" height="21"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <constraints>
@@ -157,7 +157,7 @@ demo</string>
                                 <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <slider opaque="NO" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="1" minValue="0.0" maxValue="1" continuous="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lpT-4T-Jd8" customClass="DZSlider">
+                            <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="1" minValue="0.0" maxValue="1" continuous="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lpT-4T-Jd8" customClass="DZSlider">
                                 <rect key="frame" x="18" y="342" width="284" height="31"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <constraints>
@@ -168,19 +168,19 @@ demo</string>
                                     <action selector="onSliderChangeValue:" destination="4Sc-Nx-oaU" eventType="valueChanged" id="Gqj-9J-9dv"/>
                                 </connections>
                             </slider>
-                            <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" ambiguous="YES" misplaced="YES" progress="1" translatesAutoresizingMaskIntoConstraints="NO" id="eyo-mA-3Yz">
+                            <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" progress="1" translatesAutoresizingMaskIntoConstraints="NO" id="eyo-mA-3Yz">
                                 <rect key="frame" x="20" y="357" width="280" height="2"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="2" id="C4p-JL-mI6"/>
                                 </constraints>
                             </progressView>
-                            <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="249" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9f8-t7-bBt">
+                            <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="249" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9f8-t7-bBt">
                                 <rect key="frame" x="124" y="380" width="72" height="72"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="72" id="0G3-1g-jSj"/>
-                                    <constraint firstAttribute="width" constant="72" id="RcJ-OZ-WLh"/>
+                                    <constraint firstAttribute="width" constant="72" id="Q3Z-Vo-01i"/>
+                                    <constraint firstAttribute="height" constant="72" id="Z4d-M0-nup"/>
                                 </constraints>
                                 <state key="normal" image="play-button.png"/>
                                 <state key="highlighted" image="play-button-highlight.png"/>
@@ -190,6 +190,24 @@ demo</string>
                             </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="9f8-t7-bBt" firstAttribute="leading" secondItem="1HY-6S-IZx" secondAttribute="leading" constant="124" id="2mU-bX-Guy"/>
+                            <constraint firstItem="eyo-mA-3Yz" firstAttribute="top" secondItem="bIR-I2-L9d" secondAttribute="bottom" constant="8" id="9CZ-No-WCa"/>
+                            <constraint firstItem="t3p-5d-AqV" firstAttribute="top" secondItem="UMC-eo-6k5" secondAttribute="bottom" constant="8" id="D3Z-lr-hAG"/>
+                            <constraint firstAttribute="trailing" secondItem="eyo-mA-3Yz" secondAttribute="trailing" constant="20" id="DRD-lz-O9x"/>
+                            <constraint firstItem="eyo-mA-3Yz" firstAttribute="top" secondItem="t3p-5d-AqV" secondAttribute="bottom" constant="8" id="Gjg-JW-Zvc"/>
+                            <constraint firstItem="eyo-mA-3Yz" firstAttribute="leading" secondItem="1HY-6S-IZx" secondAttribute="leading" constant="20" id="Nae-9x-ny6"/>
+                            <constraint firstAttribute="trailing" secondItem="lpT-4T-Jd8" secondAttribute="trailing" constant="20" id="QVq-cn-fdX"/>
+                            <constraint firstItem="dVF-rl-2mE" firstAttribute="top" secondItem="9f8-t7-bBt" secondAttribute="bottom" constant="52" id="QyP-bs-y7I"/>
+                            <constraint firstItem="UMC-eo-6k5" firstAttribute="top" secondItem="BRJ-fh-Vnc" secondAttribute="bottom" id="US4-OH-CDq"/>
+                            <constraint firstItem="9f8-t7-bBt" firstAttribute="top" secondItem="eyo-mA-3Yz" secondAttribute="bottom" constant="21" id="Ykt-np-Rpu"/>
+                            <constraint firstItem="t3p-5d-AqV" firstAttribute="leading" secondItem="1HY-6S-IZx" secondAttribute="leading" constant="20" id="abO-D7-LwJ"/>
+                            <constraint firstAttribute="trailing" secondItem="bIR-I2-L9d" secondAttribute="trailing" constant="20" id="bi8-S0-Bod"/>
+                            <constraint firstItem="lpT-4T-Jd8" firstAttribute="leading" secondItem="1HY-6S-IZx" secondAttribute="leading" constant="20" id="eE8-CH-gGt"/>
+                            <constraint firstItem="9f8-t7-bBt" firstAttribute="top" secondItem="lpT-4T-Jd8" secondAttribute="bottom" constant="8" id="fN0-vc-mRt"/>
+                            <constraint firstAttribute="trailing" secondItem="UMC-eo-6k5" secondAttribute="trailing" id="sZT-fw-bNo"/>
+                            <constraint firstItem="UMC-eo-6k5" firstAttribute="leading" secondItem="1HY-6S-IZx" secondAttribute="leading" id="uUt-XI-Q2C"/>
+                        </constraints>
                     </view>
                     <extendedEdge key="edgesForExtendedLayout" bottom="YES"/>
                     <navigationItem key="navigationItem" id="RwW-4a-ePQ"/>
