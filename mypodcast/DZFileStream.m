@@ -13,7 +13,8 @@
 @end
 
 static NSURLSession * _urlSession = nil;
-static NSMutableDictionary * _urlTaskMap = nil;
+static NSMutableDictionary * _urlTaskMap = nil; // Map task identifier to DZFileStreamHttp instance.
+static NSMutableDictionary * _streamMap = nil; // Map url to DZFileStream instance.
 static DZURLSessionDelegate * _urlDelegate = nil;
 
 @interface DZFileStream ()
@@ -31,16 +32,31 @@ static DZURLSessionDelegate * _urlDelegate = nil;
 
 + (DZFileStream *)streamWithURL:(NSURL *)url
 {
+    if (url == nil) {
+        return nil;
+    }
+    if (_streamMap == nil) {
+        _streamMap = [NSMutableDictionary dictionary];
+    }
+    DZFileStream * stream = [_streamMap objectForKey:url];
+    if (stream != nil) {
+        return stream;
+    }
     DZCache * cache = [DZCache sharedInstance];
     NSString * path = [cache getDownloadFilePathWithURL:url];
     NSFileManager * fmgr = [NSFileManager defaultManager];
-    if (path != nil && [fmgr fileExistsAtPath:path]) {
-        return [[DZFileStreamLocal alloc]initWithFileAtPath:path];
-    }
     if (path != nil) {
-        return [[DZFileStreamHttp alloc]initWithURL:url downloadPath:path];
+        if ([fmgr fileExistsAtPath:path]) {
+            stream = [[DZFileStreamLocal alloc]initWithFileAtPath:path];
+            stream->_url = url;
+        } else {
+            stream = [[DZFileStreamHttp alloc]initWithURL:url downloadPath:path];
+        }
+        if (stream != nil) {
+            [_streamMap setObject:stream forKey:url];
+        }
     }
-    return nil;
+    return stream;
 }
 
 - (NSInteger)read:(uint8_t *)dataBuffer maxLength:(NSUInteger)len
@@ -81,6 +97,7 @@ static DZURLSessionDelegate * _urlDelegate = nil;
         fclose(self->_fp);
         self->_fp = NULL;
     }
+    [_streamMap removeObjectForKey:self->_url];
 }
 
 - (NSInteger)numByteFileLength
@@ -275,6 +292,9 @@ static DZURLSessionDelegate * _urlDelegate = nil;
         self->_task = nil;
     }
     if (error != nil || self->_numByteDownloaded < self->_numByteFileLength) {
+        if (error != nil) {
+            NSLog(@"[WARNING] download completed with error %@, %@", error, error.debugDescription);
+        }
         [self issueNewTask];
         return;
     }

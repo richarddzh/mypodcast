@@ -42,13 +42,13 @@
     
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
-    DZFeedParser * parser = [[DZFeedParser alloc]init];
+    //DZFeedParser * parser = [[DZFeedParser alloc]init];
     DZDatabase * database = [DZDatabase sharedInstance];
     NSString * url = @"http://www.ximalaya.com/album/236326.xml";
-    NSData * data = [NSData dataWithContentsOfURL:[NSURL URLWithString:url]];
-    [parser parseFeed:data atURL:url withObjectFactory:database];
-    [database save];
-    self.feedChannel = [database channelWithURL:@"http://www.ximalaya.com/album/236326.xml"];
+    //NSData * data = [NSData dataWithContentsOfURL:[NSURL URLWithString:url]];
+    //[parser parseFeed:data atURL:url withObjectFactory:database];
+    //[database save];
+    self.feedChannel = [database channelWithURL:url];
     [self filterFeedItems];
 }
 

@@ -85,7 +85,9 @@ static void _reachabilityCallback(SCNetworkReachabilityRef target,
     }
     NSURLSession * session = [NSURLSession sharedSession];
     NSURLSessionTask * task = [session dataTaskWithURL:url completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
-        handler(data, error);
+        dispatch_async(dispatch_get_main_queue(), ^{
+            handler(data, error);
+        });
         if (data != nil && error == nil) {
             [fmgr createDirectoryAtPath:[path stringByDeletingLastPathComponent] withIntermediateDirectories:YES attributes:nil error:&error];
             [fmgr createFileAtPath:path contents:data attributes:nil];

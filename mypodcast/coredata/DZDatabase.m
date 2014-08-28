@@ -102,7 +102,7 @@
         return nil;
     }
     if (result.count > 1) {
-        NSLog(@"[WARNING] fetch one from result of %d objects.", result.count);
+        NSLog(@"[WARNING] fetch one from result of %lu objects.", (unsigned long)result.count);
     }
     return result.firstObject;
 }
