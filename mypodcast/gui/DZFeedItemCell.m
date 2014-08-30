@@ -8,6 +8,7 @@
 
 #import "DZFeedItemCell.h"
 #import "DZItem.h"
+#import "UIImage+DZImagePool.h"
 
 @interface DZFeedItemCell ()
 {
@@ -49,6 +50,7 @@
         self->_feedItem = feedItem;
         if (feedItem != nil) {
             self.titleLabel.text = feedItem.title;
+            self.bulletImageView.image = [UIImage templateImageWithName:@"half-bullet"];
         }
     }
 }

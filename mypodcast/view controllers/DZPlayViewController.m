@@ -12,6 +12,7 @@
 #import "DZCache.h"
 #import "DZChannel.h"
 #import "DZFileStream.h"
+#import "UIImage+DZImagePool.h"
 
 @interface DZPlayViewController ()
 {
@@ -152,8 +153,8 @@
     }
     if ([name compare:self->_playButtonName] != NSOrderedSame) {
         self->_playButtonName = name;
-        [self.playButton setImage:[[UIImage imageNamed:[name stringByAppendingString:@"-button"]]imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate] forState:UIControlStateNormal];
-        [self.playButton setImage:[[UIImage imageNamed:[name stringByAppendingString:@"-button-highlight"]]imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate] forState:UIControlStateHighlighted];
+        [self.playButton setImage:[UIImage templateImageWithName:[name stringByAppendingString:@"-button"]] forState:UIControlStateNormal];
+        [self.playButton setImage:[UIImage transparentTemplateImageWithName:[name stringByAppendingString:@"-button"]] forState:UIControlStateHighlighted];
     }
 }
 
