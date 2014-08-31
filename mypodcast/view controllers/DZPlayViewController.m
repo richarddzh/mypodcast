@@ -13,6 +13,7 @@
 #import "DZChannel.h"
 #import "DZFileStream.h"
 #import "UIImage+DZImagePool.h"
+#import "NSString+DZFormatter.h"
 
 @interface DZPlayViewController ()
 {
@@ -22,7 +23,6 @@
 }
 - (void)showAlbumArtImage;
 - (void)showPlayingStatus;
-- (NSString *)stringFromTime:(NSTimeInterval)time;
 - (void)setPlayButtonImageWithName:(NSString *)name;
 @end
 
@@ -44,12 +44,16 @@
 
 - (void)viewWillAppear:(BOOL)animated
 {
-    [self->_player addEventTarget:self];
+    [[DZEventCenter sharedInstance]addHandler:self forEventID:DZEventID_PlayerDidFinishPlaying];
+    [[DZEventCenter sharedInstance]addHandler:self forEventID:DZEventID_PlayerIsPlaying];
+    [[DZEventCenter sharedInstance]addHandler:self forEventID:DZEventID_PlayerWillStartPlaying];
 }
 
 - (void)viewWillDisappear:(BOOL)animated
 {
-    [self->_player removeEventTarget:self];
+    [[DZEventCenter sharedInstance]removeHandler:self forEventID:DZEventID_PlayerDidFinishPlaying];
+    [[DZEventCenter sharedInstance]removeHandler:self forEventID:DZEventID_PlayerIsPlaying];
+    [[DZEventCenter sharedInstance]removeHandler:self forEventID:DZEventID_PlayerWillStartPlaying];
 }
 
 - (void)didReceiveMemoryWarning
@@ -85,17 +89,16 @@
     [self->_player seekTo:[self->_player.feedItem.duration doubleValue] * self.slider.value];
 }
 
-- (void)handleEvent:(DZEvent *)event
+- (void)handleEventWithID:(NSInteger)eID userInfo:(id)userInfo fromSource:(id)source
 {
-    NSString * info = event.userInfo;
-    if (info == kDZPlayerIsPlaying) {
+    if (eID == DZEventID_PlayerIsPlaying) {
         [self showPlayingStatus];
         [self setPlayButtonImageWithName:nil];
-    } else if (info == kDZPlayerWillStartPlaying) {
+    } else if (eID == DZEventID_PlayerWillStartPlaying) {
         [self showAlbumArtImage];
         [self showPlayingStatus];
         [self setPlayButtonImageWithName:@"pause"];
-    } else if (info == kDZPlayerDidFinishPlaying) {
+    } else if (eID == DZEventID_PlayerDidFinishPlaying) {
         [self setPlayButtonImageWithName:@"play"];
     }
 }
@@ -126,19 +129,10 @@
             NSTimeInterval duration = [self->_player.feedItem.duration doubleValue];
             NSTimeInterval playtime = [self->_player currentTime];
             self.slider.value = playtime / duration;
-            self.playTimeLabel.text = [self stringFromTime:playtime];
-            self.remainTimeLabel.text = [self stringFromTime:playtime - duration];
+            self.playTimeLabel.text = [NSString stringFromTime:playtime];
+            self.remainTimeLabel.text = [NSString stringFromTime:playtime - duration];
         }
     }
-}
-
-- (NSString *)stringFromTime:(NSTimeInterval)time
-{
-    int itime = round(time);
-    return [NSString stringWithFormat:@"%@%02u:%02u",
-            (itime >= 0 ? @"" : @"-"),
-            abs(itime) / 60,
-            abs(itime) % 60];
 }
 
 - (void)setPlayButtonImageWithName:(NSString *)name

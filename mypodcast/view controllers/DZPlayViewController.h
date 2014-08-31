@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "DZEventSource.h"
+#import "DZEventCenter.h"
 
 @class DZItem;
 

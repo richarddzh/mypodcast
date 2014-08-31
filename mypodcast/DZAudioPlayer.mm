@@ -10,15 +10,12 @@
 #import "DZAudioQueuePlayer.h"
 #import "DZFileStream.h"
 #import "DZItem.h"
+#import "DZEventCenter.h"
 #import <AVFoundation/AVFoundation.h>
 
 const UInt32 kDZBufferSize = 40000;         //40K
 const UInt32 kDZMaxQueueDataSize = 100000;  //100K
 const UInt32 kDZMinPreloadSize = 1000000;   //1M
-
-FOUNDATION_EXTERN NSString * const kDZPlayerIsPlaying = @"kDZPlayerIsPlaying";
-FOUNDATION_EXTERN NSString * const kDZPlayerDidFinishPlaying = @"kDZPlayerDidFinishPlaying";
-FOUNDATION_EXTERN NSString * const kDZPlayerWillStartPlaying = @"kDZPlayerWillStartPlaying";
 
 static AVAudioSession * _sharedAudioSession = nil;
 static DZAudioPlayer * _sharedInstance = nil;
@@ -158,7 +155,9 @@ static DZAudioPlayer * _sharedInstance = nil;
     if ([self->_feedItem.lastPlay doubleValue] > 0) {
         [self seekTo:[self->_feedItem.lastPlay doubleValue]];
     }
-    [self fireEventWithInfo:kDZPlayerWillStartPlaying];
+    [[DZEventCenter sharedInstance]fireEventWithID:DZEventID_PlayerWillStartPlaying
+                                          userInfo:self->_feedItem
+                                        fromSource:self];
 }
 
 - (void)playStream:(NSTimer *)timer
@@ -167,7 +166,9 @@ static DZAudioPlayer * _sharedInstance = nil;
         return;
     }
     
-    [self fireEventWithInfo:kDZPlayerIsPlaying];
+    [[DZEventCenter sharedInstance]fireEventWithID:DZEventID_PlayerIsPlaying
+                                          userInfo:nil
+                                        fromSource:self];
     
     // If a seek is made before the queue is started, seek when it is ready.
     if (self->_shallSeekWhenStarted && self->_player->getStatus() == DZAudioQueuePlayerStatus_Running) {
@@ -198,7 +199,9 @@ static DZAudioPlayer * _sharedInstance = nil;
         self->_timer = nil;
         self->_feedItem.read = @(YES);
         self->_feedItem.lastPlay = @(0.0f);
-        [self fireEventWithInfo:kDZPlayerDidFinishPlaying];
+        [[DZEventCenter sharedInstance]fireEventWithID:DZEventID_PlayerDidFinishPlaying
+                                              userInfo:self->_feedItem
+                                            fromSource:self];
         return;
     }
     

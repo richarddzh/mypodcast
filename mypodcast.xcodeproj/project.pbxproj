@@ -39,9 +39,10 @@
 		795539F619971C0200D103D0 /* play-button@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 795539F219971C0200D103D0 /* play-button@2x.png */; };
 		795AB51E198B522B00A083CD /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 795AB51D198B522B00A083CD /* SystemConfiguration.framework */; };
 		795F8A6D19978C0E00270D51 /* slide-thumb@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 795F8A6C19978C0E00270D51 /* slide-thumb@2x.png */; };
-		796201D419A209FD005E0288 /* DZEventSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 796201D319A209FD005E0288 /* DZEventSource.m */; };
-		796201D519A209FD005E0288 /* DZEventSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 796201D319A209FD005E0288 /* DZEventSource.m */; };
+		796201D419A209FD005E0288 /* DZEventCenter.m in Sources */ = {isa = PBXBuildFile; fileRef = 796201D319A209FD005E0288 /* DZEventCenter.m */; };
+		796201D519A209FD005E0288 /* DZEventCenter.m in Sources */ = {isa = PBXBuildFile; fileRef = 796201D319A209FD005E0288 /* DZEventCenter.m */; };
 		7978CB32198F63B00032AD4C /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7904641C198CA84100FF6C22 /* AVFoundation.framework */; };
+		79828FB919B2C89B0086C669 /* NSString+DZFormatter.m in Sources */ = {isa = PBXBuildFile; fileRef = 79828FB819B2C89B0086C669 /* NSString+DZFormatter.m */; };
 		798CAF601994F5C000172D13 /* DZFileStream.m in Sources */ = {isa = PBXBuildFile; fileRef = 798CAF5F1994F5C000172D13 /* DZFileStream.m */; };
 		79A2E4DA19B2015000FAD4D8 /* DZFeedViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 79A2E4D719B2015000FAD4D8 /* DZFeedViewController.m */; };
 		79A2E4DB19B2015000FAD4D8 /* DZPlayViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 79A2E4D919B2015000FAD4D8 /* DZPlayViewController.m */; };
@@ -111,8 +112,10 @@
 		795539F219971C0200D103D0 /* play-button@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "play-button@2x.png"; sourceTree = "<group>"; };
 		795AB51D198B522B00A083CD /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		795F8A6C19978C0E00270D51 /* slide-thumb@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "slide-thumb@2x.png"; sourceTree = "<group>"; };
-		796201D219A209FD005E0288 /* DZEventSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DZEventSource.h; sourceTree = "<group>"; };
-		796201D319A209FD005E0288 /* DZEventSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DZEventSource.m; sourceTree = "<group>"; };
+		796201D219A209FD005E0288 /* DZEventCenter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DZEventCenter.h; sourceTree = "<group>"; };
+		796201D319A209FD005E0288 /* DZEventCenter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DZEventCenter.m; sourceTree = "<group>"; };
+		79828FB719B2C89B0086C669 /* NSString+DZFormatter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+DZFormatter.h"; sourceTree = "<group>"; };
+		79828FB819B2C89B0086C669 /* NSString+DZFormatter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+DZFormatter.m"; sourceTree = "<group>"; };
 		798CAF5E1994F5C000172D13 /* DZFileStream.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DZFileStream.h; sourceTree = "<group>"; };
 		798CAF5F1994F5C000172D13 /* DZFileStream.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DZFileStream.m; sourceTree = "<group>"; };
 		79A2E4D619B2015000FAD4D8 /* DZFeedViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DZFeedViewController.h; sourceTree = "<group>"; };
@@ -203,6 +206,7 @@
 		7932AD52198A1B5000151759 /* mypodcast */ = {
 			isa = PBXGroup;
 			children = (
+				79828FB619B2C85B0086C669 /* utility */,
 				79A2E4D519B200E600FAD4D8 /* view controllers */,
 				79A2E4D419B1FFDD00FAD4D8 /* gui */,
 				7939A223199DE89100EF6339 /* coredata */,
@@ -221,8 +225,6 @@
 				798CAF5E1994F5C000172D13 /* DZFileStream.h */,
 				798CAF5F1994F5C000172D13 /* DZFileStream.m */,
 				7939A220199DE38A00EF6339 /* Model.xcdatamodeld */,
-				796201D219A209FD005E0288 /* DZEventSource.h */,
-				796201D319A209FD005E0288 /* DZEventSource.m */,
 			);
 			path = mypodcast;
 			sourceTree = "<group>";
@@ -269,6 +271,17 @@
 				7939209019A0E5930097AC63 /* DZItem.m */,
 			);
 			path = coredata;
+			sourceTree = "<group>";
+		};
+		79828FB619B2C85B0086C669 /* utility */ = {
+			isa = PBXGroup;
+			children = (
+				796201D219A209FD005E0288 /* DZEventCenter.h */,
+				796201D319A209FD005E0288 /* DZEventCenter.m */,
+				79828FB719B2C89B0086C669 /* NSString+DZFormatter.h */,
+				79828FB819B2C89B0086C669 /* NSString+DZFormatter.m */,
+			);
+			path = utility;
 			sourceTree = "<group>";
 		};
 		79A2E4D419B1FFDD00FAD4D8 /* gui */ = {
@@ -450,8 +463,9 @@
 				7932AD59198A1B5000151759 /* main.m in Sources */,
 				79A2E4DA19B2015000FAD4D8 /* DZFeedViewController.m in Sources */,
 				7939208D19A0E5930097AC63 /* DZChannel.m in Sources */,
-				796201D419A209FD005E0288 /* DZEventSource.m in Sources */,
+				796201D419A209FD005E0288 /* DZEventCenter.m in Sources */,
 				79046433198E418000FF6C22 /* DZAudioPlayer.mm in Sources */,
+				79828FB919B2C89B0086C669 /* NSString+DZFormatter.m in Sources */,
 				7939A234199DE99500EF6339 /* DZDatabase.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -463,7 +477,7 @@
 				7939209219A0E5930097AC63 /* DZItem.m in Sources */,
 				7939208E19A0E5930097AC63 /* DZChannel.m in Sources */,
 				7932AD72198A1B5000151759 /* mypodcastTests.m in Sources */,
-				796201D519A209FD005E0288 /* DZEventSource.m in Sources */,
+				796201D519A209FD005E0288 /* DZEventCenter.m in Sources */,
 				7939A235199DE99500EF6339 /* DZDatabase.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

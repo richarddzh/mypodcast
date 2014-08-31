@@ -7,11 +7,6 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "DZEventSource.h"
-
-FOUNDATION_EXTERN NSString * const kDZPlayerIsPlaying;
-FOUNDATION_EXTERN NSString * const kDZPlayerDidFinishPlaying;
-FOUNDATION_EXTERN NSString * const kDZPlayerWillStartPlaying;
 
 typedef enum _dz_player_status_ {
     DZPlayerStatus_Stop = 0,
@@ -24,7 +19,7 @@ typedef enum _dz_player_status_ {
 @class DZAudioPlayer;
 @class DZFileStream;
 
-@interface DZAudioPlayer : DZEventSource
+@interface DZAudioPlayer : NSObject
 
 @property (nonatomic,retain) DZItem * feedItem;
 
