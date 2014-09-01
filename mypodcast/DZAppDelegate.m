@@ -7,6 +7,8 @@
 //
 
 #import "DZAppDelegate.h"
+#import "DZDatabase.h"
+#import "DZAudioPlayer.h"
 
 @implementation DZAppDelegate
 
@@ -40,6 +42,9 @@
 - (void)applicationWillTerminate:(UIApplication *)application
 {
     // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
+    [[DZAudioPlayer sharedInstance]close];
+    [[DZDatabase sharedInstance]save];
+    NSLog(@"mypodcast will terminate.");
 }
 
 @end

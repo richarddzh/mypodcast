@@ -84,6 +84,11 @@ static DZAudioPlayer * _sharedInstance = nil;
     [self abortCurrentPlayback];
 }
 
+- (void)close
+{
+    [self abortCurrentPlayback];
+}
+
 - (void)abortCurrentPlayback
 {
     if (self->_feedItem != nil && self->_player != NULL
