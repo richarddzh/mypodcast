@@ -17,7 +17,7 @@
 @property (nonatomic,retain) IBOutlet UILabel * descriptionLabel;
 @property (nonatomic,retain) DZItem * feedItem;
 
-+ (DZFeedItemCell *)cellWithFeedItem:(DZItem *)item;
++ (DZFeedItemCell *)cellWithURL:(NSURL *)url;
 - (void)update;
 
 @end

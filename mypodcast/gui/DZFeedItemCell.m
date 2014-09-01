@@ -12,30 +12,29 @@
 #import "UIImage+DZImagePool.h"
 #import "NSString+DZFormatter.h"
 
-static NSMapTable * _mapFeedItemToCell;
+static NSMutableDictionary * _mapURLToCell;
 
 @interface DZFeedItemCell ()
 {
     DZItem * _feedItem;
 }
 - (void)updateWithFeedItem:(DZItem *)item;
-+ (NSMapTable *)mapFeedItemToCell;
++ (NSMutableDictionary *)mapURLToCell;
 @end
 
 @implementation DZFeedItemCell
 
-+ (NSMapTable *)mapFeedItemToCell
++ (NSMutableDictionary *)mapURLToCell;
 {
-    if (_mapFeedItemToCell == nil) {
-        _mapFeedItemToCell = [NSMapTable mapTableWithKeyOptions:(NSPointerFunctionsWeakMemory | NSPointerFunctionsObjectPointerPersonality) valueOptions:NSPointerFunctionsWeakMemory];
+    if (_mapURLToCell == nil) {
+        _mapURLToCell = [NSMutableDictionary dictionary];
     }
-    return _mapFeedItemToCell;
+    return _mapURLToCell;
 }
 
-+ (DZFeedItemCell *)cellWithFeedItem:(DZItem *)item
++ (DZFeedItemCell *)cellWithURL:(NSURL *)url
 {
-    NSMapTable * map = [DZFeedItemCell mapFeedItemToCell];
-    return [map objectForKey:item];
+    return [[DZFeedItemCell mapURLToCell]objectForKey:url];
 }
 
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
@@ -66,11 +65,13 @@ static NSMapTable * _mapFeedItemToCell;
 
 - (void)setFeedItem:(DZItem *)feedItem
 {
-    NSMapTable * map = [DZFeedItemCell mapFeedItemToCell];
+    NSMutableDictionary * map = [DZFeedItemCell mapURLToCell];
     if (self->_feedItem != feedItem) {
-        [map removeObjectForKey:self->_feedItem];
-        if (feedItem != nil) {
-            [map setObject:self forKey:feedItem];
+        if (self->_feedItem.url != nil) {
+            [map removeObjectForKey:[NSURL URLWithString:self->_feedItem.url]];
+        }
+        if (feedItem != nil && feedItem.url != nil) {
+            [map setObject:self forKey:[NSURL URLWithString:feedItem.url]];
         }
         [self updateWithFeedItem:feedItem];
     }

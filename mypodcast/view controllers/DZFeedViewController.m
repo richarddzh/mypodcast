@@ -197,8 +197,8 @@
     DZAudioPlayer * player = [DZAudioPlayer sharedInstance];
     switch (eID) {
         case DZEventID_PlayerWillStartPlaying:
-            [[DZFeedItemCell cellWithURLString:player.lastFeedItem.url]update];
-            [[DZFeedItemCell cellWithURLString:player.feedItem.url]update];
+            [[DZFeedItemCell cellWithURL:[NSURL URLWithString:player.lastFeedItem.url]]update];
+            [[DZFeedItemCell cellWithURL:[NSURL URLWithString:player.feedItem.url]]update];
             break;
         default:
             break;
