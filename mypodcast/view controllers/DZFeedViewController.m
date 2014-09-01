@@ -18,7 +18,6 @@
 {
     NSMutableArray * _tableItems;
 }
-- (void)filterFeedItems;
 @end
 
 @implementation DZFeedViewController
@@ -46,9 +45,10 @@
     //DZFeedParser * parser = [[DZFeedParser alloc]init];
     DZDatabase * database = [DZDatabase sharedInstance];
     NSString * url = @"http://www.ximalaya.com/album/236326.xml";
-    //NSData * data = [NSData dataWithContentsOfURL:[NSURL URLWithString:url]];
-    //[parser parseFeed:data atURL:url withObjectFactory:database];
-    //[database save];
+    NSData * data = [NSData dataWithContentsOfURL:[NSURL URLWithString:url]];
+    DZFeedParser * parser = [[DZFeedParser alloc]init];
+    [parser parseFeed:data atURL:url withObjectFactory:database];
+    [database save];
     self.feedChannel = [database channelWithURL:url];
     [self filterFeedItems];
 }
@@ -56,11 +56,13 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     [[DZEventCenter sharedInstance]addHandler:self forEventID:DZEventID_PlayerWillStartPlaying];
+    [[DZEventCenter sharedInstance]addHandler:self forEventID:DZEventID_PlayerDidFinishPlaying];
 }
 
 - (void)viewWillDisappear:(BOOL)animated
 {
     [[DZEventCenter sharedInstance]removeHandler:self forEventID:DZEventID_PlayerWillStartPlaying];
+    [[DZEventCenter sharedInstance]addHandler:self forEventID:DZEventID_PlayerDidFinishPlaying];
 }
 
 - (void)didReceiveMemoryWarning
@@ -181,7 +183,7 @@
             pred = [NSPredicate predicateWithFormat:@"stored != 0"];
             break;
         case DZFeedItemFilterUnplayed:
-            pred = [NSPredicate predicateWithFormat:@"read < duration"];
+            pred = [NSPredicate predicateWithFormat:@"read == 0"];
             break;
         default:
             pred = [NSPredicate predicateWithValue:YES];
@@ -199,6 +201,8 @@
         case DZEventID_PlayerWillStartPlaying:
             [[DZFeedItemCell cellWithURL:[NSURL URLWithString:player.lastFeedItem.url]]update];
             [[DZFeedItemCell cellWithURL:[NSURL URLWithString:player.feedItem.url]]update];
+            break;
+        case DZEventID_PlayerDidFinishPlaying:
             break;
         default:
             break;

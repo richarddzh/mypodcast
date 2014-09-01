@@ -22,4 +22,6 @@ typedef enum _enum_dz_feed_item_filter_ {
 @property (nonatomic,retain) DZChannel * feedChannel;
 @property (nonatomic,assign) DZFeedItemFilterType feedItemFilter;
 
+- (void)filterFeedItems;
+
 @end

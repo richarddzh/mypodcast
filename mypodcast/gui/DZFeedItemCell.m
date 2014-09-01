@@ -67,8 +67,8 @@ static NSMutableDictionary * _mapURLToCell;
 {
     NSMutableDictionary * map = [DZFeedItemCell mapURLToCell];
     if (self->_feedItem != feedItem) {
-        if (self->_feedItem.url != nil) {
-            [map removeObjectForKey:[NSURL URLWithString:self->_feedItem.url]];
+        if (self->_feedItem.url != nil && self == [map objectForKey:self->_feedItem.url]) {
+            [map removeObjectForKey:self->_feedItem.url];
         }
         if (feedItem != nil && feedItem.url != nil) {
             [map setObject:self forKey:[NSURL URLWithString:feedItem.url]];

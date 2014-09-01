@@ -61,4 +61,11 @@
     }
 }
 
+- (IBAction)onSegmentedControlValueChanged:(id)sender
+{
+    self.feedViewController.feedItemFilter = (DZFeedItemFilterType)(self.filterControl.selectedSegmentIndex);
+    [self.feedViewController filterFeedItems];
+    [self.feedViewController.tableView reloadData];
+}
+
 @end

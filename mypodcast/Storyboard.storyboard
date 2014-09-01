@@ -48,12 +48,16 @@ demo</string>
                                                 <segment title="Feed"/>
                                                 <segment title="Saved"/>
                                             </segments>
+                                            <connections>
+                                                <action selector="onSegmentedControlValueChanged:" destination="knv-Up-iFM" eventType="valueChanged" id="Zjf-Ie-Jf7"/>
+                                            </connections>
                                         </segmentedControl>
                                     </subviews>
                                 </tableViewCellContentView>
                                 <connections>
                                     <outlet property="albumArtView" destination="rV9-tT-0fa" id="sxF-y9-aaN"/>
                                     <outlet property="descriptionLabel" destination="txG-Me-SvO" id="pps-dk-9wU"/>
+                                    <outlet property="feedViewController" destination="WR5-FG-fFd" id="vmg-ac-KRR"/>
                                     <outlet property="filterControl" destination="MNo-3L-w3C" id="1Bh-as-Jce"/>
                                     <outlet property="titleLabel" destination="ZK0-Pp-MnX" id="3ap-zl-yXN"/>
                                 </connections>
@@ -102,7 +106,11 @@ demo</string>
                         </connections>
                     </tableView>
                     <navigationItem key="navigationItem" title="Contents" id="2mZ-dJ-wpw">
-                        <barButtonItem key="rightBarButtonItem" title="playing" id="93f-gS-Gba"/>
+                        <barButtonItem key="rightBarButtonItem" title="playing" id="93f-gS-Gba">
+                            <connections>
+                                <segue destination="4Sc-Nx-oaU" kind="push" identifier="DZSegueNowPlaying" id="YCe-QO-4Ph"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="HPc-Fj-EHc" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -188,7 +196,6 @@ demo</string>
                                     <constraint firstAttribute="height" constant="72" id="Z4d-M0-nup"/>
                                 </constraints>
                                 <state key="normal" image="play-button.png"/>
-                                <state key="highlighted" image="play-button-highlight.png"/>
                                 <connections>
                                     <action selector="onPlayButton:" destination="4Sc-Nx-oaU" eventType="touchUpInside" id="1fw-9x-CT3"/>
                                 </connections>
@@ -239,4 +246,7 @@ demo</string>
         <simulatedOrientationMetrics key="orientation"/>
         <simulatedScreenMetrics key="destination" type="retina4"/>
     </simulatedMetricsContainer>
+    <inferredMetricsTieBreakers>
+        <segue reference="YCe-QO-4Ph"/>
+    </inferredMetricsTieBreakers>
 </document>
