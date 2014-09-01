@@ -75,6 +75,11 @@ static void _reachabilityCallback(SCNetworkReachabilityRef target,
     return nil;
 }
 
+- (NSString *)getTemporaryFilePathWithURL:(NSURL *)url
+{
+    return [[self getDownloadFilePathWithURL:url]stringByAppendingString:@".download"];
+}
+
 - (void)getDataWithURL:(NSURL *)url shallDownload:(BOOL)shallDownload dataHandler:(void (^)(NSData *, NSError *))handler
 {
     NSString * path = [self getDownloadFilePathWithURL:url];

@@ -168,7 +168,7 @@ static DZURLSessionDelegate * _urlDelegate = nil;
         }
         self->_url = url;
         self->_path = path;
-        self->_tempPath = [path stringByAppendingString:@".download"];
+        self->_tempPath = [[DZCache sharedInstance]getTemporaryFilePathWithURL:url];
         self->_numByteDownloaded = 0;
         self->_numByteFileLength = NSIntegerMax;
         self->_readPosition = 0;

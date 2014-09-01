@@ -22,6 +22,7 @@ typedef enum _dz_player_status_ {
 @interface DZAudioPlayer : NSObject
 
 @property (nonatomic,retain) DZItem * feedItem;
+@property (nonatomic,readonly) DZItem * lastFeedItem;
 
 + (DZAudioPlayer *)sharedInstance;
 

@@ -27,6 +27,7 @@ static DZAudioPlayer * _sharedInstance = nil;
     DZFileStream * _stream;
     DZPlayerStatus _status;
     DZItem * _feedItem;
+    DZItem * _lastFeedItem;
     NSTimer * _timer;
     BOOL _shallSeekWhenStarted;
     NSTimeInterval _seekTime;
@@ -71,6 +72,7 @@ static DZAudioPlayer * _sharedInstance = nil;
         self->_player = NULL;
         self->_status = DZPlayerStatus_Stop;
         self->_feedItem = nil;
+        self->_lastFeedItem = nil;
         self->_stream = nil;
         self->_shallSeekWhenStarted = NO;
     }
@@ -117,9 +119,15 @@ static DZAudioPlayer * _sharedInstance = nil;
     if (feedItem == self->_feedItem) {
         return;
     }
+    self->_lastFeedItem = self->_feedItem;
     [self abortCurrentPlayback];
     self->_feedItem = feedItem;
     [self prepareBeforePlay];
+}
+
+- (DZItem *)lastFeedItem
+{
+    return self->_lastFeedItem;
 }
 
 - (void)prepareBeforePlay
@@ -156,7 +164,7 @@ static DZAudioPlayer * _sharedInstance = nil;
         [self seekTo:[self->_feedItem.lastPlay doubleValue]];
     }
     [[DZEventCenter sharedInstance]fireEventWithID:DZEventID_PlayerWillStartPlaying
-                                          userInfo:self->_feedItem
+                                          userInfo:nil
                                         fromSource:self];
 }
 
@@ -200,7 +208,7 @@ static DZAudioPlayer * _sharedInstance = nil;
         self->_feedItem.read = @(YES);
         self->_feedItem.lastPlay = @(0.0f);
         [[DZEventCenter sharedInstance]fireEventWithID:DZEventID_PlayerDidFinishPlaying
-                                              userInfo:self->_feedItem
+                                              userInfo:nil
                                             fromSource:self];
         return;
     }

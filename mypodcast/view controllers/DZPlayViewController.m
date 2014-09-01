@@ -91,15 +91,21 @@
 
 - (void)handleEventWithID:(NSInteger)eID userInfo:(id)userInfo fromSource:(id)source
 {
-    if (eID == DZEventID_PlayerIsPlaying) {
-        [self showPlayingStatus];
-        [self setPlayButtonImageWithName:nil];
-    } else if (eID == DZEventID_PlayerWillStartPlaying) {
-        [self showAlbumArtImage];
-        [self showPlayingStatus];
-        [self setPlayButtonImageWithName:@"pause"];
-    } else if (eID == DZEventID_PlayerDidFinishPlaying) {
-        [self setPlayButtonImageWithName:@"play"];
+    switch (eID) {
+        case DZEventID_PlayerIsPlaying:
+            [self showPlayingStatus];
+            [self setPlayButtonImageWithName:nil];
+            break;
+        case DZEventID_PlayerWillStartPlaying:
+            [self showAlbumArtImage];
+            [self showPlayingStatus];
+            [self setPlayButtonImageWithName:@"pause"];
+            break;
+        case DZEventID_PlayerDidFinishPlaying:
+            [self setPlayButtonImageWithName:@"play"];
+            break;
+        default:
+            break;
     }
 }
 

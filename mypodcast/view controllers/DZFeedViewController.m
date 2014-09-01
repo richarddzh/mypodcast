@@ -10,6 +10,7 @@
 #import "DZFeedHeaderCell.h"
 #import "DZFeedItemCell.h"
 #import "DZChannel.h"
+#import "DZItem.h"
 #import "DZDatabase.h"
 #import "DZAudioPlayer.h"
 
@@ -50,6 +51,16 @@
     //[database save];
     self.feedChannel = [database channelWithURL:url];
     [self filterFeedItems];
+}
+
+- (void)viewWillAppear:(BOOL)animated
+{
+    [[DZEventCenter sharedInstance]addHandler:self forEventID:DZEventID_PlayerWillStartPlaying];
+}
+
+- (void)viewWillDisappear:(BOOL)animated
+{
+    [[DZEventCenter sharedInstance]removeHandler:self forEventID:DZEventID_PlayerWillStartPlaying];
 }
 
 - (void)didReceiveMemoryWarning
@@ -179,6 +190,19 @@
     NSSet * set = [self.feedChannel.items filteredSetUsingPredicate:pred];
     NSSortDescriptor * sorter = [NSSortDescriptor sortDescriptorWithKey:@"pubDate" ascending:NO];
     self->_tableItems = [[set sortedArrayUsingDescriptors:@[sorter]]mutableCopy];
+}
+
+- (void)handleEventWithID:(NSInteger)eID userInfo:(id)userInfo fromSource:(id)source
+{
+    DZAudioPlayer * player = [DZAudioPlayer sharedInstance];
+    switch (eID) {
+        case DZEventID_PlayerWillStartPlaying:
+            [[DZFeedItemCell cellWithURLString:player.lastFeedItem.url]update];
+            [[DZFeedItemCell cellWithURLString:player.feedItem.url]update];
+            break;
+        default:
+            break;
+    }
 }
 
 @end
