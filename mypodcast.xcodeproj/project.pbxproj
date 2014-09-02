@@ -10,6 +10,14 @@
 		79046421198CABFC00FF6C22 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7932AD80198A37C300151759 /* AudioToolbox.framework */; };
 		79046430198E263600FF6C22 /* DZAudioQueuePlayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7904642E198E263600FF6C22 /* DZAudioQueuePlayer.cpp */; };
 		79046433198E418000FF6C22 /* DZAudioPlayer.mm in Sources */ = {isa = PBXBuildFile; fileRef = 79046432198E418000FF6C22 /* DZAudioPlayer.mm */; };
+		7918083519B546A00059B5B8 /* DZDownload.m in Sources */ = {isa = PBXBuildFile; fileRef = 7918083419B546A00059B5B8 /* DZDownload.m */; };
+		7918083819B5526A0059B5B8 /* DZDownloadButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 7918083719B5526A0059B5B8 /* DZDownloadButton.m */; };
+		7918083F19B553750059B5B8 /* complete-button.png in Resources */ = {isa = PBXBuildFile; fileRef = 7918083919B553750059B5B8 /* complete-button.png */; };
+		7918084019B553750059B5B8 /* complete-button@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7918083A19B553750059B5B8 /* complete-button@2x.png */; };
+		7918084119B553750059B5B8 /* download-button.png in Resources */ = {isa = PBXBuildFile; fileRef = 7918083B19B553750059B5B8 /* download-button.png */; };
+		7918084219B553750059B5B8 /* download-button@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7918083C19B553750059B5B8 /* download-button@2x.png */; };
+		7918084319B553750059B5B8 /* pause-download.png in Resources */ = {isa = PBXBuildFile; fileRef = 7918083D19B553750059B5B8 /* pause-download.png */; };
+		7918084419B553750059B5B8 /* pause-download@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7918083E19B553750059B5B8 /* pause-download@2x.png */; };
 		7921C37A198A68AA00A6B408 /* DZCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 7921C379198A68AA00A6B408 /* DZCache.m */; };
 		7932AD4D198A1B5000151759 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7932AD4C198A1B5000151759 /* Foundation.framework */; };
 		7932AD4F198A1B5000151759 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7932AD4E198A1B5000151759 /* CoreGraphics.framework */; };
@@ -46,7 +54,6 @@
 		798CAF601994F5C000172D13 /* DZFileStream.m in Sources */ = {isa = PBXBuildFile; fileRef = 798CAF5F1994F5C000172D13 /* DZFileStream.m */; };
 		79A2E4DA19B2015000FAD4D8 /* DZFeedViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 79A2E4D719B2015000FAD4D8 /* DZFeedViewController.m */; };
 		79A2E4DB19B2015000FAD4D8 /* DZPlayViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 79A2E4D919B2015000FAD4D8 /* DZPlayViewController.m */; };
-		79A2E4E419B2015A00FAD4D8 /* DZDownloadButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 79A2E4DD19B2015A00FAD4D8 /* DZDownloadButton.m */; };
 		79A2E4E519B2015A00FAD4D8 /* DZFeedHeaderCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 79A2E4DF19B2015A00FAD4D8 /* DZFeedHeaderCell.m */; };
 		79A2E4E619B2015A00FAD4D8 /* DZFeedItemCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 79A2E4E119B2015A00FAD4D8 /* DZFeedItemCell.m */; };
 		79A2E4E719B2015A00FAD4D8 /* DZSlider.m in Sources */ = {isa = PBXBuildFile; fileRef = 79A2E4E319B2015A00FAD4D8 /* DZSlider.m */; };
@@ -76,6 +83,16 @@
 		7904642F198E263600FF6C22 /* DZAudioQueuePlayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DZAudioQueuePlayer.h; sourceTree = "<group>"; };
 		79046431198E418000FF6C22 /* DZAudioPlayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DZAudioPlayer.h; sourceTree = "<group>"; };
 		79046432198E418000FF6C22 /* DZAudioPlayer.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = DZAudioPlayer.mm; sourceTree = "<group>"; };
+		7918083319B546A00059B5B8 /* DZDownload.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DZDownload.h; sourceTree = "<group>"; };
+		7918083419B546A00059B5B8 /* DZDownload.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DZDownload.m; sourceTree = "<group>"; };
+		7918083619B5526A0059B5B8 /* DZDownloadButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DZDownloadButton.h; sourceTree = "<group>"; };
+		7918083719B5526A0059B5B8 /* DZDownloadButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DZDownloadButton.m; sourceTree = "<group>"; };
+		7918083919B553750059B5B8 /* complete-button.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "complete-button.png"; sourceTree = "<group>"; };
+		7918083A19B553750059B5B8 /* complete-button@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "complete-button@2x.png"; sourceTree = "<group>"; };
+		7918083B19B553750059B5B8 /* download-button.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "download-button.png"; sourceTree = "<group>"; };
+		7918083C19B553750059B5B8 /* download-button@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "download-button@2x.png"; sourceTree = "<group>"; };
+		7918083D19B553750059B5B8 /* pause-download.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "pause-download.png"; sourceTree = "<group>"; };
+		7918083E19B553750059B5B8 /* pause-download@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "pause-download@2x.png"; sourceTree = "<group>"; };
 		7921C378198A68AA00A6B408 /* DZCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DZCache.h; sourceTree = "<group>"; };
 		7921C379198A68AA00A6B408 /* DZCache.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DZCache.m; sourceTree = "<group>"; };
 		7932AD49198A1B5000151759 /* mypodcast.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = mypodcast.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -122,8 +139,6 @@
 		79A2E4D719B2015000FAD4D8 /* DZFeedViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DZFeedViewController.m; sourceTree = "<group>"; };
 		79A2E4D819B2015000FAD4D8 /* DZPlayViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DZPlayViewController.h; sourceTree = "<group>"; };
 		79A2E4D919B2015000FAD4D8 /* DZPlayViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DZPlayViewController.m; sourceTree = "<group>"; };
-		79A2E4DC19B2015A00FAD4D8 /* DZDownloadButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DZDownloadButton.h; sourceTree = "<group>"; };
-		79A2E4DD19B2015A00FAD4D8 /* DZDownloadButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DZDownloadButton.m; sourceTree = "<group>"; };
 		79A2E4DE19B2015A00FAD4D8 /* DZFeedHeaderCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DZFeedHeaderCell.h; sourceTree = "<group>"; };
 		79A2E4DF19B2015A00FAD4D8 /* DZFeedHeaderCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DZFeedHeaderCell.m; sourceTree = "<group>"; };
 		79A2E4E019B2015A00FAD4D8 /* DZFeedItemCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DZFeedItemCell.h; sourceTree = "<group>"; };
@@ -224,6 +239,8 @@
 				79046432198E418000FF6C22 /* DZAudioPlayer.mm */,
 				798CAF5E1994F5C000172D13 /* DZFileStream.h */,
 				798CAF5F1994F5C000172D13 /* DZFileStream.m */,
+				7918083319B546A00059B5B8 /* DZDownload.h */,
+				7918083419B546A00059B5B8 /* DZDownload.m */,
 				7939A220199DE38A00EF6339 /* Model.xcdatamodeld */,
 			);
 			path = mypodcast;
@@ -287,8 +304,6 @@
 		79A2E4D419B1FFDD00FAD4D8 /* gui */ = {
 			isa = PBXGroup;
 			children = (
-				79A2E4DC19B2015A00FAD4D8 /* DZDownloadButton.h */,
-				79A2E4DD19B2015A00FAD4D8 /* DZDownloadButton.m */,
 				79A2E4DE19B2015A00FAD4D8 /* DZFeedHeaderCell.h */,
 				79A2E4DF19B2015A00FAD4D8 /* DZFeedHeaderCell.m */,
 				79A2E4E019B2015A00FAD4D8 /* DZFeedItemCell.h */,
@@ -297,6 +312,8 @@
 				79A2E4E319B2015A00FAD4D8 /* DZSlider.m */,
 				79A2E4E919B202D300FAD4D8 /* UIImage+DZImagePool.h */,
 				79A2E4EA19B202D300FAD4D8 /* UIImage+DZImagePool.m */,
+				7918083619B5526A0059B5B8 /* DZDownloadButton.h */,
+				7918083719B5526A0059B5B8 /* DZDownloadButton.m */,
 			);
 			path = gui;
 			sourceTree = "<group>";
@@ -315,6 +332,12 @@
 		79FC98B91993162B00FBC8DB /* images */ = {
 			isa = PBXGroup;
 			children = (
+				7918083919B553750059B5B8 /* complete-button.png */,
+				7918083A19B553750059B5B8 /* complete-button@2x.png */,
+				7918083B19B553750059B5B8 /* download-button.png */,
+				7918083C19B553750059B5B8 /* download-button@2x.png */,
+				7918083D19B553750059B5B8 /* pause-download.png */,
+				7918083E19B553750059B5B8 /* pause-download@2x.png */,
 				79FD281519B2130B00359414 /* half-bullet.png */,
 				79FD281619B2130B00359414 /* half-bullet@2x.png */,
 				79FD281719B2130B00359414 /* new-bullet.png */,
@@ -414,14 +437,20 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7918084419B553750059B5B8 /* pause-download@2x.png in Resources */,
+				7918084319B553750059B5B8 /* pause-download.png in Resources */,
 				795539F319971C0200D103D0 /* pause-button.png in Resources */,
 				79FC98CE19932E0400FBC8DB /* slide-thumb.png in Resources */,
 				7932AD57198A1B5000151759 /* InfoPlist.strings in Resources */,
 				795F8A6D19978C0E00270D51 /* slide-thumb@2x.png in Resources */,
 				795539F519971C0200D103D0 /* play-button.png in Resources */,
+				7918084019B553750059B5B8 /* complete-button@2x.png in Resources */,
 				795539F419971C0200D103D0 /* pause-button@2x.png in Resources */,
+				7918084219B553750059B5B8 /* download-button@2x.png in Resources */,
+				7918084119B553750059B5B8 /* download-button.png in Resources */,
 				79FD281919B2130B00359414 /* half-bullet.png in Resources */,
 				79FD281C19B2130B00359414 /* new-bullet@2x.png in Resources */,
+				7918083F19B553750059B5B8 /* complete-button.png in Resources */,
 				79FD281A19B2130B00359414 /* half-bullet@2x.png in Resources */,
 				7932AD5F198A1B5000151759 /* Images.xcassets in Resources */,
 				79FD281319B212A300359414 /* play-bullet.png in Resources */,
@@ -450,12 +479,13 @@
 				7939209119A0E5930097AC63 /* DZItem.m in Sources */,
 				798CAF601994F5C000172D13 /* DZFileStream.m in Sources */,
 				79A2E4E719B2015A00FAD4D8 /* DZSlider.m in Sources */,
+				7918083819B5526A0059B5B8 /* DZDownloadButton.m in Sources */,
 				7939A284199E367200EF6339 /* DZFeedParser.m in Sources */,
 				7932AD5D198A1B5000151759 /* DZAppDelegate.m in Sources */,
+				7918083519B546A00059B5B8 /* DZDownload.m in Sources */,
 				79046430198E263600FF6C22 /* DZAudioQueuePlayer.cpp in Sources */,
 				79A2E4EB19B202D300FAD4D8 /* UIImage+DZImagePool.m in Sources */,
 				7921C37A198A68AA00A6B408 /* DZCache.m in Sources */,
-				79A2E4E419B2015A00FAD4D8 /* DZDownloadButton.m in Sources */,
 				79A2E4E619B2015A00FAD4D8 /* DZFeedItemCell.m in Sources */,
 				79A2E4DB19B2015000FAD4D8 /* DZPlayViewController.m in Sources */,
 				79A2E4E519B2015A00FAD4D8 /* DZFeedHeaderCell.m in Sources */,

@@ -2,18 +2,16 @@
 //  DZDownloadButton.h
 //  mypodcast
 //
-//  Created by Richard Dong on 14-8-28.
+//  Created by Richard Dong on 14-9-2.
 //  Copyright (c) 2014年 Richard Dong. All rights reserved.
 //
 
 #import <UIKit/UIKit.h>
+#import "DZDownload.h"
 
-@protocol DZDownloadButtonDelegate <NSObject>
+@interface DZDownloadButton : UIButton
 
-@end
-
-@interface DZDownloadButton : UIView
-
-@property (nonatomic,retain) id<DZDownloadButtonDelegate> downloadDelegate;
+@property (nonatomic,assign) float progress;
+@property (nonatomic,assign) DZDownloadStatus status;
 
 @end

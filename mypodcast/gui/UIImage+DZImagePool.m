@@ -60,3 +60,15 @@ static NSMutableDictionary * _imagePool;
 }
 
 @end
+
+@implementation UIButton (DZImagePool)
+
+- (void)setImageWithName:(NSString *)name
+{
+    [self setImage:[UIImage templateImageWithName:name]
+          forState:UIControlStateNormal];
+    [self setImage:[UIImage transparentTemplateImageWithName:name]
+          forState:UIControlStateHighlighted];
+}
+
+@end
