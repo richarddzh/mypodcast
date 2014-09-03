@@ -45,10 +45,10 @@
     //DZFeedParser * parser = [[DZFeedParser alloc]init];
     DZDatabase * database = [DZDatabase sharedInstance];
     NSString * url = @"http://www.ximalaya.com/album/236326.xml";
-    NSData * data = [NSData dataWithContentsOfURL:[NSURL URLWithString:url]];
-    DZFeedParser * parser = [[DZFeedParser alloc]init];
-    [parser parseFeed:data atURL:url withObjectFactory:database];
-    [database save];
+    // NSData * data = [NSData dataWithContentsOfURL:[NSURL URLWithString:url]];
+    // DZFeedParser * parser = [[DZFeedParser alloc]init];
+    // [parser parseFeed:data atURL:url withObjectFactory:database];
+    // [database save];
     self.feedChannel = [database channelWithURL:url];
     [self filterFeedItems];
 }
@@ -62,7 +62,7 @@
 - (void)viewWillDisappear:(BOOL)animated
 {
     [[DZEventCenter sharedInstance]removeHandler:self forEventID:DZEventID_PlayerWillStartPlaying];
-    [[DZEventCenter sharedInstance]addHandler:self forEventID:DZEventID_PlayerDidFinishPlaying];
+    [[DZEventCenter sharedInstance]removeHandler:self forEventID:DZEventID_PlayerDidFinishPlaying];
 }
 
 - (void)didReceiveMemoryWarning
@@ -203,6 +203,7 @@
             [[DZFeedItemCell cellWithURL:[NSURL URLWithString:player.feedItem.url]]update];
             break;
         case DZEventID_PlayerDidFinishPlaying:
+            NSLog(@"feed view controller get noticed of finishing playback.");
             break;
         default:
             break;

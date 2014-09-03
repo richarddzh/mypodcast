@@ -14,10 +14,3 @@
 + (UIImage *)transparentTemplateImageWithName:(NSString *)name;
 
 @end
-
-
-@interface UIButton (DZImagePool)
-
-- (void)setImageWithName:(NSString *)name;
-
-@end

@@ -58,6 +58,7 @@
 		79A2E4E619B2015A00FAD4D8 /* DZFeedItemCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 79A2E4E119B2015A00FAD4D8 /* DZFeedItemCell.m */; };
 		79A2E4E719B2015A00FAD4D8 /* DZSlider.m in Sources */ = {isa = PBXBuildFile; fileRef = 79A2E4E319B2015A00FAD4D8 /* DZSlider.m */; };
 		79A2E4EB19B202D300FAD4D8 /* UIImage+DZImagePool.m in Sources */ = {isa = PBXBuildFile; fileRef = 79A2E4EA19B202D300FAD4D8 /* UIImage+DZImagePool.m */; };
+		79E4F32419B6ADAC000444BA /* UIButton+DZImagePool.m in Sources */ = {isa = PBXBuildFile; fileRef = 79E4F32319B6ADAC000444BA /* UIButton+DZImagePool.m */; };
 		79FC98CE19932E0400FBC8DB /* slide-thumb.png in Resources */ = {isa = PBXBuildFile; fileRef = 79FC98CD19932E0400FBC8DB /* slide-thumb.png */; };
 		79FD281319B212A300359414 /* play-bullet.png in Resources */ = {isa = PBXBuildFile; fileRef = 79FD281119B212A300359414 /* play-bullet.png */; };
 		79FD281419B212A300359414 /* play-bullet@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 79FD281219B212A300359414 /* play-bullet@2x.png */; };
@@ -147,6 +148,8 @@
 		79A2E4E319B2015A00FAD4D8 /* DZSlider.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DZSlider.m; sourceTree = "<group>"; };
 		79A2E4E919B202D300FAD4D8 /* UIImage+DZImagePool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+DZImagePool.h"; sourceTree = "<group>"; };
 		79A2E4EA19B202D300FAD4D8 /* UIImage+DZImagePool.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+DZImagePool.m"; sourceTree = "<group>"; };
+		79E4F32219B6ADAC000444BA /* UIButton+DZImagePool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIButton+DZImagePool.h"; sourceTree = "<group>"; };
+		79E4F32319B6ADAC000444BA /* UIButton+DZImagePool.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIButton+DZImagePool.m"; sourceTree = "<group>"; };
 		79FC98CD19932E0400FBC8DB /* slide-thumb.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "slide-thumb.png"; sourceTree = "<group>"; };
 		79FD281119B212A300359414 /* play-bullet.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "play-bullet.png"; sourceTree = "<group>"; };
 		79FD281219B212A300359414 /* play-bullet@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "play-bullet@2x.png"; sourceTree = "<group>"; };
@@ -314,6 +317,8 @@
 				79A2E4EA19B202D300FAD4D8 /* UIImage+DZImagePool.m */,
 				7918083619B5526A0059B5B8 /* DZDownloadButton.h */,
 				7918083719B5526A0059B5B8 /* DZDownloadButton.m */,
+				79E4F32219B6ADAC000444BA /* UIButton+DZImagePool.h */,
+				79E4F32319B6ADAC000444BA /* UIButton+DZImagePool.m */,
 			);
 			path = gui;
 			sourceTree = "<group>";
@@ -483,6 +488,7 @@
 				7939A284199E367200EF6339 /* DZFeedParser.m in Sources */,
 				7932AD5D198A1B5000151759 /* DZAppDelegate.m in Sources */,
 				7918083519B546A00059B5B8 /* DZDownload.m in Sources */,
+				79E4F32419B6ADAC000444BA /* UIButton+DZImagePool.m in Sources */,
 				79046430198E263600FF6C22 /* DZAudioQueuePlayer.cpp in Sources */,
 				79A2E4EB19B202D300FAD4D8 /* UIImage+DZImagePool.m in Sources */,
 				7921C37A198A68AA00A6B408 /* DZCache.m in Sources */,
