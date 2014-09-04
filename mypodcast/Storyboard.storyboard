@@ -97,6 +97,7 @@ demo</string>
                                 <connections>
                                     <outlet property="bulletImageView" destination="0EM-dT-sG5" id="RbV-og-lC8"/>
                                     <outlet property="descriptionLabel" destination="DW3-hA-I0q" id="HF0-Ph-uU8"/>
+                                    <outlet property="downloadButton" destination="x56-Rb-wbs" id="cC7-Dm-WZl"/>
                                     <outlet property="titleLabel" destination="mhu-31-Fhb" id="mxq-24-Y48"/>
                                     <segue destination="4Sc-Nx-oaU" kind="push" identifier="DZSeguePlayItem" id="0TO-Od-95a"/>
                                 </connections>

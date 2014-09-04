@@ -8,7 +8,7 @@
 
 #import "DZFeedItemCell.h"
 #import "DZItem.h"
-#import "DZAudioPlayer.h"
+#import "DZPlayList.h"
 #import "UIImage+DZImagePool.h"
 #import "NSString+DZFormatter.h"
 
@@ -83,8 +83,8 @@ static NSMutableDictionary * _mapURLToCell;
     self.titleLabel.text = item.title;
     self.descriptionLabel.text = [NSString stringWithFormat:@"%@",
                                   [NSString stringFromTime:item.duration.doubleValue]];
-    DZAudioPlayer * player = [DZAudioPlayer sharedInstance];
-    if (player.feedItem == item) {
+    DZPlayList * playList = [DZPlayList sharedInstance];
+    if (playList.currentItem == item) {
         self.bulletImageView.image = [UIImage templateImageWithName:@"play-bullet"];
     } else if (item.read.boolValue == YES) {
         self.bulletImageView.image = nil;

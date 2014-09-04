@@ -8,7 +8,7 @@
 
 #import <math.h>
 #import "DZDownloadButton.h"
-#import "UIImage+DZImagePool.h"
+#import "UIButton+DZImagePool.h"
 
 @implementation DZDownloadButton
 
@@ -19,7 +19,8 @@
     self = [super initWithFrame:frame];
     if (self) {
         // Initialization code
-        [self setImageWithName:@"download-button"];
+        self.progress = 0.7;
+        self.status = DZDownloadStatus_Complete;
     }
     return self;
 }

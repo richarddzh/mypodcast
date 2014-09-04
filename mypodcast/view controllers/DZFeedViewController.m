@@ -12,6 +12,7 @@
 #import "DZChannel.h"
 #import "DZItem.h"
 #import "DZDatabase.h"
+#import "DZPlayList.h"
 #import "DZAudioPlayer.h"
 
 @interface DZFeedViewController ()
@@ -56,13 +57,11 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     [[DZEventCenter sharedInstance]addHandler:self forEventID:DZEventID_PlayerWillStartPlaying];
-    [[DZEventCenter sharedInstance]addHandler:self forEventID:DZEventID_PlayerDidFinishPlaying];
 }
 
 - (void)viewWillDisappear:(BOOL)animated
 {
     [[DZEventCenter sharedInstance]removeHandler:self forEventID:DZEventID_PlayerWillStartPlaying];
-    [[DZEventCenter sharedInstance]removeHandler:self forEventID:DZEventID_PlayerDidFinishPlaying];
 }
 
 - (void)didReceiveMemoryWarning
@@ -156,14 +155,11 @@
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
     if ([segue.identifier compare:@"DZSeguePlayItem"] == NSOrderedSame) {
-        DZAudioPlayer * player = [DZAudioPlayer sharedInstance];
+        DZPlayList * playList = [DZPlayList sharedInstance];
         NSIndexPath * selection = [self.tableView indexPathForSelectedRow];
         if (selection != nil && self->_tableItems != nil) {
-            DZItem * feedItem = [self->_tableItems objectAtIndex:selection.row];
-            if (player.feedItem != feedItem) {
-                player.feedItem = [self->_tableItems objectAtIndex:selection.row];
-                [player playPause];
-            }
+            playList.feedItemList = self->_tableItems;
+            playList.currentItemIndex = selection.row;
         }
     }
 }
@@ -196,14 +192,11 @@
 
 - (void)handleEventWithID:(NSInteger)eID userInfo:(id)userInfo fromSource:(id)source
 {
-    DZAudioPlayer * player = [DZAudioPlayer sharedInstance];
+    DZPlayList * playList = [DZPlayList sharedInstance];
     switch (eID) {
         case DZEventID_PlayerWillStartPlaying:
-            [[DZFeedItemCell cellWithURL:[NSURL URLWithString:player.lastFeedItem.url]]update];
-            [[DZFeedItemCell cellWithURL:[NSURL URLWithString:player.feedItem.url]]update];
-            break;
-        case DZEventID_PlayerDidFinishPlaying:
-            NSLog(@"feed view controller get noticed of finishing playback.");
+            [[DZFeedItemCell cellWithURL:[NSURL URLWithString:playList.lastItem.url]]update];
+            [[DZFeedItemCell cellWithURL:[NSURL URLWithString:playList.currentItem.url]]update];
             break;
         default:
             break;

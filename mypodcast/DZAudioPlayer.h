@@ -15,22 +15,15 @@ typedef enum _dz_player_status_ {
     DZPlayerStatus_UserPause,
 } DZPlayerStatus;
 
-@class DZItem;
-@class DZAudioPlayer;
-@class DZFileStream;
-
 @interface DZAudioPlayer : NSObject
 
-@property (nonatomic,retain) DZItem * feedItem;
-@property (nonatomic,readonly) DZItem * lastFeedItem;
+@property (nonatomic,readonly) DZPlayerStatus status;
+@property (nonatomic,readonly) float downloadBufferProgress;
+@property (nonatomic,readonly) NSTimeInterval currentTime;
 
-+ (DZAudioPlayer *)sharedInstance;
-
+- (void)playURL:(NSURL *)url;
 - (void)playPause;
 - (void)seekTo:(NSTimeInterval)time;
-- (DZPlayerStatus)status;
-- (float)downloadBufferProgress;
-- (NSTimeInterval)currentTime;
 - (void)close;
 
 @end

@@ -9,7 +9,6 @@
 #import "DZAudioPlayer.h"
 #import "DZAudioQueuePlayer.h"
 #import "DZFileStream.h"
-#import "DZItem.h"
 #import "DZEventCenter.h"
 #import <AVFoundation/AVFoundation.h>
 
@@ -18,7 +17,6 @@ const UInt32 kDZMaxQueueDataSize = 100000;  //100K
 const UInt32 kDZMinPreloadSize = 1000000;   //1M
 
 static AVAudioSession * _sharedAudioSession = nil;
-static DZAudioPlayer * _sharedInstance = nil;
 
 @interface DZAudioPlayer ()
 {
@@ -26,27 +24,17 @@ static DZAudioPlayer * _sharedInstance = nil;
     DZAudioQueuePlayer * _player;
     DZFileStream * _stream;
     DZPlayerStatus _status;
-    DZItem * _feedItem;
-    DZItem * _lastFeedItem;
+    NSURL * _playingURL;
     NSTimer * _timer;
-    BOOL _shallSeekWhenStarted;
     NSTimeInterval _seekTime;
+    BOOL _shallSeekWhenStarted;
 }
 - (void)playStream:(NSTimer *)timer;
 - (void)configureAudioSession;
-- (void)prepareBeforePlay;
 - (void)abortCurrentPlayback;
 @end
 
 @implementation DZAudioPlayer
-
-+ (DZAudioPlayer *)sharedInstance
-{
-    if (_sharedInstance == nil) {
-        _sharedInstance = [[DZAudioPlayer alloc]init];
-    }
-    return _sharedInstance;
-}
 
 - (void)configureAudioSession
 {
@@ -71,10 +59,9 @@ static DZAudioPlayer * _sharedInstance = nil;
         [self configureAudioSession];
         self->_player = NULL;
         self->_status = DZPlayerStatus_Stop;
-        self->_feedItem = nil;
-        self->_lastFeedItem = nil;
         self->_stream = nil;
         self->_shallSeekWhenStarted = NO;
+        self->_playingURL = nil;
     }
     return self;
 }
@@ -91,13 +78,10 @@ static DZAudioPlayer * _sharedInstance = nil;
 
 - (void)abortCurrentPlayback
 {
-    if (self->_feedItem != nil && self->_player != NULL
-        && (self->_player->getStatus() == DZAudioQueuePlayerStatus_Running
-            || self->_player->getStatus() == DZAudioQueuePlayerStatus_Paused))
-    {
-        self->_feedItem.lastPlay = @(self->_player->getCurrentTime());
-    }
     if (self->_timer != nil) {
+        [[DZEventCenter sharedInstance]fireEventWithID:DZEventID_PlayerWillAbortPlaying
+                                              userInfo:nil
+                                            fromSource:self];
         [self->_timer invalidate];
         self->_timer = nil;
     }
@@ -109,54 +93,20 @@ static DZAudioPlayer * _sharedInstance = nil;
         [self->_stream close];
         self->_stream = nil;
     }
-    if (self->_feedItem != nil) {
-        self->_feedItem = nil;
-    }
 }
 
-- (DZItem *)feedItem
+- (void)playURL:(NSURL *)url
 {
-    return self->_feedItem;
-}
-
-- (void)setFeedItem:(DZItem *)feedItem
-{
-    if (feedItem == self->_feedItem) {
-        return;
-    }
-    self->_lastFeedItem = self->_feedItem;
     [self abortCurrentPlayback];
-    self->_feedItem = feedItem;
-    [self prepareBeforePlay];
-}
-
-- (DZItem *)lastFeedItem
-{
-    return self->_lastFeedItem;
-}
-
-- (void)prepareBeforePlay
-{
-    if (self->_feedItem == nil || self->_feedItem.url == nil) {
+    if (url == nil) {
         return;
     }
-    if (self->_timer != nil) {
-        [self->_timer invalidate];
-        self->_timer = nil;
-    }
-    if (self->_player != NULL) {
-        delete self->_player;
-        self->_player = NULL;
-    }
-    if (self->_stream != nil) {
-        [self->_stream close];
-        self->_stream = nil;
-    }
-    self->_stream = [DZFileStream streamWithURL:[NSURL URLWithString:self->_feedItem.url]];
+    self->_playingURL = url;
+    self->_stream = [DZFileStream streamWithURL:url];
     if (self->_stream == nil) {
         return;
     }
-    self->_status = DZPlayerStatus_UserPause;
+    self->_status = DZPlayerStatus_PauseWait;
     self->_player = new DZAudioQueuePlayer(0);
     self->_timer = [NSTimer scheduledTimerWithTimeInterval:0.5
                                                     target:self
@@ -165,9 +115,6 @@ static DZAudioPlayer * _sharedInstance = nil;
                                                    repeats:YES];
     self->_shallSeekWhenStarted = NO;
     self->_seekTime = 0;
-    if ([self->_feedItem.lastPlay doubleValue] > 0) {
-        [self seekTo:[self->_feedItem.lastPlay doubleValue]];
-    }
     [[DZEventCenter sharedInstance]fireEventWithID:DZEventID_PlayerWillStartPlaying
                                           userInfo:nil
                                         fromSource:self];
@@ -210,8 +157,6 @@ static DZAudioPlayer * _sharedInstance = nil;
         self->_status = DZPlayerStatus_Stop;
         [self->_timer invalidate];
         self->_timer = nil;
-        self->_feedItem.read = @(YES);
-        self->_feedItem.lastPlay = @(0.0f);
         [[DZEventCenter sharedInstance]fireEventWithID:DZEventID_PlayerDidFinishPlaying
                                               userInfo:nil
                                             fromSource:self];
@@ -239,7 +184,7 @@ static DZAudioPlayer * _sharedInstance = nil;
             break;
         case DZPlayerStatus_Stop:
             // Start over and play.
-            [self prepareBeforePlay];
+            [self playURL:self->_playingURL];
             // Fall through to set PauseWait so that playback will begin when data are ready.
         case DZPlayerStatus_UserPause:
             self->_status = DZPlayerStatus_PauseWait;
@@ -253,8 +198,7 @@ static DZAudioPlayer * _sharedInstance = nil;
 {
     if (self->_player == NULL
         || self->_stream == NULL
-        || self->_status == DZPlayerStatus_Stop
-        || self->_feedItem == nil) {
+        || self->_status == DZPlayerStatus_Stop) {
         return;
     }
     if (self->_player->getStatus() == DZAudioQueuePlayerStatus_NotReady

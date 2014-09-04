@@ -12,6 +12,7 @@ typedef enum _dz_event_id_type_ {
     DZEventID_PlayerWillStartPlaying,
     DZEventID_PlayerDidFinishPlaying,
     DZEventID_PlayerIsPlaying,
+    DZEventID_PlayerWillAbortPlaying,
 } DZEventIDType;
 
 @protocol DZEventHandler <NSObject>

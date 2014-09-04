@@ -9,12 +9,14 @@
 #import <UIKit/UIKit.h>
 
 @class DZItem;
+@class DZDownloadButton;
 
 @interface DZFeedItemCell : UITableViewCell
 
 @property (nonatomic,retain) IBOutlet UIImageView * bulletImageView;
 @property (nonatomic,retain) IBOutlet UILabel * titleLabel;
 @property (nonatomic,retain) IBOutlet UILabel * descriptionLabel;
+@property (nonatomic,retain) IBOutlet DZDownloadButton * downloadButton;
 @property (nonatomic,retain) DZItem * feedItem;
 
 + (DZFeedItemCell *)cellWithURL:(NSURL *)url;

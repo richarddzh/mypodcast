@@ -7,17 +7,18 @@
 //
 
 #import "DZPlayViewController.h"
+#import "DZPlayList.h"
 #import "DZAudioPlayer.h"
 #import "DZItem.h"
 #import "DZCache.h"
 #import "DZChannel.h"
-#import "DZFileStream.h"
 #import "NSString+DZFormatter.h"
 #import "UIButton+DZImagePool.h"
 
 @interface DZPlayViewController ()
 {
     DZAudioPlayer * _player;
+    DZPlayList * _playList;
     BOOL _isDraggingSlider;
     NSString * _playButtonName;
 }
@@ -36,7 +37,8 @@
     self.remainTimeLabel.text = @"00:00";
     self.slider.value = 0;
     self->_isDraggingSlider = NO;
-    self->_player = [DZAudioPlayer sharedInstance];
+    self->_playList = [DZPlayList sharedInstance];
+    self->_player = [self->_playList player];
     [self showAlbumArtImage];
     self->_playButtonName = nil;
     [self setPlayButtonImageWithName:nil];
@@ -86,7 +88,7 @@
 - (IBAction)onSliderChangeValue:(id)sender
 {
     self->_isDraggingSlider = NO;
-    [self->_player seekTo:[self->_player.feedItem.duration doubleValue] * self.slider.value];
+    [self->_player seekTo:[self->_playList.currentItem.duration doubleValue] * self.slider.value];
 }
 
 - (void)handleEventWithID:(NSInteger)eID userInfo:(id)userInfo fromSource:(id)source
@@ -111,7 +113,7 @@
 
 - (void)showAlbumArtImage
 {
-    DZItem * feedItem = self->_player.feedItem;
+    DZItem * feedItem = self->_playList.currentItem;
     if (self->_player != nil && feedItem != nil) {
         self.title = feedItem.title;
         DZCache * cache = [DZCache sharedInstance];
@@ -125,14 +127,14 @@
 
 - (void)showPlayingStatus
 {
-    DZItem * feedItem = self->_player.feedItem;
+    DZItem * feedItem = self->_playList.currentItem;
     if (self->_player == nil || feedItem == nil) {
         return;
     }
     self.progressView.progress = [self->_player downloadBufferProgress];
     if (self->_isDraggingSlider == NO) {
-        if (self->_player.feedItem.duration != nil && [self->_player.feedItem.duration doubleValue] > 0) {
-            NSTimeInterval duration = [self->_player.feedItem.duration doubleValue];
+        if (feedItem.duration != nil && [feedItem.duration doubleValue] > 0) {
+            NSTimeInterval duration = [feedItem.duration doubleValue];
             NSTimeInterval playtime = [self->_player currentTime];
             self.slider.value = playtime / duration;
             self.playTimeLabel.text = [NSString stringFromTime:playtime];
