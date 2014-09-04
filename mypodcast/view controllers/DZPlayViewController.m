@@ -42,26 +42,18 @@
     [self showAlbumArtImage];
     self->_playButtonName = nil;
     [self setPlayButtonImageWithName:nil];
-}
-
-- (void)viewWillAppear:(BOOL)animated
-{
     [[DZEventCenter sharedInstance]addHandler:self forEventID:DZEventID_PlayerDidFinishPlaying];
     [[DZEventCenter sharedInstance]addHandler:self forEventID:DZEventID_PlayerIsPlaying];
     [[DZEventCenter sharedInstance]addHandler:self forEventID:DZEventID_PlayerWillStartPlaying];
-}
-
-- (void)viewWillDisappear:(BOOL)animated
-{
-    [[DZEventCenter sharedInstance]removeHandler:self forEventID:DZEventID_PlayerDidFinishPlaying];
-    [[DZEventCenter sharedInstance]removeHandler:self forEventID:DZEventID_PlayerIsPlaying];
-    [[DZEventCenter sharedInstance]removeHandler:self forEventID:DZEventID_PlayerWillStartPlaying];
 }
 
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+    [[DZEventCenter sharedInstance]removeHandler:self forEventID:DZEventID_PlayerDidFinishPlaying];
+    [[DZEventCenter sharedInstance]removeHandler:self forEventID:DZEventID_PlayerIsPlaying];
+    [[DZEventCenter sharedInstance]removeHandler:self forEventID:DZEventID_PlayerWillStartPlaying];
 }
 
 /*

@@ -52,22 +52,14 @@
     // [database save];
     self.feedChannel = [database channelWithURL:url];
     [self filterFeedItems];
-}
-
-- (void)viewWillAppear:(BOOL)animated
-{
     [[DZEventCenter sharedInstance]addHandler:self forEventID:DZEventID_PlayerWillStartPlaying];
-}
-
-- (void)viewWillDisappear:(BOOL)animated
-{
-    [[DZEventCenter sharedInstance]removeHandler:self forEventID:DZEventID_PlayerWillStartPlaying];
 }
 
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+    [[DZEventCenter sharedInstance]removeHandler:self forEventID:DZEventID_PlayerWillStartPlaying];
 }
 
 #pragma mark - Table view data source

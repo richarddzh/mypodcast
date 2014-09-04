@@ -62,6 +62,9 @@ static DZPlayList * _sharedInstance;
     if (self->_feedItemList == nil || currentItemIndex < 0 || currentItemIndex + 1 > [self->_feedItemList count]) {
         return;
     }
+    if ([self->_feedItemList objectAtIndex:currentItemIndex] == self->_currentItem) {
+        return;
+    }
     self->_lastItem = self->_currentItem;
     self->_currentItem = [self->_feedItemList objectAtIndex:currentItemIndex];
     [self->_player playURL:[NSURL URLWithString:self->_currentItem.url]];
