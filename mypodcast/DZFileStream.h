@@ -8,13 +8,23 @@
 
 #import <Foundation/Foundation.h>
 
+@class DZFileStream;
+
+@protocol DZFileStreamDelegate <NSObject>
+
+- (void)fileStreamDidCompleteDownload:(DZFileStream *)stream;
+- (void)fileStreamDidReceiveData:(DZFileStream *)stream;
+
+@end
 
 @interface DZFileStream : NSObject <NSURLSessionDataDelegate>
 
 + (DZFileStream *)streamWithURL:(NSURL *)url;
++ (DZFileStream *)streamExistingWithURL:(NSURL *)url;
 
-@property (nonatomic, assign, readonly) NSInteger numByteDownloaded;
-@property (nonatomic, assign, readonly) NSInteger numByteFileLength;
+@property (nonatomic,weak) id<DZFileStreamDelegate> delegate;
+@property (nonatomic,assign,readonly) NSInteger numByteDownloaded;
+@property (nonatomic,assign,readonly) NSInteger numByteFileLength;
 
 - (NSInteger)read:(uint8_t *)dataBuffer maxLength:(NSUInteger)len;
 - (BOOL)hasBytesAvailable;

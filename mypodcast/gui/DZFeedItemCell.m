@@ -9,6 +9,7 @@
 #import "DZFeedItemCell.h"
 #import "DZItem.h"
 #import "DZPlayList.h"
+#import "DZDownloadButton.h"
 #import "UIImage+DZImagePool.h"
 #import "NSString+DZFormatter.h"
 
@@ -93,9 +94,15 @@ static NSMutableDictionary * _mapURLToCell;
     } else {
         self.bulletImageView.image = [UIImage templateImageWithName:@"new-bullet"];
     }
+    if (self->_downloadButton.downloadTask == nil
+        || ![self->_downloadButton.downloadTask.url isEqual:[NSURL URLWithString:item.url]]) {
+        self->_downloadButton.downloadTask = [DZDownload downloadWithFeedItem:item];
+    }
+    [self->_downloadButton update];
 }
 
-- (void)update{
+- (void)update
+{
     [self updateWithFeedItem:self->_feedItem];
 }
 

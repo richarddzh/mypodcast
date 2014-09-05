@@ -91,6 +91,9 @@ demo</string>
                                             <state key="normal">
                                                 <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                             </state>
+                                            <connections>
+                                                <action selector="onDownloadButton:" destination="WR5-FG-fFd" eventType="touchUpInside" id="46Q-ei-YLN"/>
+                                            </connections>
                                         </button>
                                     </subviews>
                                 </tableViewCellContentView>

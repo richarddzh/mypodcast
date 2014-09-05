@@ -11,7 +11,9 @@
 
 @interface DZDownloadButton : UIButton
 
-@property (nonatomic,assign) float progress;
-@property (nonatomic,assign) DZDownloadStatus status;
+@property (nonatomic,retain) DZDownload * downloadTask;
+
+- (void)update;
+- (void)pressButton;
 
 @end

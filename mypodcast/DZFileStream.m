@@ -14,8 +14,10 @@
 
 static NSURLSession * _urlSession = nil;
 static NSMutableDictionary * _urlTaskMap = nil; // Map task identifier to DZFileStreamHttp instance.
-static NSMutableDictionary * _streamMap = nil; // Map url to DZFileStream instance.
 static DZURLSessionDelegate * _urlDelegate = nil;
+
+// Map NSURL to DZFileStream instances.
+static NSMutableDictionary * _mapURLToFileStream = nil;
 
 @interface DZFileStream ()
 {
@@ -24,37 +26,49 @@ static DZURLSessionDelegate * _urlDelegate = nil;
     NSURL * _url;
     NSInteger _numByteDownloaded;
     NSInteger _numByteFileLength;
+    NSInteger _userCount;
 }
-
+- (void)closeAnyway;
 @end
 
 @implementation DZFileStream
+
++ (DZFileStream *)streamExistingWithURL:(NSURL *)url
+{
+    DZFileStream * stream = [_mapURLToFileStream objectForKey:url];
+    if (stream != nil) {
+        stream->_userCount++;
+    }
+    return stream;
+}
 
 + (DZFileStream *)streamWithURL:(NSURL *)url
 {
     if (url == nil) {
         return nil;
     }
-    if (_streamMap == nil) {
-        _streamMap = [NSMutableDictionary dictionary];
+    DZFileStream * stream = nil;
+    if (_mapURLToFileStream == nil) {
+        _mapURLToFileStream = [NSMutableDictionary dictionary];
     }
-    DZFileStream * stream = [_streamMap objectForKey:url];
+    stream = [_mapURLToFileStream objectForKey:url];
+    if (stream == nil) {
+        DZCache * cache = [DZCache sharedInstance];
+        NSString * path = [cache getDownloadFilePathWithURL:url];
+        NSFileManager * fmgr = [NSFileManager defaultManager];
+        if (path != nil) {
+            if ([fmgr fileExistsAtPath:path]) {
+                stream = [[DZFileStreamLocal alloc]initWithFileAtPath:path];
+                stream->_url = url;
+                stream->_userCount = 0;
+            } else {
+                stream = [[DZFileStreamHttp alloc]initWithURL:url downloadPath:path];
+                stream->_userCount = 0;
+            }
+        }
+    }
     if (stream != nil) {
-        return stream;
-    }
-    DZCache * cache = [DZCache sharedInstance];
-    NSString * path = [cache getDownloadFilePathWithURL:url];
-    NSFileManager * fmgr = [NSFileManager defaultManager];
-    if (path != nil) {
-        if ([fmgr fileExistsAtPath:path]) {
-            stream = [[DZFileStreamLocal alloc]initWithFileAtPath:path];
-            stream->_url = url;
-        } else {
-            stream = [[DZFileStreamHttp alloc]initWithURL:url downloadPath:path];
-        }
-        if (stream != nil) {
-            [_streamMap setObject:stream forKey:url];
-        }
+        stream->_userCount++;
     }
     return stream;
 }
@@ -91,13 +105,20 @@ static DZURLSessionDelegate * _urlDelegate = nil;
     return NO;
 }
 
-- (void)close
+- (void)closeAnyway
 {
     if (self->_fp != NULL) {
         fclose(self->_fp);
         self->_fp = NULL;
     }
-    [_streamMap removeObjectForKey:self->_url];
+}
+
+- (void)close
+{
+    self->_userCount--;
+    if (self->_userCount < 1) {
+        [self closeAnyway];
+    }
 }
 
 - (NSInteger)numByteFileLength
@@ -193,11 +214,11 @@ static DZURLSessionDelegate * _urlDelegate = nil;
     return self;
 }
 
-- (void)close
+- (void)closeAnyway
 {
     [self->_task cancel];
     self->_task = nil;
-    [super close];
+    [super closeAnyway];
 }
 
 - (void)issueNewTask
@@ -276,6 +297,7 @@ static DZURLSessionDelegate * _urlDelegate = nil;
 - (void)URLSession:(NSURLSession *)session dataTask:(NSURLSessionDataTask *)dataTask didReceiveData:(NSData *)data
 {
     if (self->_fp != NULL && self->_task == dataTask) {
+        [self.delegate fileStreamDidReceiveData:self];
         [data enumerateByteRangesUsingBlock:^(const void *bytes, NSRange byteRange, BOOL *stop) {
             if (self->_fp != NULL) {
                 NSInteger written = fwrite(bytes, 1, byteRange.length, self->_fp);
@@ -306,11 +328,12 @@ static DZURLSessionDelegate * _urlDelegate = nil;
         if (self->_fp == NULL) {
             NSLog(@"[ERROR] cannot open file %@", self->_path);
         }
+        [self.delegate fileStreamDidCompleteDownload:self];
     }
 }
 
-
 @end
+
 
 @implementation DZURLSessionDelegate
 

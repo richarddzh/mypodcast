@@ -12,15 +12,13 @@
 
 @implementation DZDownloadButton
 
-@synthesize progress, status;
+@synthesize downloadTask = _downloadTask;
 
 - (id)initWithFrame:(CGRect)frame
 {
     self = [super initWithFrame:frame];
     if (self) {
         // Initialization code
-        self.progress = 0.7;
-        self.status = DZDownloadStatus_Complete;
     }
     return self;
 }
@@ -30,8 +28,6 @@
     self = [super initWithCoder:aDecoder];
     if (self) {
         // Initialization code
-        self.progress = 0.7;
-        self.status = DZDownloadStatus_Complete;
     }
     return self;
 }
@@ -43,6 +39,13 @@
     // Drawing code
     [super drawRect:rect];
     
+    if (self->_downloadTask == nil
+        || self->_downloadTask.status == DZDownloadStatus_Complete
+        || self->_downloadTask.status == DZDownloadStatus_None) {
+        return;
+    }
+    float progress = (float)(self->_downloadTask.numByteDownloaded) / self->_downloadTask.numByteFileLength;
+    
     UIColor * color = [self tintColor];
     [color set];
     CGRect bounds = [self bounds];
@@ -52,31 +55,47 @@
     CGFloat radius = 11 - lineWidth / 2;
     UIBezierPath * path = [UIBezierPath bezierPathWithArcCenter:point
                                                          radius:radius
-                                                     startAngle:0.0f - M_PI / 2
-                                                       endAngle:M_PI * (2 * self.progress - 0.5)
+                                                     startAngle:M_PI * (-0.5)
+                                                       endAngle:M_PI * (2 * progress - 0.5)
                                                       clockwise:YES];
     path.lineWidth = lineWidth;
     [path stroke];
 }
 
-- (void)setStatus:(DZDownloadStatus)_status
+- (void)update
 {
-    self->status = _status;
-    switch (_status) {
+    DZDownloadStatus status = self->_downloadTask.status;
+    switch (status) {
         case DZDownloadStatus_Complete:
-            self.progress = 1;
-            [self setImageWithName:@"complete-button"];
+            [self setImageWithName:nil];
             break;
         case DZDownloadStatus_Downloading:
             [self setImageWithName:@"pause-download"];
             break;
         case DZDownloadStatus_None:
-            self.progress = 0;
         case DZDownloadStatus_Paused:
         default:
             [self setImageWithName:@"download-button"];
             break;
     }
+    [self setNeedsDisplay];
+}
+
+- (void)pressButton
+{
+    DZDownloadStatus status = self->_downloadTask.status;
+    switch (status) {
+        case DZDownloadStatus_Downloading:
+            [self->_downloadTask stop];
+            break;
+        case DZDownloadStatus_None:
+        case DZDownloadStatus_Paused:
+            [self->_downloadTask start];
+            break;
+        default:
+            break;
+    }
+    [self update];
 }
 
 @end

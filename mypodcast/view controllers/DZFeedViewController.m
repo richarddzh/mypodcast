@@ -14,6 +14,7 @@
 #import "DZDatabase.h"
 #import "DZPlayList.h"
 #import "DZAudioPlayer.h"
+#import "DZDownloadButton.h"
 
 @interface DZFeedViewController ()
 {
@@ -46,13 +47,15 @@
     //DZFeedParser * parser = [[DZFeedParser alloc]init];
     DZDatabase * database = [DZDatabase sharedInstance];
     NSString * url = @"http://www.ximalaya.com/album/236326.xml";
-    // NSData * data = [NSData dataWithContentsOfURL:[NSURL URLWithString:url]];
-    // DZFeedParser * parser = [[DZFeedParser alloc]init];
-    // [parser parseFeed:data atURL:url withObjectFactory:database];
-    // [database save];
+    NSData * data = [NSData dataWithContentsOfURL:[NSURL URLWithString:url]];
+    DZFeedParser * parser = [[DZFeedParser alloc]init];
+    [parser parseFeed:data atURL:url withObjectFactory:database];
+    [database save];
     self.feedChannel = [database channelWithURL:url];
     [self filterFeedItems];
     [[DZEventCenter sharedInstance]addHandler:self forEventID:DZEventID_PlayerWillStartPlaying];
+    [[DZEventCenter sharedInstance]addHandler:self forEventID:DZEventID_DownloadDidComplete];
+    [[DZEventCenter sharedInstance]addHandler:self forEventID:DZEventID_DownloadDidReceiveData];
 }
 
 - (void)didReceiveMemoryWarning
@@ -60,6 +63,8 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
     [[DZEventCenter sharedInstance]removeHandler:self forEventID:DZEventID_PlayerWillStartPlaying];
+    [[DZEventCenter sharedInstance]removeHandler:self forEventID:DZEventID_DownloadDidReceiveData];
+    [[DZEventCenter sharedInstance]removeHandler:self forEventID:DZEventID_DownloadDidComplete];
 }
 
 #pragma mark - Table view data source
@@ -190,8 +195,24 @@
             [[DZFeedItemCell cellWithURL:[NSURL URLWithString:playList.lastItem.url]]update];
             [[DZFeedItemCell cellWithURL:[NSURL URLWithString:playList.currentItem.url]]update];
             break;
+        case DZEventID_DownloadDidComplete:
+        case DZEventID_DownloadDidReceiveData:
+        {
+            DZDownload * download = source;
+            DZFeedItemCell * cell = [DZFeedItemCell cellWithURL:download.url];
+            [cell.downloadButton update];
+            break;
+        }
         default:
             break;
+    }
+}
+
+- (IBAction)onDownloadButton:(id)sender
+{
+    if ([sender isKindOfClass:[DZDownloadButton class]]) {
+        DZDownloadButton * button = sender;
+        [button pressButton];
     }
 }
 

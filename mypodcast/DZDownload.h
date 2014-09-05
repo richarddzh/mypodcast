@@ -7,8 +7,10 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "DZFileStream.h"
 
 @class DZItem;
+@class DZDownload;
 
 typedef enum _dz_download_status_ {
     DZDownloadStatus_None = 0,
@@ -17,10 +19,12 @@ typedef enum _dz_download_status_ {
     DZDownloadStatus_Complete,
 } DZDownloadStatus;
 
-@interface DZDownload : NSObject
+@interface DZDownload : NSObject <DZFileStreamDelegate>
 
 @property (nonatomic,readonly) NSURL * url;
 @property (nonatomic,readonly) DZDownloadStatus status;
+@property (nonatomic,readonly) NSInteger numByteFileLength;
+@property (nonatomic,readonly) NSInteger numByteDownloaded;
 
 + (DZDownload *)downloadWithFeedItem:(DZItem *)item;
 - (void)start;
