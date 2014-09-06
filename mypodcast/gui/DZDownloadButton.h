@@ -7,13 +7,14 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "DZDownload.h"
+#import "DZDownloadList.h"
 
 @interface DZDownloadButton : UIButton
 
-@property (nonatomic,retain) DZDownload * downloadTask;
+@property (nonatomic,assign) DZDownloadStatus status;
+@property (nonatomic,assign) float progress;
+@property (nonatomic,weak) DZItem * feedItem;
 
 - (void)update;
-- (void)pressButton;
 
 @end

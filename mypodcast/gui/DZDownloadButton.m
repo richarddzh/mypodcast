@@ -12,8 +12,6 @@
 
 @implementation DZDownloadButton
 
-@synthesize downloadTask = _downloadTask;
-
 - (id)initWithFrame:(CGRect)frame
 {
     self = [super initWithFrame:frame];
@@ -39,12 +37,9 @@
     // Drawing code
     [super drawRect:rect];
     
-    if (self->_downloadTask == nil
-        || self->_downloadTask.status == DZDownloadStatus_Complete
-        || self->_downloadTask.status == DZDownloadStatus_None) {
+    if (self.status == DZDownloadStatus_Complete || self.status == DZDownloadStatus_None) {
         return;
     }
-    float progress = (float)(self->_downloadTask.numByteDownloaded) / self->_downloadTask.numByteFileLength;
     
     UIColor * color = [self tintColor];
     [color set];
@@ -56,15 +51,14 @@
     UIBezierPath * path = [UIBezierPath bezierPathWithArcCenter:point
                                                          radius:radius
                                                      startAngle:M_PI * (-0.5)
-                                                       endAngle:M_PI * (2 * progress - 0.5)
+                                                       endAngle:M_PI * (2 * self.progress - 0.5)
                                                       clockwise:YES];
     path.lineWidth = lineWidth;
     [path stroke];
 }
 
-- (void)update
+- (void)setStatus:(DZDownloadStatus)status
 {
-    DZDownloadStatus status = self->_downloadTask.status;
     switch (status) {
         case DZDownloadStatus_Complete:
             [self setImageWithName:nil];
@@ -78,24 +72,15 @@
             [self setImageWithName:@"download-button"];
             break;
     }
-    [self setNeedsDisplay];
+    self->_status = status;
 }
 
-- (void)pressButton
+- (void)update
 {
-    DZDownloadStatus status = self->_downloadTask.status;
-    switch (status) {
-        case DZDownloadStatus_Downloading:
-            [self->_downloadTask stop];
-            break;
-        case DZDownloadStatus_None:
-        case DZDownloadStatus_Paused:
-            [self->_downloadTask start];
-            break;
-        default:
-            break;
-    }
-    [self update];
+    DZDownloadInfo info = [DZDownloadList downloadInfoWithItem:self.feedItem];
+    self.status = info.status;
+    self.progress = info.progress;
+    [self setNeedsDisplay];
 }
 
 @end

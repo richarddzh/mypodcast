@@ -10,7 +10,7 @@
 		79046421198CABFC00FF6C22 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7932AD80198A37C300151759 /* AudioToolbox.framework */; };
 		79046430198E263600FF6C22 /* DZAudioQueuePlayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7904642E198E263600FF6C22 /* DZAudioQueuePlayer.cpp */; };
 		79046433198E418000FF6C22 /* DZAudioPlayer.mm in Sources */ = {isa = PBXBuildFile; fileRef = 79046432198E418000FF6C22 /* DZAudioPlayer.mm */; };
-		7918083519B546A00059B5B8 /* DZDownload.m in Sources */ = {isa = PBXBuildFile; fileRef = 7918083419B546A00059B5B8 /* DZDownload.m */; };
+		7918083519B546A00059B5B8 /* DZDownloadList.m in Sources */ = {isa = PBXBuildFile; fileRef = 7918083419B546A00059B5B8 /* DZDownloadList.m */; };
 		7918083819B5526A0059B5B8 /* DZDownloadButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 7918083719B5526A0059B5B8 /* DZDownloadButton.m */; };
 		7918084119B553750059B5B8 /* download-button.png in Resources */ = {isa = PBXBuildFile; fileRef = 7918083B19B553750059B5B8 /* download-button.png */; };
 		7918084219B553750059B5B8 /* download-button@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7918083C19B553750059B5B8 /* download-button@2x.png */; };
@@ -83,8 +83,8 @@
 		7904642F198E263600FF6C22 /* DZAudioQueuePlayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DZAudioQueuePlayer.h; sourceTree = "<group>"; };
 		79046431198E418000FF6C22 /* DZAudioPlayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DZAudioPlayer.h; sourceTree = "<group>"; };
 		79046432198E418000FF6C22 /* DZAudioPlayer.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; lineEnding = 0; path = DZAudioPlayer.mm; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
-		7918083319B546A00059B5B8 /* DZDownload.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DZDownload.h; sourceTree = "<group>"; };
-		7918083419B546A00059B5B8 /* DZDownload.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DZDownload.m; sourceTree = "<group>"; };
+		7918083319B546A00059B5B8 /* DZDownloadList.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DZDownloadList.h; sourceTree = "<group>"; };
+		7918083419B546A00059B5B8 /* DZDownloadList.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DZDownloadList.m; sourceTree = "<group>"; };
 		7918083619B5526A0059B5B8 /* DZDownloadButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DZDownloadButton.h; sourceTree = "<group>"; };
 		7918083719B5526A0059B5B8 /* DZDownloadButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DZDownloadButton.m; sourceTree = "<group>"; };
 		7918083B19B553750059B5B8 /* download-button.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "download-button.png"; sourceTree = "<group>"; };
@@ -242,8 +242,8 @@
 				79046432198E418000FF6C22 /* DZAudioPlayer.mm */,
 				798CAF5E1994F5C000172D13 /* DZFileStream.h */,
 				798CAF5F1994F5C000172D13 /* DZFileStream.m */,
-				7918083319B546A00059B5B8 /* DZDownload.h */,
-				7918083419B546A00059B5B8 /* DZDownload.m */,
+				7918083319B546A00059B5B8 /* DZDownloadList.h */,
+				7918083419B546A00059B5B8 /* DZDownloadList.m */,
 				79E4F32519B71D50000444BA /* DZPlayList.h */,
 				79E4F32619B71D50000444BA /* DZPlayList.m */,
 			);
@@ -484,7 +484,7 @@
 				7918083819B5526A0059B5B8 /* DZDownloadButton.m in Sources */,
 				7939A284199E367200EF6339 /* DZFeedParser.m in Sources */,
 				7932AD5D198A1B5000151759 /* DZAppDelegate.m in Sources */,
-				7918083519B546A00059B5B8 /* DZDownload.m in Sources */,
+				7918083519B546A00059B5B8 /* DZDownloadList.m in Sources */,
 				79E4F32419B6ADAC000444BA /* UIButton+DZImagePool.m in Sources */,
 				79046430198E263600FF6C22 /* DZAudioQueuePlayer.cpp in Sources */,
 				79A2E4EB19B202D300FAD4D8 /* UIImage+DZImagePool.m in Sources */,

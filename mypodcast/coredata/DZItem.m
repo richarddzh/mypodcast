@@ -21,6 +21,7 @@
 @dynamic title;
 @dynamic url;
 @dynamic lastPlay;
+@dynamic fileSize;
 @dynamic channel;
 
 @end

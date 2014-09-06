@@ -15,6 +15,7 @@
 #import "DZPlayList.h"
 #import "DZAudioPlayer.h"
 #import "DZDownloadButton.h"
+#import "DZFileStream.h"
 
 @interface DZFeedViewController ()
 {
@@ -54,8 +55,10 @@
     self.feedChannel = [database channelWithURL:url];
     [self filterFeedItems];
     [[DZEventCenter sharedInstance]addHandler:self forEventID:DZEventID_PlayerWillStartPlaying];
-    [[DZEventCenter sharedInstance]addHandler:self forEventID:DZEventID_DownloadDidComplete];
-    [[DZEventCenter sharedInstance]addHandler:self forEventID:DZEventID_DownloadDidReceiveData];
+    [[DZEventCenter sharedInstance]addHandler:self forEventID:DZEventID_FileStreamWillStartDownload];
+    [[DZEventCenter sharedInstance]addHandler:self forEventID:DZEventID_FileStreamWillReceiveDownloadData];
+    [[DZEventCenter sharedInstance]addHandler:self forEventID:DZEventID_FileStreamDidReceiveDownloadData];
+    [[DZEventCenter sharedInstance]addHandler:self forEventID:DZEventID_FileStreamDidCompleteDownload];
 }
 
 - (void)didReceiveMemoryWarning
@@ -63,8 +66,10 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
     [[DZEventCenter sharedInstance]removeHandler:self forEventID:DZEventID_PlayerWillStartPlaying];
-    [[DZEventCenter sharedInstance]removeHandler:self forEventID:DZEventID_DownloadDidReceiveData];
-    [[DZEventCenter sharedInstance]removeHandler:self forEventID:DZEventID_DownloadDidComplete];
+    [[DZEventCenter sharedInstance]removeHandler:self forEventID:DZEventID_FileStreamWillStartDownload];
+    [[DZEventCenter sharedInstance]removeHandler:self forEventID:DZEventID_FileStreamWillReceiveDownloadData];
+    [[DZEventCenter sharedInstance]removeHandler:self forEventID:DZEventID_FileStreamDidReceiveDownloadData];
+    [[DZEventCenter sharedInstance]removeHandler:self forEventID:DZEventID_FileStreamDidCompleteDownload];
 }
 
 #pragma mark - Table view data source
@@ -195,12 +200,13 @@
             [[DZFeedItemCell cellWithURL:[NSURL URLWithString:playList.lastItem.url]]update];
             [[DZFeedItemCell cellWithURL:[NSURL URLWithString:playList.currentItem.url]]update];
             break;
-        case DZEventID_DownloadDidComplete:
-        case DZEventID_DownloadDidReceiveData:
+        case DZEventID_FileStreamDidReceiveDownloadData:
+        case DZEventID_FileStreamWillStartDownload:
+        case DZEventID_FileStreamWillReceiveDownloadData:
+        case DZEventID_FileStreamDidCompleteDownload:
         {
-            DZDownload * download = source;
-            DZFeedItemCell * cell = [DZFeedItemCell cellWithURL:download.url];
-            [cell.downloadButton update];
+            DZFileStream * stream = source;
+            [[[DZFeedItemCell cellWithURL:stream.url]downloadButton]update];
             break;
         }
         default:
@@ -210,10 +216,20 @@
 
 - (IBAction)onDownloadButton:(id)sender
 {
-    if ([sender isKindOfClass:[DZDownloadButton class]]) {
-        DZDownloadButton * button = sender;
-        [button pressButton];
+    DZDownloadButton * button = sender;
+    DZDownloadInfo info = [DZDownloadList downloadInfoWithItem:button.feedItem];
+    switch (info.status) {
+        case DZDownloadStatus_None:
+        case DZDownloadStatus_Paused:
+            [DZDownloadList startDownloadItem:button.feedItem];
+            break;
+        case DZDownloadStatus_Downloading:
+            [DZDownloadList stopDownloadItem:button.feedItem];
+            break;
+        default:
+            break;
     }
+    [button update];
 }
 
 @end

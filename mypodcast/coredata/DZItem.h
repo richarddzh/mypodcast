@@ -22,6 +22,7 @@
 @property (nonatomic, retain) NSString * title;
 @property (nonatomic, retain) NSString * url;
 @property (nonatomic, retain) NSNumber * lastPlay;
+@property (nonatomic, retain) NSNumber * fileSize;
 @property (nonatomic, retain) DZChannel *channel;
 
 @end

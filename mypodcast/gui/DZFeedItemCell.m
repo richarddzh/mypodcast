@@ -94,11 +94,8 @@ static NSMutableDictionary * _mapURLToCell;
     } else {
         self.bulletImageView.image = [UIImage templateImageWithName:@"new-bullet"];
     }
-    if (self->_downloadButton.downloadTask == nil
-        || ![self->_downloadButton.downloadTask.url isEqual:[NSURL URLWithString:item.url]]) {
-        self->_downloadButton.downloadTask = [DZDownload downloadWithFeedItem:item];
-    }
-    [self->_downloadButton update];
+    self.downloadButton.feedItem = item;
+    [self.downloadButton update];
 }
 
 - (void)update

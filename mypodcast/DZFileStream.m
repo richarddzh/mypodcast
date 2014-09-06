@@ -8,6 +8,8 @@
 
 #import "DZFileStream.h"
 #import "DZCache.h"
+#import "DZItem.h"
+#import "DZEventCenter.h"
 
 @interface DZURLSessionDelegate : NSObject <NSURLSessionDataDelegate>
 @end
@@ -26,19 +28,31 @@ static NSMutableDictionary * _mapURLToFileStream = nil;
     NSURL * _url;
     NSInteger _numByteDownloaded;
     NSInteger _numByteFileLength;
-    NSInteger _userCount;
 }
-- (void)closeAnyway;
 @end
 
 @implementation DZFileStream
 
-+ (DZFileStream *)streamExistingWithURL:(NSURL *)url
+@synthesize delegate = _delegate;
+@synthesize feedItem = _feedItem;
+
++ (DZFileStream *)existingStreamWithFeedItem:(DZItem *)item
 {
-    DZFileStream * stream = [_mapURLToFileStream objectForKey:url];
-    if (stream != nil) {
-        stream->_userCount++;
+    if (_mapURLToFileStream == nil) {
+        _mapURLToFileStream = [NSMutableDictionary dictionary];
     }
+    DZFileStream * stream = [_mapURLToFileStream objectForKey:[NSURL URLWithString:item.url]];
+    return stream;
+}
+
++ (DZFileStream *)streamWithFeedItem:(DZItem *)item
+{
+    NSURL * url = [NSURL URLWithString:item.url];
+    if (item == nil || item.url == nil || url == nil) {
+        return nil;
+    }
+    DZFileStream * stream = [DZFileStream streamWithURL:url];
+    stream->_feedItem = item;
     return stream;
 }
 
@@ -60,15 +74,13 @@ static NSMutableDictionary * _mapURLToFileStream = nil;
             if ([fmgr fileExistsAtPath:path]) {
                 stream = [[DZFileStreamLocal alloc]initWithFileAtPath:path];
                 stream->_url = url;
-                stream->_userCount = 0;
             } else {
                 stream = [[DZFileStreamHttp alloc]initWithURL:url downloadPath:path];
-                stream->_userCount = 0;
             }
         }
-    }
-    if (stream != nil) {
-        stream->_userCount++;
+        if (stream != nil) {
+            [_mapURLToFileStream setObject:stream forKey:url];
+        }
     }
     return stream;
 }
@@ -105,20 +117,13 @@ static NSMutableDictionary * _mapURLToFileStream = nil;
     return NO;
 }
 
-- (void)closeAnyway
+- (void)close
 {
     if (self->_fp != NULL) {
         fclose(self->_fp);
         self->_fp = NULL;
     }
-}
-
-- (void)close
-{
-    self->_userCount--;
-    if (self->_userCount < 1) {
-        [self closeAnyway];
-    }
+    [_mapURLToFileStream removeObjectForKey:self->_url];
 }
 
 - (NSInteger)numByteFileLength
@@ -129,6 +134,11 @@ static NSMutableDictionary * _mapURLToFileStream = nil;
 - (NSInteger)numByteDownloaded
 {
     return self->_numByteDownloaded;
+}
+
+- (NSURL *)url
+{
+    return self->_url;
 }
 
 @end
@@ -187,8 +197,8 @@ static NSMutableDictionary * _mapURLToFileStream = nil;
         if (_urlTaskMap == nil) {
             _urlTaskMap = [NSMutableDictionary dictionary];
         }
-        self->_url = url;
         self->_path = path;
+        self->_url = url;
         self->_tempPath = [[DZCache sharedInstance]getTemporaryFilePathWithURL:url];
         self->_numByteDownloaded = 0;
         self->_numByteFileLength = NSIntegerMax;
@@ -214,11 +224,11 @@ static NSMutableDictionary * _mapURLToFileStream = nil;
     return self;
 }
 
-- (void)closeAnyway
+- (void)close
 {
     [self->_task cancel];
     self->_task = nil;
-    [super closeAnyway];
+    [super close];
 }
 
 - (void)issueNewTask
@@ -238,6 +248,10 @@ static NSMutableDictionary * _mapURLToFileStream = nil;
     self->_task = [_urlSession dataTaskWithRequest:req];
     [_urlTaskMap setObject:self forKey:@(self->_task.taskIdentifier)];
     [self->_task resume];
+    [self.delegate fileStreamWillStartDownload:self];
+    [[DZEventCenter sharedInstance]fireEventWithID:DZEventID_FileStreamWillStartDownload
+                                          userInfo:nil
+                                        fromSource:self];
 }
 
 - (NSInteger)read:(uint8_t *)dataBuffer maxLength:(NSUInteger)len
@@ -290,20 +304,28 @@ static NSMutableDictionary * _mapURLToFileStream = nil;
     NSRange dilim = [contentRange rangeOfString:@"/"];
     if (dilim.location != NSNotFound) {
         self->_numByteFileLength = [[contentRange substringFromIndex:dilim.location + 1]integerValue];
+        self.feedItem.fileSize = @(self->_numByteFileLength);
     }
+    [self.delegate fileStreamWillReceiveDownloadData:self];
+    [[DZEventCenter sharedInstance]fireEventWithID:DZEventID_FileStreamWillReceiveDownloadData
+                                          userInfo:nil
+                                        fromSource:self];
     completionHandler(NSURLSessionResponseAllow);
 }
 
 - (void)URLSession:(NSURLSession *)session dataTask:(NSURLSessionDataTask *)dataTask didReceiveData:(NSData *)data
 {
     if (self->_fp != NULL && self->_task == dataTask) {
-        [self.delegate fileStreamDidReceiveData:self];
         [data enumerateByteRangesUsingBlock:^(const void *bytes, NSRange byteRange, BOOL *stop) {
             if (self->_fp != NULL) {
                 NSInteger written = fwrite(bytes, 1, byteRange.length, self->_fp);
                 self->_numByteDownloaded += written;
             }
         }];
+        [self.delegate fileStreamDidReceiveDownloadData:self];
+        [[DZEventCenter sharedInstance]fireEventWithID:DZEventID_FileStreamDidReceiveDownloadData
+                                              userInfo:nil
+                                            fromSource:self];
     }
 }
 
@@ -329,6 +351,9 @@ static NSMutableDictionary * _mapURLToFileStream = nil;
             NSLog(@"[ERROR] cannot open file %@", self->_path);
         }
         [self.delegate fileStreamDidCompleteDownload:self];
+        [[DZEventCenter sharedInstance]fireEventWithID:DZEventID_FileStreamDidCompleteDownload
+                                              userInfo:nil
+                                            fromSource:self];
     }
 }
 

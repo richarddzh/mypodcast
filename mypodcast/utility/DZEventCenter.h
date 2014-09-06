@@ -13,8 +13,10 @@ typedef enum _dz_event_id_type_ {
     DZEventID_PlayerDidFinishPlaying,
     DZEventID_PlayerIsPlaying,
     DZEventID_PlayerWillAbortPlaying,
-    DZEventID_DownloadDidReceiveData,
-    DZEventID_DownloadDidComplete,
+    DZEventID_FileStreamWillStartDownload,
+    DZEventID_FileStreamWillReceiveDownloadData,
+    DZEventID_FileStreamDidReceiveDownloadData,
+    DZEventID_FileStreamDidCompleteDownload,
 } DZEventIDType;
 
 @protocol DZEventHandler <NSObject>
