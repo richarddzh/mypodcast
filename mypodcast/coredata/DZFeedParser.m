@@ -48,6 +48,7 @@ NSNumber * DZTimeFromString(NSString * s)
 NSDate * DZDateFromString(NSString * s)
 {
     NSDateFormatter * format = [[NSDateFormatter alloc]init];
+    [format setLocale:[NSLocale localeWithLocaleIdentifier:@"en_US"]];
     NSDate * date = [format dateFromString:s];
     if (date == nil) {
         [format setDateFormat:@"EEE, d MMM yyyy h:m:s ZZZ"];
