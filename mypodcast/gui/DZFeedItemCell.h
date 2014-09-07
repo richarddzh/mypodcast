@@ -7,11 +7,12 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "SWTableViewCell.h"
 
 @class DZItem;
 @class DZDownloadButton;
 
-@interface DZFeedItemCell : UITableViewCell
+@interface DZFeedItemCell : SWTableViewCell
 
 @property (nonatomic,retain) IBOutlet UIImageView * bulletImageView;
 @property (nonatomic,retain) IBOutlet UILabel * titleLabel;

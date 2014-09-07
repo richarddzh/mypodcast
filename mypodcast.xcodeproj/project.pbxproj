@@ -39,6 +39,12 @@
 		7939A235199DE99500EF6339 /* DZDatabase.m in Sources */ = {isa = PBXBuildFile; fileRef = 7939A233199DE99500EF6339 /* DZDatabase.m */; };
 		7939A281199E05BC00EF6339 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7939A280199E05BC00EF6339 /* CoreData.framework */; };
 		7939A284199E367200EF6339 /* DZFeedParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 7939A283199E367200EF6339 /* DZFeedParser.m */; };
+		7953679519BBCBAC00CE997A /* NSMutableArray+SWUtilityButtons.m in Sources */ = {isa = PBXBuildFile; fileRef = 7953678A19BBCBAC00CE997A /* NSMutableArray+SWUtilityButtons.m */; };
+		7953679619BBCBAC00CE997A /* SWCellScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7953678C19BBCBAC00CE997A /* SWCellScrollView.m */; };
+		7953679719BBCBAC00CE997A /* SWLongPressGestureRecognizer.m in Sources */ = {isa = PBXBuildFile; fileRef = 7953678E19BBCBAC00CE997A /* SWLongPressGestureRecognizer.m */; };
+		7953679819BBCBAC00CE997A /* SWTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 7953679019BBCBAC00CE997A /* SWTableViewCell.m */; };
+		7953679919BBCBAC00CE997A /* SWUtilityButtonTapGestureRecognizer.m in Sources */ = {isa = PBXBuildFile; fileRef = 7953679219BBCBAC00CE997A /* SWUtilityButtonTapGestureRecognizer.m */; };
+		7953679A19BBCBAC00CE997A /* SWUtilityButtonView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7953679419BBCBAC00CE997A /* SWUtilityButtonView.m */; };
 		795539F319971C0200D103D0 /* pause-button.png in Resources */ = {isa = PBXBuildFile; fileRef = 795539EF19971C0200D103D0 /* pause-button.png */; };
 		795539F419971C0200D103D0 /* pause-button@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 795539F019971C0200D103D0 /* pause-button@2x.png */; };
 		795539F519971C0200D103D0 /* play-button.png in Resources */ = {isa = PBXBuildFile; fileRef = 795539F119971C0200D103D0 /* play-button.png */; };
@@ -121,6 +127,18 @@
 		7939A280199E05BC00EF6339 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		7939A282199E367200EF6339 /* DZFeedParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DZFeedParser.h; sourceTree = "<group>"; };
 		7939A283199E367200EF6339 /* DZFeedParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DZFeedParser.m; sourceTree = "<group>"; };
+		7953678919BBCBAC00CE997A /* NSMutableArray+SWUtilityButtons.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSMutableArray+SWUtilityButtons.h"; sourceTree = "<group>"; };
+		7953678A19BBCBAC00CE997A /* NSMutableArray+SWUtilityButtons.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSMutableArray+SWUtilityButtons.m"; sourceTree = "<group>"; };
+		7953678B19BBCBAC00CE997A /* SWCellScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SWCellScrollView.h; sourceTree = "<group>"; };
+		7953678C19BBCBAC00CE997A /* SWCellScrollView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SWCellScrollView.m; sourceTree = "<group>"; };
+		7953678D19BBCBAC00CE997A /* SWLongPressGestureRecognizer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SWLongPressGestureRecognizer.h; sourceTree = "<group>"; };
+		7953678E19BBCBAC00CE997A /* SWLongPressGestureRecognizer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SWLongPressGestureRecognizer.m; sourceTree = "<group>"; };
+		7953678F19BBCBAC00CE997A /* SWTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SWTableViewCell.h; sourceTree = "<group>"; };
+		7953679019BBCBAC00CE997A /* SWTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SWTableViewCell.m; sourceTree = "<group>"; };
+		7953679119BBCBAC00CE997A /* SWUtilityButtonTapGestureRecognizer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SWUtilityButtonTapGestureRecognizer.h; sourceTree = "<group>"; };
+		7953679219BBCBAC00CE997A /* SWUtilityButtonTapGestureRecognizer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SWUtilityButtonTapGestureRecognizer.m; sourceTree = "<group>"; };
+		7953679319BBCBAC00CE997A /* SWUtilityButtonView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SWUtilityButtonView.h; sourceTree = "<group>"; };
+		7953679419BBCBAC00CE997A /* SWUtilityButtonView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SWUtilityButtonView.m; sourceTree = "<group>"; };
 		795539EF19971C0200D103D0 /* pause-button.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "pause-button.png"; sourceTree = "<group>"; };
 		795539F019971C0200D103D0 /* pause-button@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "pause-button@2x.png"; sourceTree = "<group>"; };
 		795539F119971C0200D103D0 /* play-button.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "play-button.png"; sourceTree = "<group>"; };
@@ -223,6 +241,7 @@
 		7932AD52198A1B5000151759 /* mypodcast */ = {
 			isa = PBXGroup;
 			children = (
+				7953678819BBCAFA00CE997A /* SWTableViewCell */,
 				79828FB619B2C85B0086C669 /* utility */,
 				79A2E4D519B200E600FAD4D8 /* view controllers */,
 				79A2E4D419B1FFDD00FAD4D8 /* gui */,
@@ -292,6 +311,25 @@
 				7939209019A0E5930097AC63 /* DZItem.m */,
 			);
 			path = coredata;
+			sourceTree = "<group>";
+		};
+		7953678819BBCAFA00CE997A /* SWTableViewCell */ = {
+			isa = PBXGroup;
+			children = (
+				7953678919BBCBAC00CE997A /* NSMutableArray+SWUtilityButtons.h */,
+				7953678A19BBCBAC00CE997A /* NSMutableArray+SWUtilityButtons.m */,
+				7953678B19BBCBAC00CE997A /* SWCellScrollView.h */,
+				7953678C19BBCBAC00CE997A /* SWCellScrollView.m */,
+				7953678D19BBCBAC00CE997A /* SWLongPressGestureRecognizer.h */,
+				7953678E19BBCBAC00CE997A /* SWLongPressGestureRecognizer.m */,
+				7953678F19BBCBAC00CE997A /* SWTableViewCell.h */,
+				7953679019BBCBAC00CE997A /* SWTableViewCell.m */,
+				7953679119BBCBAC00CE997A /* SWUtilityButtonTapGestureRecognizer.h */,
+				7953679219BBCBAC00CE997A /* SWUtilityButtonTapGestureRecognizer.m */,
+				7953679319BBCBAC00CE997A /* SWUtilityButtonView.h */,
+				7953679419BBCBAC00CE997A /* SWUtilityButtonView.m */,
+			);
+			path = SWTableViewCell;
 			sourceTree = "<group>";
 		};
 		79828FB619B2C85B0086C669 /* utility */ = {
@@ -480,8 +518,12 @@
 			files = (
 				7939209119A0E5930097AC63 /* DZItem.m in Sources */,
 				798CAF601994F5C000172D13 /* DZFileStream.m in Sources */,
+				7953679819BBCBAC00CE997A /* SWTableViewCell.m in Sources */,
+				7953679519BBCBAC00CE997A /* NSMutableArray+SWUtilityButtons.m in Sources */,
+				7953679719BBCBAC00CE997A /* SWLongPressGestureRecognizer.m in Sources */,
 				79A2E4E719B2015A00FAD4D8 /* DZSlider.m in Sources */,
 				7918083819B5526A0059B5B8 /* DZDownloadButton.m in Sources */,
+				7953679A19BBCBAC00CE997A /* SWUtilityButtonView.m in Sources */,
 				7939A284199E367200EF6339 /* DZFeedParser.m in Sources */,
 				7932AD5D198A1B5000151759 /* DZAppDelegate.m in Sources */,
 				7918083519B546A00059B5B8 /* DZDownloadList.m in Sources */,
@@ -497,8 +539,10 @@
 				79A2E4DA19B2015000FAD4D8 /* DZFeedViewController.m in Sources */,
 				7939208D19A0E5930097AC63 /* DZChannel.m in Sources */,
 				796201D419A209FD005E0288 /* DZEventCenter.m in Sources */,
+				7953679919BBCBAC00CE997A /* SWUtilityButtonTapGestureRecognizer.m in Sources */,
 				79046433198E418000FF6C22 /* DZAudioPlayer.mm in Sources */,
 				79828FB919B2C89B0086C669 /* NSString+DZFormatter.m in Sources */,
+				7953679619BBCBAC00CE997A /* SWCellScrollView.m in Sources */,
 				7939A234199DE99500EF6339 /* DZDatabase.m in Sources */,
 				79E4F32719B71D50000444BA /* DZPlayList.m in Sources */,
 			);

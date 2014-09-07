@@ -21,6 +21,7 @@
 {
     NSMutableArray * _tableItems;
 }
+- (NSArray *)rightButtons;
 @end
 
 @implementation DZFeedViewController
@@ -103,6 +104,8 @@
     } else {
         DZFeedItemCell * item = (DZFeedItemCell *)cell;
         item.feedItem = (DZItem *)[self->_tableItems objectAtIndex:indexPath.row];
+        item.rightUtilityButtons = [self rightButtons];
+        item.delegate = self;
     }
     
     return cell;
@@ -118,7 +121,7 @@
 - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
 {
     // Return NO if you do not want the specified item to be editable.
-    return YES;
+    return NO;
 }
 */
 
@@ -126,12 +129,6 @@
 // Override to support editing the table view.
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (editingStyle == UITableViewCellEditingStyleDelete) {
-        // Delete the row from the data source
-        [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
-    } else if (editingStyle == UITableViewCellEditingStyleInsert) {
-        // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-    }   
 }
 */
 
@@ -162,9 +159,20 @@
         if (selection != nil && self->_tableItems != nil) {
             playList.feedItemList = self->_tableItems;
             playList.currentItemIndex = selection.row;
+            [self.tableView deselectRowAtIndexPath:selection animated:YES];
         }
     }
 }
+
+// Have to trigger the segue manually after replacing UITableViewCell with SWTableViewCell.
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    if (indexPath.section == 1) {
+        [self performSegueWithIdentifier:@"DZSeguePlayItem" sender:[tableView cellForRowAtIndexPath:indexPath]];
+    }
+}
+
+# pragma mark - My methods
 
 - (void)filterFeedItems
 {
@@ -192,6 +200,34 @@
     self->_tableItems = [[set sortedArrayUsingDescriptors:@[sorter]]mutableCopy];
 }
 
+- (NSArray *)rightButtons
+{
+    NSMutableArray * buttons = [NSMutableArray array];
+    [buttons sw_addUtilityButtonWithColor:[UIColor lightGrayColor] title:@"More"];
+    [buttons sw_addUtilityButtonWithColor:[UIColor redColor] title:@"Delete"];
+    return buttons;
+}
+
+- (IBAction)onDownloadButton:(id)sender
+{
+    DZDownloadButton * button = sender;
+    DZDownloadInfo info = [DZDownloadList downloadInfoWithItem:button.feedItem];
+    switch (info.status) {
+        case DZDownloadStatus_None:
+        case DZDownloadStatus_Paused:
+            [DZDownloadList startDownloadItem:button.feedItem];
+            break;
+        case DZDownloadStatus_Downloading:
+            [DZDownloadList stopDownloadItem:button.feedItem];
+            break;
+        default:
+            break;
+    }
+    [button update];
+}
+
+#pragma mark - DZEventHandler
+
 - (void)handleEventWithID:(NSInteger)eID userInfo:(id)userInfo fromSource:(id)source
 {
     DZPlayList * playList = [DZPlayList sharedInstance];
@@ -214,22 +250,11 @@
     }
 }
 
-- (IBAction)onDownloadButton:(id)sender
+#pragma mark - SWTableViewCellDelegate
+
+- (BOOL)swipeableTableViewCellShouldHideUtilityButtonsOnSwipe:(SWTableViewCell *)cell
 {
-    DZDownloadButton * button = sender;
-    DZDownloadInfo info = [DZDownloadList downloadInfoWithItem:button.feedItem];
-    switch (info.status) {
-        case DZDownloadStatus_None:
-        case DZDownloadStatus_Paused:
-            [DZDownloadList startDownloadItem:button.feedItem];
-            break;
-        case DZDownloadStatus_Downloading:
-            [DZDownloadList stopDownloadItem:button.feedItem];
-            break;
-        default:
-            break;
-    }
-    [button update];
+    return YES;
 }
 
 @end
