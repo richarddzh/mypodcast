@@ -40,6 +40,9 @@
     if (self.status == DZDownloadStatus_Complete || self.status == DZDownloadStatus_None) {
         return;
     }
+    if (self.progress < 0 || self.progress > 1) {
+        return;
+    }
     
     UIColor * color = [self tintColor];
     [color set];

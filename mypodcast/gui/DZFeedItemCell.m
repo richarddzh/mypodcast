@@ -12,6 +12,7 @@
 #import "DZDownloadButton.h"
 #import "UIImage+DZImagePool.h"
 #import "NSString+DZFormatter.h"
+#import "DZItem+DZItemOperation.h"
 
 static NSMutableDictionary * _mapURLToCell;
 
@@ -100,6 +101,7 @@ static NSMutableDictionary * _mapURLToCell;
     }
     self.downloadButton.feedItem = item;
     [self.downloadButton update];
+    self.rightUtilityButtons = self.utilityButtons;
 }
 
 - (void)update
@@ -110,23 +112,25 @@ static NSMutableDictionary * _mapURLToCell;
 - (NSArray *)utilityButtons
 {
     NSMutableArray * buttons = [NSMutableArray array];
+    static UIColor * red, * blue, * gray;
+    if (red == nil) {
+        red = [UIColor redColor];
+        blue = [UIColor colorWithRed:0 green:0.5 blue:1 alpha:1];
+        gray = [UIColor lightGrayColor];
+    }
     
-    [buttons sw_addUtilityButtonWithColor:[UIColor lightGrayColor]
-                                    title:NSLocalizedString(@"More", nil)];
+    [buttons sw_addUtilityButtonWithColor:gray title:NSLocalizedString(@"More", nil)];
     self->_utilityButtonActions[0] = DZFeedItemAction_More;
     
     DZDownloadInfo downloadInfo = [DZDownloadList downloadInfoWithItem:self.feedItem];
     if (downloadInfo.status != DZDownloadStatus_None) {
-        [buttons sw_addUtilityButtonWithColor:[UIColor redColor]
-                                        title:NSLocalizedString(@"Delete", nil)];
+        [buttons sw_addUtilityButtonWithColor:red title:NSLocalizedString(@"Delete", nil)];
         self->_utilityButtonActions[1] = DZFeedItemAction_Delete;
     } else if ([self.feedItem.read boolValue]) {
-        [buttons sw_addUtilityButtonWithColor:[self.contentView tintColor]
-                                        title:NSLocalizedString(@"Mark as unplayed", nil)];
+        [buttons sw_addUtilityButtonWithColor:blue title:NSLocalizedString(@"Mark as unplayed", nil)];
         self->_utilityButtonActions[1] = DZFeedItemAction_MarkUnplayed;
     } else {
-        [buttons sw_addUtilityButtonWithColor:[self.contentView tintColor]
-                                        title:NSLocalizedString(@"Mark as played", nil)];
+        [buttons sw_addUtilityButtonWithColor:blue title:NSLocalizedString(@"Mark as played", nil)];
         self->_utilityButtonActions[1] = DZFeedItemAction_MarkPlayed;
     }
     return buttons;
@@ -170,10 +174,31 @@ static NSMutableDictionary * _mapURLToCell;
         case DZFeedItemAction_More:
             [[self actionSheet]showInView:self];
             break;
+        case DZFeedItemAction_Delete:
+            if (self.feedItem != [[DZPlayList sharedInstance]currentItem]) {
+                [self.feedItem removeDownload];
+            }
+            break;
+        case DZFeedItemAction_MarkPlayed:
+            self.feedItem.read = @(YES);
+            break;
+        case DZFeedItemAction_MarkUnplayed:
+            self.feedItem.read = @(NO);
+            break;
+        case DZFeedItemAction_MoveToSaved:
+            self.feedItem.stored = @(YES);
+            break;
+        case DZFeedItemAction_RemoveFromSaved:
+            self.feedItem.stored = @(NO);
+            break;
         case DZFeedItemAction_Cancel:
         default:
             break;
     }
+    if (action != DZFeedItemAction_More) {
+        [self hideUtilityButtonsAnimated:YES];
+    }
+    [self update];
 }
 
 #pragma mark - UIActionSheet delegate

@@ -104,7 +104,6 @@
     } else {
         DZFeedItemCell * itemCell = (DZFeedItemCell *)cell;
         itemCell.feedItem = (DZItem *)[self->_tableItems objectAtIndex:indexPath.row];
-        itemCell.rightUtilityButtons = [itemCell utilityButtons];
         itemCell.delegate = self;
     }
     
@@ -239,7 +238,10 @@
         case DZEventID_FileStreamDidCompleteDownload:
         {
             DZFileStream * stream = source;
-            [[[DZFeedItemCell cellWithURL:stream.url]downloadButton]update];
+            if (eID == DZEventID_FileStreamDidCompleteDownload) {
+                [DZDownloadList stopDownloadItem:stream.feedItem];
+            }
+            [[DZFeedItemCell cellWithURL:stream.url]update];
             break;
         }
         default:

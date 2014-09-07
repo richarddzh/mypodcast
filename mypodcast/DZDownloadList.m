@@ -25,9 +25,7 @@
         return;
     }
     DZFileStream * stream = [DZFileStream existingStreamWithFeedItem:item];
-    if (stream.numByteDownloaded < stream.numByteFileLength) {
-        [stream close];
-    }
+    [stream close];
 }
 
 + (DZDownloadInfo)downloadInfoWithItem:(DZItem *)item

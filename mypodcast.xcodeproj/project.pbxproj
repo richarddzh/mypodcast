@@ -62,6 +62,7 @@
 		79A2E4E619B2015A00FAD4D8 /* DZFeedItemCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 79A2E4E119B2015A00FAD4D8 /* DZFeedItemCell.m */; };
 		79A2E4E719B2015A00FAD4D8 /* DZSlider.m in Sources */ = {isa = PBXBuildFile; fileRef = 79A2E4E319B2015A00FAD4D8 /* DZSlider.m */; };
 		79A2E4EB19B202D300FAD4D8 /* UIImage+DZImagePool.m in Sources */ = {isa = PBXBuildFile; fileRef = 79A2E4EA19B202D300FAD4D8 /* UIImage+DZImagePool.m */; };
+		79B9719919BC567000E327AE /* DZItem+DZItemOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 79B9719819BC567000E327AE /* DZItem+DZItemOperation.m */; };
 		79E4F32419B6ADAC000444BA /* UIButton+DZImagePool.m in Sources */ = {isa = PBXBuildFile; fileRef = 79E4F32319B6ADAC000444BA /* UIButton+DZImagePool.m */; };
 		79E4F32719B71D50000444BA /* DZPlayList.m in Sources */ = {isa = PBXBuildFile; fileRef = 79E4F32619B71D50000444BA /* DZPlayList.m */; };
 		79FC98CE19932E0400FBC8DB /* slide-thumb.png in Resources */ = {isa = PBXBuildFile; fileRef = 79FC98CD19932E0400FBC8DB /* slide-thumb.png */; };
@@ -163,6 +164,8 @@
 		79A2E4E319B2015A00FAD4D8 /* DZSlider.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DZSlider.m; sourceTree = "<group>"; };
 		79A2E4E919B202D300FAD4D8 /* UIImage+DZImagePool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+DZImagePool.h"; sourceTree = "<group>"; };
 		79A2E4EA19B202D300FAD4D8 /* UIImage+DZImagePool.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+DZImagePool.m"; sourceTree = "<group>"; };
+		79B9719719BC567000E327AE /* DZItem+DZItemOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "DZItem+DZItemOperation.h"; sourceTree = "<group>"; };
+		79B9719819BC567000E327AE /* DZItem+DZItemOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "DZItem+DZItemOperation.m"; sourceTree = "<group>"; };
 		79E4F32219B6ADAC000444BA /* UIButton+DZImagePool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIButton+DZImagePool.h"; sourceTree = "<group>"; };
 		79E4F32319B6ADAC000444BA /* UIButton+DZImagePool.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIButton+DZImagePool.m"; sourceTree = "<group>"; };
 		79E4F32519B71D50000444BA /* DZPlayList.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DZPlayList.h; sourceTree = "<group>"; };
@@ -309,6 +312,8 @@
 				7939A283199E367200EF6339 /* DZFeedParser.m */,
 				7939208F19A0E5930097AC63 /* DZItem.h */,
 				7939209019A0E5930097AC63 /* DZItem.m */,
+				79B9719719BC567000E327AE /* DZItem+DZItemOperation.h */,
+				79B9719819BC567000E327AE /* DZItem+DZItemOperation.m */,
 			);
 			path = coredata;
 			sourceTree = "<group>";
@@ -541,6 +546,7 @@
 				796201D419A209FD005E0288 /* DZEventCenter.m in Sources */,
 				7953679919BBCBAC00CE997A /* SWUtilityButtonTapGestureRecognizer.m in Sources */,
 				79046433198E418000FF6C22 /* DZAudioPlayer.mm in Sources */,
+				79B9719919BC567000E327AE /* DZItem+DZItemOperation.m in Sources */,
 				79828FB919B2C89B0086C669 /* NSString+DZFormatter.m in Sources */,
 				7953679619BBCBAC00CE997A /* SWCellScrollView.m in Sources */,
 				7939A234199DE99500EF6339 /* DZDatabase.m in Sources */,
