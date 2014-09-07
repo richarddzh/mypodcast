@@ -13,15 +13,15 @@
 #import "DZItem.h"
 #import "DZDatabase.h"
 #import "DZPlayList.h"
-#import "DZAudioPlayer.h"
 #import "DZDownloadButton.h"
 #import "DZFileStream.h"
 
 @interface DZFeedViewController ()
 {
     NSMutableArray * _tableItems;
+    SWTableViewCell * _swipeRightCell;
+    DZFeedItemCell * _cellOnActionSheet;
 }
-- (NSArray *)rightButtons;
 @end
 
 @implementation DZFeedViewController
@@ -46,7 +46,7 @@
     
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
-    //DZFeedParser * parser = [[DZFeedParser alloc]init];
+    
     DZDatabase * database = [DZDatabase sharedInstance];
     NSString * url = @"http://www.ximalaya.com/album/236326.xml";
     NSData * data = [NSData dataWithContentsOfURL:[NSURL URLWithString:url]];
@@ -102,10 +102,10 @@
         DZFeedHeaderCell * header = (DZFeedHeaderCell *)cell;
         header.channel = self.feedChannel;
     } else {
-        DZFeedItemCell * item = (DZFeedItemCell *)cell;
-        item.feedItem = (DZItem *)[self->_tableItems objectAtIndex:indexPath.row];
-        item.rightUtilityButtons = [self rightButtons];
-        item.delegate = self;
+        DZFeedItemCell * itemCell = (DZFeedItemCell *)cell;
+        itemCell.feedItem = (DZItem *)[self->_tableItems objectAtIndex:indexPath.row];
+        itemCell.rightUtilityButtons = [itemCell utilityButtons];
+        itemCell.delegate = self;
     }
     
     return cell;
@@ -167,6 +167,11 @@
 // Have to trigger the segue manually after replacing UITableViewCell with SWTableViewCell.
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    if (self->_swipeRightCell != nil) {
+        [self->_swipeRightCell hideUtilityButtonsAnimated:YES];
+        [tableView deselectRowAtIndexPath:indexPath animated:NO];
+        return;
+    }
     if (indexPath.section == 1) {
         [self performSegueWithIdentifier:@"DZSeguePlayItem" sender:[tableView cellForRowAtIndexPath:indexPath]];
     }
@@ -198,14 +203,6 @@
     NSSet * set = [self.feedChannel.items filteredSetUsingPredicate:pred];
     NSSortDescriptor * sorter = [NSSortDescriptor sortDescriptorWithKey:@"pubDate" ascending:NO];
     self->_tableItems = [[set sortedArrayUsingDescriptors:@[sorter]]mutableCopy];
-}
-
-- (NSArray *)rightButtons
-{
-    NSMutableArray * buttons = [NSMutableArray array];
-    [buttons sw_addUtilityButtonWithColor:[UIColor lightGrayColor] title:@"More"];
-    [buttons sw_addUtilityButtonWithColor:[UIColor redColor] title:@"Delete"];
-    return buttons;
 }
 
 - (IBAction)onDownloadButton:(id)sender
@@ -250,11 +247,33 @@
     }
 }
 
-#pragma mark - SWTableViewCellDelegate
+#pragma mark - SWTableViewCell delegate
 
 - (BOOL)swipeableTableViewCellShouldHideUtilityButtonsOnSwipe:(SWTableViewCell *)cell
 {
     return YES;
+}
+
+- (void)swipeableTableViewCell:(SWTableViewCell *)cell didTriggerRightUtilityButtonWithIndex:(NSInteger)index
+{
+    DZFeedItemCell * itemCell = (DZFeedItemCell *)cell;
+    [itemCell performUtilityButtonActionAtIndex:index];
+}
+
+- (void)swipeableTableViewCell:(SWTableViewCell *)cell scrollingToState:(SWCellState)state
+{
+    switch (state) {
+        case kCellStateRight:
+            self->_swipeRightCell = cell;
+            break;
+        case kCellStateCenter:
+            if (cell == self->_swipeRightCell) {
+                self->_swipeRightCell = nil;
+            }
+            break;
+        default:
+            break;
+    }
 }
 
 @end

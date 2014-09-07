@@ -18,7 +18,8 @@ typedef enum _enum_dz_feed_item_filter_ {
     DZFeedItemFilterSaved = 2
 } DZFeedItemFilterType;
 
-@interface DZFeedViewController : UITableViewController <DZEventHandler, SWTableViewCellDelegate>
+@interface DZFeedViewController
+    : UITableViewController <DZEventHandler, SWTableViewCellDelegate>
 
 @property (nonatomic,retain) DZChannel * feedChannel;
 @property (nonatomic,assign) DZFeedItemFilterType feedItemFilter;

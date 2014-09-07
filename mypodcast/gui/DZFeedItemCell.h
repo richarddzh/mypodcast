@@ -12,7 +12,17 @@
 @class DZItem;
 @class DZDownloadButton;
 
-@interface DZFeedItemCell : SWTableViewCell
+typedef enum _dz_feed_item_cell_action_ {
+    DZFeedItemAction_Cancel = 0,
+    DZFeedItemAction_More,
+    DZFeedItemAction_MarkPlayed,
+    DZFeedItemAction_MarkUnplayed,
+    DZFeedItemAction_Delete,
+    DZFeedItemAction_MoveToSaved,
+    DZFeedItemAction_RemoveFromSaved,
+} DZFeedItemCellAction;
+
+@interface DZFeedItemCell : SWTableViewCell <UIActionSheetDelegate>
 
 @property (nonatomic,retain) IBOutlet UIImageView * bulletImageView;
 @property (nonatomic,retain) IBOutlet UILabel * titleLabel;
@@ -22,5 +32,9 @@
 
 + (DZFeedItemCell *)cellWithURL:(NSURL *)url;
 - (void)update;
+
+// For utility buttons.
+- (NSArray *)utilityButtons;
+- (void)performUtilityButtonActionAtIndex:(NSInteger)index;
 
 @end

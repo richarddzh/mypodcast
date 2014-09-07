@@ -18,9 +18,13 @@ static NSMutableDictionary * _mapURLToCell;
 @interface DZFeedItemCell ()
 {
     DZItem * _feedItem;
+    DZFeedItemCellAction _utilityButtonActions[2];
+    DZFeedItemCellAction _sheetActions[3];
 }
 - (void)updateWithFeedItem:(DZItem *)item;
 + (NSMutableDictionary *)mapURLToCell;
+- (UIActionSheet *)actionSheet;
+- (void)performAction:(DZFeedItemCellAction)action;
 @end
 
 @implementation DZFeedItemCell
@@ -101,6 +105,82 @@ static NSMutableDictionary * _mapURLToCell;
 - (void)update
 {
     [self updateWithFeedItem:self->_feedItem];
+}
+
+- (NSArray *)utilityButtons
+{
+    NSMutableArray * buttons = [NSMutableArray array];
+    
+    [buttons sw_addUtilityButtonWithColor:[UIColor lightGrayColor]
+                                    title:NSLocalizedString(@"More", nil)];
+    self->_utilityButtonActions[0] = DZFeedItemAction_More;
+    
+    DZDownloadInfo downloadInfo = [DZDownloadList downloadInfoWithItem:self.feedItem];
+    if (downloadInfo.status != DZDownloadStatus_None) {
+        [buttons sw_addUtilityButtonWithColor:[UIColor redColor]
+                                        title:NSLocalizedString(@"Delete", nil)];
+        self->_utilityButtonActions[1] = DZFeedItemAction_Delete;
+    } else if ([self.feedItem.read boolValue]) {
+        [buttons sw_addUtilityButtonWithColor:[self.contentView tintColor]
+                                        title:NSLocalizedString(@"Mark as unplayed", nil)];
+        self->_utilityButtonActions[1] = DZFeedItemAction_MarkUnplayed;
+    } else {
+        [buttons sw_addUtilityButtonWithColor:[self.contentView tintColor]
+                                        title:NSLocalizedString(@"Mark as played", nil)];
+        self->_utilityButtonActions[1] = DZFeedItemAction_MarkPlayed;
+    }
+    return buttons;
+}
+
+- (UIActionSheet *)actionSheet
+{
+    NSString * markPlayed = nil;
+    NSString * moveSaved = nil;
+    if ([self.feedItem.read boolValue]) {
+        markPlayed = NSLocalizedString(@"Mark as unplayed", nil);
+        self->_sheetActions[0] = DZFeedItemAction_MarkUnplayed;
+    } else {
+        markPlayed = NSLocalizedString(@"Mark as played", nil);
+        self->_sheetActions[0] = DZFeedItemAction_MarkPlayed;
+    }
+    if ([self.feedItem.stored boolValue]) {
+        moveSaved = NSLocalizedString(@"Remove from saved", nil);
+        self->_sheetActions[1] = DZFeedItemAction_RemoveFromSaved;
+    } else {
+        moveSaved = NSLocalizedString(@"Move to saved", nil);
+        self->_sheetActions[1] = DZFeedItemAction_MoveToSaved;
+    }
+    self->_sheetActions[2] = DZFeedItemAction_Cancel;
+    UIActionSheet * sheet = [[UIActionSheet alloc]initWithTitle:nil
+                                                       delegate:self
+                                              cancelButtonTitle:NSLocalizedString(@"Cancel", nil)
+                                         destructiveButtonTitle:nil
+                                              otherButtonTitles:markPlayed, moveSaved, nil];
+    return sheet;
+}
+
+- (void)performUtilityButtonActionAtIndex:(NSInteger)index
+{
+    [self performAction:self->_utilityButtonActions[index]];
+}
+
+- (void)performAction:(DZFeedItemCellAction)action
+{
+    switch (action) {
+        case DZFeedItemAction_More:
+            [[self actionSheet]showInView:self];
+            break;
+        case DZFeedItemAction_Cancel:
+        default:
+            break;
+    }
+}
+
+#pragma mark - UIActionSheet delegate
+
+- (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    [self performAction:self->_sheetActions[buttonIndex]];
 }
 
 @end
