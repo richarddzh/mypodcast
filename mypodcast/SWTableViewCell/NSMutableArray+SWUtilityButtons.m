@@ -14,6 +14,7 @@
 {
     UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
     button.backgroundColor = color;
+    button.titleLabel.lineBreakMode = NSLineBreakByWordWrapping;
     [button setTitle:title forState:UIControlStateNormal];
     [button setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     [button.titleLabel setAdjustsFontSizeToFitWidth:YES];
