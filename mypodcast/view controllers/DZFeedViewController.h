@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "DZEventCenter.h"
-#import "SWTableViewCell.h"
+#import "DZTableViewController.h"
 
 @class DZChannel;
 
@@ -18,8 +18,7 @@ typedef enum _enum_dz_feed_item_filter_ {
     DZFeedItemFilterSaved = 2
 } DZFeedItemFilterType;
 
-@interface DZFeedViewController
-    : UITableViewController <DZEventHandler, SWTableViewCellDelegate>
+@interface DZFeedViewController : DZTableViewController <DZEventHandler>
 
 @property (nonatomic,retain) DZChannel * feedChannel;
 @property (nonatomic,assign) DZFeedItemFilterType feedItemFilter;

@@ -10,9 +10,11 @@
 
 @interface DZItem (DZItemOperation)
 
+@property (nonatomic) BOOL isRead;
+@property (nonatomic) BOOL isStored;
+
 - (NSURL *)urlObject;
 - (NSString *)downloadFilePath;
 - (NSString *)temporaryFilePath;
-- (void)removeDownload;
 
 @end

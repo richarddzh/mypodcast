@@ -27,29 +27,25 @@
     return [[DZCache sharedInstance]getTemporaryFilePathWithURL:[self urlObject]];
 }
 
-- (void)removeDownload
+
+- (BOOL)isStored
 {
-    [DZDownloadList stopDownloadItem:self];
-    NSFileManager * fmgr = [NSFileManager defaultManager];
-    NSString * downloadPath = [self downloadFilePath];
-    NSString * tempPath = [self temporaryFilePath];
-    NSError * error = nil;
-    if ([fmgr fileExistsAtPath:downloadPath]) {
-        if (![fmgr removeItemAtPath:downloadPath error:&error]) {
-            NSLog(@"[ERROR] remove download file %@. failed with error %@, %@",
-                  downloadPath,
-                  error,
-                  error.debugDescription);
-        }
-    }
-    if ([fmgr fileExistsAtPath:tempPath]) {
-        if (![fmgr removeItemAtPath:tempPath error:&error]) {
-            NSLog(@"[ERROR] remove temporary file %@. failed with error %@, %@",
-                  tempPath,
-                  error,
-                  error.debugDescription);
-        }
-    }
+    return [self.stored boolValue];
+}
+
+- (void)setIsStored:(BOOL)isStored
+{
+    self.stored = @(isStored);
+}
+
+- (BOOL)isRead
+{
+    return [self.read boolValue];
+}
+
+- (void)setIsRead:(BOOL)isRead
+{
+    self.read = @(isRead);
 }
 
 @end

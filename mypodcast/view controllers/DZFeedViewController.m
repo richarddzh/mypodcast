@@ -20,7 +20,6 @@
 {
     NSMutableArray * _tableItems;
     SWTableViewCell * _swipeRightCell;
-    DZFeedItemCell * _cellOnActionSheet;
 }
 @end
 
@@ -207,19 +206,21 @@
 - (IBAction)onDownloadButton:(id)sender
 {
     DZDownloadButton * button = sender;
-    DZDownloadInfo info = [DZDownloadList downloadInfoWithItem:button.feedItem];
+    NSLog(@"%@", button.superview.class);
+    DZItem * feedItem = nil;
+    DZDownloadInfo info = [DZDownloadList downloadInfoWithItem:feedItem];
     switch (info.status) {
         case DZDownloadStatus_None:
         case DZDownloadStatus_Paused:
-            [DZDownloadList startDownloadItem:button.feedItem];
+            [DZDownloadList startDownloadItem:feedItem];
             break;
         case DZDownloadStatus_Downloading:
-            [DZDownloadList stopDownloadItem:button.feedItem];
+            [DZDownloadList stopDownloadItem:feedItem];
             break;
         default:
             break;
     }
-    [button update];
+    [button setNeedsDisplay];
 }
 
 #pragma mark - DZEventHandler
@@ -229,8 +230,8 @@
     DZPlayList * playList = [DZPlayList sharedInstance];
     switch (eID) {
         case DZEventID_PlayerWillStartPlaying:
-            [[DZFeedItemCell cellWithURL:[NSURL URLWithString:playList.lastItem.url]]update];
-            [[DZFeedItemCell cellWithURL:[NSURL URLWithString:playList.currentItem.url]]update];
+            [[DZFeedItemCell cellWithURL:[NSURL URLWithString:playList.lastItem.url]]setNeedsDisplay];
+            [[DZFeedItemCell cellWithURL:[NSURL URLWithString:playList.currentItem.url]]setNeedsDisplay];
             break;
         case DZEventID_FileStreamDidReceiveDownloadData:
         case DZEventID_FileStreamWillStartDownload:
@@ -241,38 +242,9 @@
             if (eID == DZEventID_FileStreamDidCompleteDownload) {
                 [DZDownloadList stopDownloadItem:stream.feedItem];
             }
-            [[DZFeedItemCell cellWithURL:stream.url]update];
+            [[DZFeedItemCell cellWithURL:stream.url]setNeedsDisplay];
             break;
         }
-        default:
-            break;
-    }
-}
-
-#pragma mark - SWTableViewCell delegate
-
-- (BOOL)swipeableTableViewCellShouldHideUtilityButtonsOnSwipe:(SWTableViewCell *)cell
-{
-    return YES;
-}
-
-- (void)swipeableTableViewCell:(SWTableViewCell *)cell didTriggerRightUtilityButtonWithIndex:(NSInteger)index
-{
-    DZFeedItemCell * itemCell = (DZFeedItemCell *)cell;
-    [itemCell performUtilityButtonActionAtIndex:index];
-}
-
-- (void)swipeableTableViewCell:(SWTableViewCell *)cell scrollingToState:(SWCellState)state
-{
-    switch (state) {
-        case kCellStateRight:
-            self->_swipeRightCell = cell;
-            break;
-        case kCellStateCenter:
-            if (cell == self->_swipeRightCell) {
-                self->_swipeRightCell = nil;
-            }
-            break;
         default:
             break;
     }

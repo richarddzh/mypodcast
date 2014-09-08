@@ -11,6 +11,7 @@
 #import "DZCache.h"
 #import "DZPlayList.h"
 #import "DZFileStream.h"
+#import "DZItem+DZItemOperation.h"
 
 @implementation DZDownloadList
 
@@ -60,6 +61,31 @@
         return info;
     }
     return info;
+}
+
++ (void)removeDownloadWithItem:(DZItem *)item
+{
+    [DZDownloadList stopDownloadItem:item];
+    NSFileManager * fmgr = [NSFileManager defaultManager];
+    NSString * downloadPath = [item downloadFilePath];
+    NSString * tempPath = [item temporaryFilePath];
+    NSError * error = nil;
+    if ([fmgr fileExistsAtPath:downloadPath]) {
+        if (![fmgr removeItemAtPath:downloadPath error:&error]) {
+            NSLog(@"[ERROR] remove download file %@. failed with error %@, %@",
+                  downloadPath,
+                  error,
+                  error.debugDescription);
+        }
+    }
+    if ([fmgr fileExistsAtPath:tempPath]) {
+        if (![fmgr removeItemAtPath:tempPath error:&error]) {
+            NSLog(@"[ERROR] remove temporary file %@. failed with error %@, %@",
+                  tempPath,
+                  error,
+                  error.debugDescription);
+        }
+    }
 }
 
 @end

@@ -17,15 +17,8 @@
 static NSMutableDictionary * _mapURLToCell;
 
 @interface DZFeedItemCell ()
-{
-    DZItem * _feedItem;
-    DZFeedItemCellAction _utilityButtonActions[2];
-    DZFeedItemCellAction _sheetActions[3];
-}
 - (void)updateWithFeedItem:(DZItem *)item;
 + (NSMutableDictionary *)mapURLToCell;
-- (UIActionSheet *)actionSheet;
-- (void)performAction:(DZFeedItemCellAction)action;
 @end
 
 @implementation DZFeedItemCell
@@ -64,13 +57,9 @@ static NSMutableDictionary * _mapURLToCell;
     // Configure the view for the selected state
 }
 
-- (DZItem *)feedItem
-{
-    return self->_feedItem;
-}
-
 - (void)setFeedItem:(DZItem *)feedItem
 {
+    self.actionDelegate = self;
     NSMutableDictionary * map = [DZFeedItemCell mapURLToCell];
     if (self->_feedItem != feedItem) {
         if (self->_feedItem.url != nil && self == [map objectForKey:self->_feedItem.url]) {
@@ -79,133 +68,91 @@ static NSMutableDictionary * _mapURLToCell;
         if (feedItem != nil && feedItem.url != nil) {
             [map setObject:self forKey:[NSURL URLWithString:feedItem.url]];
         }
-        [self updateWithFeedItem:feedItem];
+        self->_feedItem = feedItem;
+        [self setNeedsDisplay];
     }
 }
 
 - (void)updateWithFeedItem:(DZItem *)item
 {
-    self->_feedItem = item;
     self.titleLabel.text = item.title;
     self.descriptionLabel.text = [NSString stringWithFormat:@"%@",
                                   [NSString stringFromTime:item.duration.doubleValue]];
+    DZDownloadInfo downloadInfo = [DZDownloadList downloadInfoWithItem:item];
+    self.downloadButton.progress = downloadInfo.progress;
+    self.downloadButton.status = downloadInfo.status;
+    [self removeAllActions];
     DZPlayList * playList = [DZPlayList sharedInstance];
     if (playList.currentItem == item) {
         self.bulletImageView.image = [UIImage templateImageWithName:@"play-bullet"];
-    } else if (item.read.boolValue == YES) {
-        self.bulletImageView.image = nil;
-    } else if (item.lastPlay.doubleValue > 0) {
-        self.bulletImageView.image = [UIImage templateImageWithName:@"half-bullet"];
     } else {
-        self.bulletImageView.image = [UIImage templateImageWithName:@"new-bullet"];
+        if (downloadInfo.status != DZDownloadStatus_None) {
+            [self addActionWithIdentifier:DZFeedItemAction_Delete
+                                     text:NSLocalizedString(@"Delete", nil)
+                              destructive:YES];
+        }
+        if (item.isRead) {
+            self.bulletImageView.image = nil;
+            [self addActionWithIdentifier:DZFeedItemAction_MarkUnplayed
+                                     text:NSLocalizedString(@"Mark as unplayed", nil)
+                              destructive:NO];
+        } else {
+            [self addActionWithIdentifier:DZFeedItemAction_MarkPlayed
+                                     text:NSLocalizedString(@"Mark as played", nil)
+                              destructive:NO];
+            if (item.lastPlay.doubleValue > 0) {
+                self.bulletImageView.image = [UIImage templateImageWithName:@"half-bullet"];
+            } else {
+                self.bulletImageView.image = [UIImage templateImageWithName:@"new-bullet"];
+            }
+        }
+        if (item.isStored) {
+            [self addActionWithIdentifier:DZFeedItemAction_RemoveFromSaved
+                                     text:NSLocalizedString(@"Remove from saved", nil)
+                              destructive:NO];
+        } else {
+            [self addActionWithIdentifier:DZFeedItemAction_MoveToSaved
+                                     text:NSLocalizedString(@"Move to saved", nil)
+                              destructive:NO];
+        }
     }
-    self.downloadButton.feedItem = item;
-    [self.downloadButton update];
-    self.rightUtilityButtons = self.utilityButtons;
+    [self updateActionButtons];
 }
 
-- (void)update
+- (void)setNeedsDisplay
 {
-    [self updateWithFeedItem:self->_feedItem];
+    if (self.feedItem != nil) {
+        [self updateWithFeedItem:self.feedItem];
+    }
+    [super setNeedsDisplay];
 }
 
-- (NSArray *)utilityButtons
+- (void)cell:(DZTableViewCell *)cell didTriggerAction:(NSInteger)actionID
 {
-    NSMutableArray * buttons = [NSMutableArray array];
-    static UIColor * red, * blue, * gray;
-    if (red == nil) {
-        red = [UIColor redColor];
-        blue = [UIColor colorWithRed:0 green:0.5 blue:1 alpha:1];
-        gray = [UIColor lightGrayColor];
-    }
-    
-    [buttons sw_addUtilityButtonWithColor:gray title:NSLocalizedString(@"More", nil)];
-    self->_utilityButtonActions[0] = DZFeedItemAction_More;
-    
-    DZDownloadInfo downloadInfo = [DZDownloadList downloadInfoWithItem:self.feedItem];
-    if (downloadInfo.status != DZDownloadStatus_None) {
-        [buttons sw_addUtilityButtonWithColor:red title:NSLocalizedString(@"Delete", nil)];
-        self->_utilityButtonActions[1] = DZFeedItemAction_Delete;
-    } else if ([self.feedItem.read boolValue]) {
-        [buttons sw_addUtilityButtonWithColor:blue title:NSLocalizedString(@"Mark as unplayed", nil)];
-        self->_utilityButtonActions[1] = DZFeedItemAction_MarkUnplayed;
-    } else {
-        [buttons sw_addUtilityButtonWithColor:blue title:NSLocalizedString(@"Mark as played", nil)];
-        self->_utilityButtonActions[1] = DZFeedItemAction_MarkPlayed;
-    }
-    return buttons;
-}
-
-- (UIActionSheet *)actionSheet
-{
-    NSString * markPlayed = nil;
-    NSString * moveSaved = nil;
-    if ([self.feedItem.read boolValue]) {
-        markPlayed = NSLocalizedString(@"Mark as unplayed", nil);
-        self->_sheetActions[0] = DZFeedItemAction_MarkUnplayed;
-    } else {
-        markPlayed = NSLocalizedString(@"Mark as played", nil);
-        self->_sheetActions[0] = DZFeedItemAction_MarkPlayed;
-    }
-    if ([self.feedItem.stored boolValue]) {
-        moveSaved = NSLocalizedString(@"Remove from saved", nil);
-        self->_sheetActions[1] = DZFeedItemAction_RemoveFromSaved;
-    } else {
-        moveSaved = NSLocalizedString(@"Move to saved", nil);
-        self->_sheetActions[1] = DZFeedItemAction_MoveToSaved;
-    }
-    self->_sheetActions[2] = DZFeedItemAction_Cancel;
-    UIActionSheet * sheet = [[UIActionSheet alloc]initWithTitle:nil
-                                                       delegate:self
-                                              cancelButtonTitle:NSLocalizedString(@"Cancel", nil)
-                                         destructiveButtonTitle:nil
-                                              otherButtonTitles:markPlayed, moveSaved, nil];
-    return sheet;
-}
-
-- (void)performUtilityButtonActionAtIndex:(NSInteger)index
-{
-    [self performAction:self->_utilityButtonActions[index]];
-}
-
-- (void)performAction:(DZFeedItemCellAction)action
-{
-    switch (action) {
-        case DZFeedItemAction_More:
-            [[self actionSheet]showInView:self];
-            break;
+    switch (actionID) {
         case DZFeedItemAction_Delete:
             if (self.feedItem != [[DZPlayList sharedInstance]currentItem]) {
-                [self.feedItem removeDownload];
+                [DZDownloadList removeDownloadWithItem:self.feedItem];
             }
             break;
         case DZFeedItemAction_MarkPlayed:
-            self.feedItem.read = @(YES);
+            self.feedItem.isRead = YES;
             break;
         case DZFeedItemAction_MarkUnplayed:
-            self.feedItem.read = @(NO);
+            self.feedItem.isRead = NO;
             break;
         case DZFeedItemAction_MoveToSaved:
-            self.feedItem.stored = @(YES);
+            self.feedItem.isStored = YES;
             break;
         case DZFeedItemAction_RemoveFromSaved:
-            self.feedItem.stored = @(NO);
+            self.feedItem.isStored = NO;
             break;
+        case DZFeedItemAction_More:
         case DZFeedItemAction_Cancel:
         default:
             break;
     }
-    if (action != DZFeedItemAction_More) {
-        [self hideUtilityButtonsAnimated:YES];
-    }
-    [self update];
-}
-
-#pragma mark - UIActionSheet delegate
-
-- (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
-{
-    [self performAction:self->_sheetActions[buttonIndex]];
+    [cell setNeedsDisplay];
 }
 
 @end

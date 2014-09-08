@@ -26,6 +26,7 @@ typedef struct _dz_download_info_ {
 
 + (void)startDownloadItem:(DZItem *)item;
 + (void)stopDownloadItem:(DZItem *)item;
++ (void)removeDownloadWithItem:(DZItem *)item;
 + (DZDownloadInfo)downloadInfoWithItem:(DZItem *)item;
 
 @end

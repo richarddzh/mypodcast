@@ -13,8 +13,5 @@
 
 @property (nonatomic,assign) DZDownloadStatus status;
 @property (nonatomic,assign) float progress;
-@property (nonatomic,weak) DZItem * feedItem;
-
-- (void)update;
 
 @end

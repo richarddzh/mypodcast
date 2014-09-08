@@ -12,24 +12,6 @@
 
 @implementation DZDownloadButton
 
-- (id)initWithFrame:(CGRect)frame
-{
-    self = [super initWithFrame:frame];
-    if (self) {
-        // Initialization code
-    }
-    return self;
-}
-
-- (id)initWithCoder:(NSCoder *)aDecoder
-{
-    self = [super initWithCoder:aDecoder];
-    if (self) {
-        // Initialization code
-    }
-    return self;
-}
-
 // Only override drawRect: if you perform custom drawing.
 // An empty implementation adversely affects performance during animation.
 - (void)drawRect:(CGRect)rect
@@ -78,12 +60,12 @@
     self->_status = status;
 }
 
-- (void)update
+- (void)setProgress:(float)progress
 {
-    DZDownloadInfo info = [DZDownloadList downloadInfoWithItem:self.feedItem];
-    self.status = info.status;
-    self.progress = info.progress;
-    [self setNeedsDisplay];
+    if (self->_progress != progress) {
+        self->_progress = progress;
+        [self setNeedsDisplay];
+    }
 }
 
 @end

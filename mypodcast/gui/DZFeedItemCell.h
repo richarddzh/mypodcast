@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "SWTableViewCell.h"
+#import "DZTableViewCell.h"
 
 @class DZItem;
 @class DZDownloadButton;
@@ -22,7 +22,7 @@ typedef enum _dz_feed_item_cell_action_ {
     DZFeedItemAction_RemoveFromSaved,
 } DZFeedItemCellAction;
 
-@interface DZFeedItemCell : SWTableViewCell <UIActionSheetDelegate>
+@interface DZFeedItemCell : DZTableViewCell <DZTabelViewCellActionDelegate>
 
 @property (nonatomic,retain) IBOutlet UIImageView * bulletImageView;
 @property (nonatomic,retain) IBOutlet UILabel * titleLabel;
@@ -31,10 +31,5 @@ typedef enum _dz_feed_item_cell_action_ {
 @property (nonatomic,retain) DZItem * feedItem;
 
 + (DZFeedItemCell *)cellWithURL:(NSURL *)url;
-- (void)update;
-
-// For utility buttons.
-- (NSArray *)utilityButtons;
-- (void)performUtilityButtonActionAtIndex:(NSInteger)index;
 
 @end
