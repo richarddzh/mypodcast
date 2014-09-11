@@ -195,6 +195,9 @@
         case DZFeedItemFilterUnplayed:
             pred = [NSPredicate predicateWithFormat:@"read == 0"];
             break;
+        case DZFeedItemFilterDownload:
+            pred = [NSPredicate predicateWithFormat:@"downloadProgress != 0"];
+            break;
         default:
             pred = [NSPredicate predicateWithValue:YES];
             break;

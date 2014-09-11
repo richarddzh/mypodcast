@@ -15,7 +15,8 @@
 typedef enum _enum_dz_feed_item_filter_ {
     DZFeedItemFilterUnplayed = 0,
     DZFeedItemFilterFeed = 1,
-    DZFeedItemFilterSaved = 2
+    DZFeedItemFilterSaved = 2,
+    DZFeedItemFilterDownload = 3,
 } DZFeedItemFilterType;
 
 @interface DZFeedViewController : DZTableViewController <DZEventHandler>

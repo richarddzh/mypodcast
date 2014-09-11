@@ -126,7 +126,16 @@ static NSMutableDictionary * _mapURLToStream;
         return info;
     }
     return info;
+}
 
+- (float)downloadProgress
+{
+    return self.downloadInfo.progress;
+}
+
+- (DZDownloadStatus)downloadStatus
+{
+    return self.downloadInfo.status;
 }
 
 @end

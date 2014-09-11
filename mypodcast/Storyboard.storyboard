@@ -40,13 +40,14 @@ demo</string>
                                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                             <nil key="highlightedColor"/>
                                         </label>
-                                        <segmentedControl opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="MNo-3L-w3C">
+                                        <segmentedControl opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="top" apportionsSegmentWidthsByContent="YES" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="MNo-3L-w3C">
                                             <rect key="frame" x="20" y="90" width="280" height="29"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             <segments>
                                                 <segment title="Unplayed"/>
                                                 <segment title="Feed"/>
                                                 <segment title="Saved"/>
+                                                <segment title="Download"/>
                                             </segments>
                                             <connections>
                                                 <action selector="onSegmentedControlValueChanged:" destination="knv-Up-iFM" eventType="valueChanged" id="Zjf-Ie-Jf7"/>

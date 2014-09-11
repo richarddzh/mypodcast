@@ -25,6 +25,8 @@ typedef struct _dz_download_info_ {
 @interface DZItem (DZItemDownload)
 
 @property (nonatomic,assign,readonly) DZDownloadInfo downloadInfo;
+@property (nonatomic,assign,readonly) float downloadProgress;
+@property (nonatomic,assign,readonly) DZDownloadStatus downloadStatus;
 
 - (void)startDownload;
 - (void)stopDownload;
