@@ -208,14 +208,14 @@
     DZDownloadButton * button = sender;
     NSLog(@"%@", button.superview.class);
     DZItem * feedItem = nil;
-    DZDownloadInfo info = [DZDownloadList downloadInfoWithItem:feedItem];
+    DZDownloadInfo info = feedItem.downloadInfo;
     switch (info.status) {
         case DZDownloadStatus_None:
         case DZDownloadStatus_Paused:
-            [DZDownloadList startDownloadItem:feedItem];
+            [feedItem startDownload];
             break;
         case DZDownloadStatus_Downloading:
-            [DZDownloadList stopDownloadItem:feedItem];
+            [feedItem stopDownload];
             break;
         default:
             break;
@@ -239,9 +239,6 @@
         case DZEventID_FileStreamDidCompleteDownload:
         {
             DZFileStream * stream = source;
-            if (eID == DZEventID_FileStreamDidCompleteDownload) {
-                [DZDownloadList stopDownloadItem:stream.feedItem];
-            }
             [[DZFeedItemCell cellWithURL:stream.url]setNeedsDisplay];
             break;
         }

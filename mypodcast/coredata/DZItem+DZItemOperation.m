@@ -7,8 +7,8 @@
 //
 
 #import "DZItem+DZItemOperation.h"
-#import "DZDownloadList.h"
 #import "DZCache.h"
+#import "DZPlayList.h"
 
 @implementation DZItem (DZItemOperation)
 
@@ -46,6 +46,31 @@
 - (void)setIsRead:(BOOL)isRead
 {
     self.read = @(isRead);
+}
+
+- (NSTimeInterval)lastPlayTimeInterval
+{
+    return [self.lastPlay doubleValue];
+}
+
+- (void)setLastPlayTimeInterval:(NSTimeInterval)lastPlayTimeInterval
+{
+    self.lastPlay = @(lastPlayTimeInterval);
+}
+
+- (BOOL)isPlaying
+{
+    return self == [[DZPlayList sharedInstance]currentItem];
+}
+
+- (NSInteger)fileSizeInteger
+{
+    return [self.fileSize integerValue];
+}
+
+- (void)setFileSizeInteger:(NSInteger)fileSizeInteger
+{
+    self.fileSize = @(fileSizeInteger);
 }
 
 @end

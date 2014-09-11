@@ -8,6 +8,8 @@
 
 #import <Foundation/Foundation.h>
 
+@class DZItem;
+
 typedef enum _dz_player_status_ {
     DZPlayerStatus_Stop = 0,
     DZPlayerStatus_Play,
@@ -20,8 +22,9 @@ typedef enum _dz_player_status_ {
 @property (nonatomic,readonly) DZPlayerStatus status;
 @property (nonatomic,readonly) float downloadBufferProgress;
 @property (nonatomic,readonly) NSTimeInterval currentTime;
+@property (nonatomic,readonly) DZItem * currentItem;
 
-- (void)playURL:(NSURL *)url;
+- (void)playItem:(DZItem *)item;
 - (void)playPause;
 - (void)seekTo:(NSTimeInterval)time;
 - (void)close;

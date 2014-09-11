@@ -9,14 +9,14 @@
 #import <Foundation/Foundation.h>
 #import "DZEventCenter.h"
 
-@class DZAudioPlayer;
 @class DZItem;
+@class DZAudioPlayer;
 
 @interface DZPlayList : NSObject <DZEventHandler>
 
 + (DZPlayList *)sharedInstance;
 
-@property (nonatomic,retain) NSArray * feedItemList;
+@property (nonatomic,copy) NSArray * feedItemList;
 @property (nonatomic,assign) NSInteger currentItemIndex;
 @property (nonatomic,readonly) DZAudioPlayer * player;
 @property (nonatomic,readonly) DZItem * currentItem;

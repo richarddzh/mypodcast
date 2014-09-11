@@ -1,14 +1,14 @@
 //
-//  DZDownload.h
+//  DZItem+DZItemDownload.h
 //  mypodcast
 //
-//  Created by Richard Dong on 14-9-2.
+//  Created by Richard Dong on 14-9-11.
 //  Copyright (c) 2014年 Richard Dong. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
+#import "DZItem.h"
 
-@class DZItem;
+@class DZFileStream;
 
 typedef enum _dz_download_status_ {
     DZDownloadStatus_None = 0,
@@ -22,11 +22,15 @@ typedef struct _dz_download_info_ {
     float progress;
 } DZDownloadInfo;
 
-@interface DZDownloadList : NSObject
+@interface DZItem (DZItemDownload)
 
-+ (void)startDownloadItem:(DZItem *)item;
-+ (void)stopDownloadItem:(DZItem *)item;
-+ (void)removeDownloadWithItem:(DZItem *)item;
-+ (DZDownloadInfo)downloadInfoWithItem:(DZItem *)item;
+@property (nonatomic,assign,readonly) DZDownloadInfo downloadInfo;
+
+- (void)startDownload;
+- (void)stopDownload;
+- (void)removeDownload;
+- (DZFileStream *)openFileStream;
+- (DZFileStream *)fileStream;
+- (void)closeFileStream;
 
 @end

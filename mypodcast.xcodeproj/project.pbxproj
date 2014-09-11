@@ -11,7 +11,6 @@
 		79046430198E263600FF6C22 /* DZAudioQueuePlayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7904642E198E263600FF6C22 /* DZAudioQueuePlayer.cpp */; };
 		79046433198E418000FF6C22 /* DZAudioPlayer.mm in Sources */ = {isa = PBXBuildFile; fileRef = 79046432198E418000FF6C22 /* DZAudioPlayer.mm */; };
 		7917A40519BD87F5009DEC6B /* DZTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7917A40419BD87F5009DEC6B /* DZTableViewController.m */; };
-		7918083519B546A00059B5B8 /* DZDownloadList.m in Sources */ = {isa = PBXBuildFile; fileRef = 7918083419B546A00059B5B8 /* DZDownloadList.m */; };
 		7918083819B5526A0059B5B8 /* DZDownloadButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 7918083719B5526A0059B5B8 /* DZDownloadButton.m */; };
 		7918084119B553750059B5B8 /* download-button.png in Resources */ = {isa = PBXBuildFile; fileRef = 7918083B19B553750059B5B8 /* download-button.png */; };
 		7918084219B553750059B5B8 /* download-button@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7918083C19B553750059B5B8 /* download-button@2x.png */; };
@@ -56,6 +55,7 @@
 		796201D519A209FD005E0288 /* DZEventCenter.m in Sources */ = {isa = PBXBuildFile; fileRef = 796201D319A209FD005E0288 /* DZEventCenter.m */; };
 		7973FF3D19BD751C00818F4B /* DZTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 7973FF3C19BD751C00818F4B /* DZTableViewCell.m */; };
 		7978CB32198F63B00032AD4C /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7904641C198CA84100FF6C22 /* AVFoundation.framework */; };
+		7979D30419C1715B0069C3E2 /* DZItem+DZItemDownload.m in Sources */ = {isa = PBXBuildFile; fileRef = 7979D30319C1715B0069C3E2 /* DZItem+DZItemDownload.m */; };
 		79828FB919B2C89B0086C669 /* NSString+DZFormatter.m in Sources */ = {isa = PBXBuildFile; fileRef = 79828FB819B2C89B0086C669 /* NSString+DZFormatter.m */; };
 		798CAF601994F5C000172D13 /* DZFileStream.m in Sources */ = {isa = PBXBuildFile; fileRef = 798CAF5F1994F5C000172D13 /* DZFileStream.m */; };
 		79A2E4DA19B2015000FAD4D8 /* DZFeedViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 79A2E4D719B2015000FAD4D8 /* DZFeedViewController.m */; };
@@ -94,8 +94,6 @@
 		79046432198E418000FF6C22 /* DZAudioPlayer.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; lineEnding = 0; path = DZAudioPlayer.mm; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
 		7917A40319BD87F5009DEC6B /* DZTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DZTableViewController.h; sourceTree = "<group>"; };
 		7917A40419BD87F5009DEC6B /* DZTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DZTableViewController.m; sourceTree = "<group>"; };
-		7918083319B546A00059B5B8 /* DZDownloadList.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DZDownloadList.h; sourceTree = "<group>"; };
-		7918083419B546A00059B5B8 /* DZDownloadList.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DZDownloadList.m; sourceTree = "<group>"; };
 		7918083619B5526A0059B5B8 /* DZDownloadButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DZDownloadButton.h; sourceTree = "<group>"; };
 		7918083719B5526A0059B5B8 /* DZDownloadButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DZDownloadButton.m; sourceTree = "<group>"; };
 		7918083B19B553750059B5B8 /* download-button.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "download-button.png"; sourceTree = "<group>"; };
@@ -154,6 +152,8 @@
 		796201D319A209FD005E0288 /* DZEventCenter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DZEventCenter.m; sourceTree = "<group>"; };
 		7973FF3B19BD751C00818F4B /* DZTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DZTableViewCell.h; sourceTree = "<group>"; };
 		7973FF3C19BD751C00818F4B /* DZTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DZTableViewCell.m; sourceTree = "<group>"; };
+		7979D30219C1715B0069C3E2 /* DZItem+DZItemDownload.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "DZItem+DZItemDownload.h"; sourceTree = "<group>"; };
+		7979D30319C1715B0069C3E2 /* DZItem+DZItemDownload.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "DZItem+DZItemDownload.m"; sourceTree = "<group>"; };
 		79828FB719B2C89B0086C669 /* NSString+DZFormatter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+DZFormatter.h"; sourceTree = "<group>"; };
 		79828FB819B2C89B0086C669 /* NSString+DZFormatter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+DZFormatter.m"; sourceTree = "<group>"; };
 		798CAF5E1994F5C000172D13 /* DZFileStream.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DZFileStream.h; sourceTree = "<group>"; };
@@ -270,8 +270,6 @@
 				79046432198E418000FF6C22 /* DZAudioPlayer.mm */,
 				798CAF5E1994F5C000172D13 /* DZFileStream.h */,
 				798CAF5F1994F5C000172D13 /* DZFileStream.m */,
-				7918083319B546A00059B5B8 /* DZDownloadList.h */,
-				7918083419B546A00059B5B8 /* DZDownloadList.m */,
 				79E4F32519B71D50000444BA /* DZPlayList.h */,
 				79E4F32619B71D50000444BA /* DZPlayList.m */,
 			);
@@ -320,6 +318,8 @@
 				7939209019A0E5930097AC63 /* DZItem.m */,
 				79B9719719BC567000E327AE /* DZItem+DZItemOperation.h */,
 				79B9719819BC567000E327AE /* DZItem+DZItemOperation.m */,
+				7979D30219C1715B0069C3E2 /* DZItem+DZItemDownload.h */,
+				7979D30319C1715B0069C3E2 /* DZItem+DZItemDownload.m */,
 			);
 			path = coredata;
 			sourceTree = "<group>";
@@ -541,7 +541,6 @@
 				7953679A19BBCBAC00CE997A /* SWUtilityButtonView.m in Sources */,
 				7939A284199E367200EF6339 /* DZFeedParser.m in Sources */,
 				7932AD5D198A1B5000151759 /* DZAppDelegate.m in Sources */,
-				7918083519B546A00059B5B8 /* DZDownloadList.m in Sources */,
 				79E4F32419B6ADAC000444BA /* UIButton+DZImagePool.m in Sources */,
 				79046430198E263600FF6C22 /* DZAudioQueuePlayer.cpp in Sources */,
 				79A2E4EB19B202D300FAD4D8 /* UIImage+DZImagePool.m in Sources */,
@@ -562,6 +561,7 @@
 				79828FB919B2C89B0086C669 /* NSString+DZFormatter.m in Sources */,
 				7953679619BBCBAC00CE997A /* SWCellScrollView.m in Sources */,
 				7939A234199DE99500EF6339 /* DZDatabase.m in Sources */,
+				7979D30419C1715B0069C3E2 /* DZItem+DZItemDownload.m in Sources */,
 				79E4F32719B71D50000444BA /* DZPlayList.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

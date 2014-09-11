@@ -12,9 +12,12 @@
 
 @property (nonatomic) BOOL isRead;
 @property (nonatomic) BOOL isStored;
+@property (nonatomic) NSTimeInterval lastPlayTimeInterval;
+@property (nonatomic) NSInteger fileSizeInteger;
 
 - (NSURL *)urlObject;
 - (NSString *)downloadFilePath;
 - (NSString *)temporaryFilePath;
+- (BOOL)isPlaying;
 
 @end
