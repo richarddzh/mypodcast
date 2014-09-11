@@ -22,7 +22,7 @@
     if (self.status == DZDownloadStatus_Complete || self.status == DZDownloadStatus_None) {
         return;
     }
-    if (self.progress < 0 || self.progress > 1) {
+    if (self.progress < 0 || self.progress > 1 || isnan(self.progress)) {
         return;
     }
     

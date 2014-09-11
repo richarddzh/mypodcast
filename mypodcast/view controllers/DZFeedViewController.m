@@ -15,6 +15,7 @@
 #import "DZPlayList.h"
 #import "DZDownloadButton.h"
 #import "DZFileStream.h"
+#import "DZItem+DZItemCellMapping.h"
 
 @interface DZFeedViewController ()
 {
@@ -203,26 +204,6 @@
     self->_tableItems = [[set sortedArrayUsingDescriptors:@[sorter]]mutableCopy];
 }
 
-- (IBAction)onDownloadButton:(id)sender
-{
-    DZDownloadButton * button = sender;
-    NSLog(@"%@", button.superview.class);
-    DZItem * feedItem = nil;
-    DZDownloadInfo info = feedItem.downloadInfo;
-    switch (info.status) {
-        case DZDownloadStatus_None:
-        case DZDownloadStatus_Paused:
-            [feedItem startDownload];
-            break;
-        case DZDownloadStatus_Downloading:
-            [feedItem stopDownload];
-            break;
-        default:
-            break;
-    }
-    [button setNeedsDisplay];
-}
-
 #pragma mark - DZEventHandler
 
 - (void)handleEventWithID:(NSInteger)eID userInfo:(id)userInfo fromSource:(id)source
@@ -230,8 +211,12 @@
     DZPlayList * playList = [DZPlayList sharedInstance];
     switch (eID) {
         case DZEventID_PlayerWillStartPlaying:
-            [[DZFeedItemCell cellWithURL:[NSURL URLWithString:playList.lastItem.url]]setNeedsDisplay];
-            [[DZFeedItemCell cellWithURL:[NSURL URLWithString:playList.currentItem.url]]setNeedsDisplay];
+            for (DZFeedItemCell * cell in playList.lastItem.tableViewCells) {
+                [cell setNeedsDisplay];
+            }
+            for (DZFeedItemCell * cell in playList.currentItem.tableViewCells) {
+                [cell setNeedsDisplay];
+            }
             break;
         case DZEventID_FileStreamDidReceiveDownloadData:
         case DZEventID_FileStreamWillStartDownload:
@@ -239,7 +224,9 @@
         case DZEventID_FileStreamDidCompleteDownload:
         {
             DZFileStream * stream = source;
-            [[DZFeedItemCell cellWithURL:stream.url]setNeedsDisplay];
+            for (DZFeedItemCell * cell in stream.feedItem.tableViewCells) {
+                [cell setNeedsDisplay];
+            }
             break;
         }
         default:

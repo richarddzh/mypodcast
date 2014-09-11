@@ -92,7 +92,7 @@ demo</string>
                                                 <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                             </state>
                                             <connections>
-                                                <action selector="onDownloadButton:" destination="WR5-FG-fFd" eventType="touchUpInside" id="46Q-ei-YLN"/>
+                                                <action selector="onDownloadButtonTapped:" destination="Ev7-PU-4Fs" eventType="touchUpInside" id="ya5-ck-p69"/>
                                             </connections>
                                         </button>
                                     </subviews>

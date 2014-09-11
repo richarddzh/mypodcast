@@ -30,6 +30,6 @@ typedef enum _dz_feed_item_cell_action_ {
 @property (nonatomic,retain) IBOutlet DZDownloadButton * downloadButton;
 @property (nonatomic,retain) DZItem * feedItem;
 
-+ (DZFeedItemCell *)cellWithURL:(NSURL *)url;
+- (IBAction)onDownloadButtonTapped:(id)sender;
 
 @end
