@@ -166,8 +166,8 @@
 // Have to trigger the segue manually after replacing UITableViewCell with SWTableViewCell.
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (self->_swipeRightCell != nil) {
-        [self->_swipeRightCell hideUtilityButtonsAnimated:YES];
+    if (self.swipeRightCell != nil) {
+        [self.swipeRightCell hideUtilityButtonsAnimated:YES];
         [tableView deselectRowAtIndexPath:indexPath animated:NO];
         return;
     }
