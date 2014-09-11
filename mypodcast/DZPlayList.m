@@ -17,7 +17,6 @@ static DZPlayList * _sharedInstance;
 @synthesize feedItemList = _feedItemList;
 @synthesize player = _player;
 @synthesize currentItemIndex = _currentItemIndex;
-@synthesize currentItem = _currentItem;
 @synthesize lastItem = _lastItem;
 
 + (DZPlayList *)sharedInstance
@@ -33,13 +32,10 @@ static DZPlayList * _sharedInstance;
     self = [super init];
     if (self != nil) {
         self->_player = [[DZAudioPlayer alloc]init];
-        self->_currentItem = nil;
         self->_lastItem = nil;
         self->_feedItemList = nil;
         self->_currentItemIndex = 0;
-        [[DZEventCenter sharedInstance]addHandler:self forEventID:DZEventID_PlayerWillStartPlaying];
         [[DZEventCenter sharedInstance]addHandler:self forEventID:DZEventID_PlayerDidFinishPlaying];
-        [[DZEventCenter sharedInstance]addHandler:self forEventID:DZEventID_PlayerWillAbortPlaying];
     }
     return self;
 }
@@ -48,13 +44,10 @@ static DZPlayList * _sharedInstance;
 {
     [self->_player close];
     self->_player = nil;
-    self->_currentItem = nil;
     self->_lastItem = nil;
     self->_feedItemList = nil;
     self->_currentItemIndex = 0;
-    [[DZEventCenter sharedInstance]removeHandler:self forEventID:DZEventID_PlayerWillStartPlaying];
     [[DZEventCenter sharedInstance]removeHandler:self forEventID:DZEventID_PlayerDidFinishPlaying];
-    [[DZEventCenter sharedInstance]removeHandler:self forEventID:DZEventID_PlayerWillAbortPlaying];
 }
 
 - (void)setCurrentItemIndex:(NSInteger)currentItemIndex
@@ -62,33 +55,30 @@ static DZPlayList * _sharedInstance;
     if (self->_feedItemList == nil || currentItemIndex < 0 || currentItemIndex + 1 > [self->_feedItemList count]) {
         return;
     }
-    if ([self->_feedItemList objectAtIndex:currentItemIndex] == self->_currentItem) {
+    if ([self->_feedItemList objectAtIndex:currentItemIndex] == self->_player.currentItem) {
         return;
     }
-    self->_lastItem = self->_currentItem;
-    self->_currentItem = [self->_feedItemList objectAtIndex:currentItemIndex];
-    [self->_player playURL:[NSURL URLWithString:self->_currentItem.url]];
+    self->_lastItem = self->_player.currentItem;
+    self->_currentItemIndex = currentItemIndex;
+    [self->_player playItem:[self->_feedItemList objectAtIndex:currentItemIndex]];
+}
+
+- (DZItem *)currentItem
+{
+    return self->_player.currentItem;
 }
 
 - (void)handleEventWithID:(NSInteger)eID userInfo:(id)userInfo fromSource:(id)source
 {
     switch (eID) {
         case DZEventID_PlayerDidFinishPlaying:
-            self->_currentItem.read = @(YES);
-            self->_currentItem.lastPlay = @(0.0f);
-            [self setCurrentItemIndex:self->_currentItemIndex + 1];
-            break;
-        case DZEventID_PlayerWillAbortPlaying:
-            self->_lastItem.lastPlay = @(self->_player.currentTime);
-            break;
-        case DZEventID_PlayerWillStartPlaying:
-            if ([self->_currentItem.lastPlay doubleValue] > 0) {
-                [self->_player seekTo:[self->_currentItem.lastPlay doubleValue]];
+            if (source == self->_player) {
+                [self setCurrentItemIndex:self->_currentItemIndex + 1];
             }
+            break;
         default:
             break;
     }
 }
-
 
 @end

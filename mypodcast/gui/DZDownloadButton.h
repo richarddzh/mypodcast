@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "DZDownloadList.h"
+#import "DZItem+DZItemDownload.h"
 
 @interface DZDownloadButton : UIButton
 

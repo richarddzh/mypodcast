@@ -78,7 +78,7 @@ static NSMutableDictionary * _mapURLToCell;
     self.titleLabel.text = item.title;
     self.descriptionLabel.text = [NSString stringWithFormat:@"%@",
                                   [NSString stringFromTime:item.duration.doubleValue]];
-    DZDownloadInfo downloadInfo = [DZDownloadList downloadInfoWithItem:item];
+    DZDownloadInfo downloadInfo = item.downloadInfo;
     self.downloadButton.progress = downloadInfo.progress;
     self.downloadButton.status = downloadInfo.status;
     [self removeAllActions];
@@ -129,7 +129,7 @@ static NSMutableDictionary * _mapURLToCell;
     switch (actionID) {
         case DZFeedItemAction_Delete:
             if (self.feedItem != [[DZPlayList sharedInstance]currentItem]) {
-                [DZDownloadList removeDownloadWithItem:self.feedItem];
+                [self.feedItem removeDownload];
             }
             break;
         case DZFeedItemAction_MarkPlayed:

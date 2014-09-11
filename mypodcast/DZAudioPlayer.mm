@@ -10,6 +10,8 @@
 #import "DZAudioQueuePlayer.h"
 #import "DZFileStream.h"
 #import "DZEventCenter.h"
+#import "DZItem+DZItemOperation.h"
+#import "DZItem+DZItemDownload.h"
 #import <AVFoundation/AVFoundation.h>
 
 const UInt32 kDZBufferSize = 40000;         //40K
@@ -24,7 +26,7 @@ static AVAudioSession * _sharedAudioSession = nil;
     DZAudioQueuePlayer * _player;
     DZFileStream * _stream;
     DZPlayerStatus _status;
-    NSURL * _playingURL;
+    DZItem * _currentItem;
     NSTimer * _timer;
     NSTimeInterval _seekTime;
     BOOL _shallSeekWhenStarted;
@@ -61,7 +63,7 @@ static AVAudioSession * _sharedAudioSession = nil;
         self->_status = DZPlayerStatus_Stop;
         self->_stream = nil;
         self->_shallSeekWhenStarted = NO;
-        self->_playingURL = nil;
+        self->_currentItem = nil;
     }
     return self;
 }
@@ -79,6 +81,7 @@ static AVAudioSession * _sharedAudioSession = nil;
 - (void)abortCurrentPlayback
 {
     if (self->_timer != nil) {
+        self->_currentItem.lastPlayTimeInterval = self.currentTime;
         [[DZEventCenter sharedInstance]fireEventWithID:DZEventID_PlayerWillAbortPlaying
                                               userInfo:nil
                                             fromSource:self];
@@ -90,19 +93,20 @@ static AVAudioSession * _sharedAudioSession = nil;
         self->_player = NULL;
     }
     if (self->_stream != nil) {
+        [self->_currentItem closeFileStream];
         [self->_stream close];
         self->_stream = nil;
     }
 }
 
-- (void)playURL:(NSURL *)url
+- (void)playItem:(DZItem *)item
 {
     [self abortCurrentPlayback];
-    if (url == nil) {
+    if (item == nil) {
         return;
     }
-    self->_playingURL = url;
-    self->_stream = [DZFileStream streamWithURL:url];
+    self->_currentItem = item;
+    self->_stream = [self->_currentItem openFileStream];
     if (self->_stream == nil) {
         return;
     }
@@ -113,8 +117,13 @@ static AVAudioSession * _sharedAudioSession = nil;
                                                   selector:@selector(playStream:)
                                                   userInfo:nil
                                                    repeats:YES];
-    self->_shallSeekWhenStarted = NO;
-    self->_seekTime = 0;
+    if (item.lastPlayTimeInterval > 0) {
+        self->_shallSeekWhenStarted = YES;
+        self->_seekTime = item.lastPlayTimeInterval;
+    } else {
+        self->_shallSeekWhenStarted = NO;
+        self->_seekTime = 0;
+    }
     [[DZEventCenter sharedInstance]fireEventWithID:DZEventID_PlayerWillStartPlaying
                                           userInfo:nil
                                         fromSource:self];
@@ -152,11 +161,14 @@ static AVAudioSession * _sharedAudioSession = nil;
     if (self->_player->getNumQueueBuffer() == 0 && ![self->_stream hasBytesAvailable]) {
         self->_player->stop(false);
         // Release stream and timer, but cannot stop and delete queue because playing may continue.
+        [self->_currentItem closeFileStream];
         [self->_stream close];
         self->_stream = nil;
         self->_status = DZPlayerStatus_Stop;
         [self->_timer invalidate];
         self->_timer = nil;
+        self->_currentItem.lastPlayTimeInterval = 0;
+        self->_currentItem.isRead = YES;
         [[DZEventCenter sharedInstance]fireEventWithID:DZEventID_PlayerDidFinishPlaying
                                               userInfo:nil
                                             fromSource:self];
@@ -184,7 +196,7 @@ static AVAudioSession * _sharedAudioSession = nil;
             break;
         case DZPlayerStatus_Stop:
             // Start over and play.
-            [self playURL:self->_playingURL];
+            [self playItem:self->_currentItem];
             // Fall through to set PauseWait so that playback will begin when data are ready.
         case DZPlayerStatus_UserPause:
             self->_status = DZPlayerStatus_PauseWait;
@@ -236,6 +248,11 @@ static AVAudioSession * _sharedAudioSession = nil;
 - (NSTimeInterval)currentTime
 {
     return self->_player->getCurrentTime();
+}
+
+- (DZItem *)currentItem
+{
+    return self->_currentItem;
 }
 
 
