@@ -237,4 +237,9 @@
     }
 }
 
+- (IBAction)onRefresh:(id)sender
+{
+    [self.refreshControl endRefreshing];
+}
+
 @end

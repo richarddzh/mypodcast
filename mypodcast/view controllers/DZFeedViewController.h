@@ -25,5 +25,6 @@ typedef enum _enum_dz_feed_item_filter_ {
 @property (nonatomic,assign) DZFeedItemFilterType feedItemFilter;
 
 - (void)filterFeedItems;
+- (IBAction)onRefresh:(id)sender;
 
 @end
