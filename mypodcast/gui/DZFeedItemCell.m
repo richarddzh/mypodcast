@@ -85,38 +85,35 @@ static NSMutableDictionary * _mapURLToCell;
     DZPlayList * playList = [DZPlayList sharedInstance];
     if (playList.currentItem == item) {
         self.bulletImageView.image = [UIImage templateImageWithName:@"play-bullet"];
+    } else if (downloadInfo.status != DZDownloadStatus_None) {
+        [self addActionWithIdentifier:DZFeedItemAction_Delete
+                                 text:NSLocalizedString(@"Delete", nil)
+                          destructive:YES];
+    }
+    if (item.isRead) {
+        self.bulletImageView.image = nil;
+        [self addActionWithIdentifier:DZFeedItemAction_MarkUnplayed
+                                 text:NSLocalizedString(@"Mark as unplayed", nil)
+                          destructive:NO];
     } else {
-        if (downloadInfo.status != DZDownloadStatus_None) {
-            [self addActionWithIdentifier:DZFeedItemAction_Delete
-                                     text:NSLocalizedString(@"Delete", nil)
-                              destructive:YES];
-        }
-        if (item.isRead) {
-            self.bulletImageView.image = nil;
-            [self addActionWithIdentifier:DZFeedItemAction_MarkUnplayed
-                                     text:NSLocalizedString(@"Mark as unplayed", nil)
-                              destructive:NO];
+        [self addActionWithIdentifier:DZFeedItemAction_MarkPlayed
+                                 text:NSLocalizedString(@"Mark as played", nil)
+                          destructive:NO];
+        if (item.lastPlay.doubleValue > 0) {
+            self.bulletImageView.image = [UIImage templateImageWithName:@"half-bullet"];
         } else {
-            [self addActionWithIdentifier:DZFeedItemAction_MarkPlayed
-                                     text:NSLocalizedString(@"Mark as played", nil)
-                              destructive:NO];
-            if (item.lastPlay.doubleValue > 0) {
-                self.bulletImageView.image = [UIImage templateImageWithName:@"half-bullet"];
-            } else {
-                self.bulletImageView.image = [UIImage templateImageWithName:@"new-bullet"];
-            }
-        }
-        if (item.isStored) {
-            [self addActionWithIdentifier:DZFeedItemAction_RemoveFromSaved
-                                     text:NSLocalizedString(@"Remove from saved", nil)
-                              destructive:NO];
-        } else {
-            [self addActionWithIdentifier:DZFeedItemAction_MoveToSaved
-                                     text:NSLocalizedString(@"Move to saved", nil)
-                              destructive:NO];
+            self.bulletImageView.image = [UIImage templateImageWithName:@"new-bullet"];
         }
     }
-    [self updateActionButtons];
+    if (item.isStored) {
+        [self addActionWithIdentifier:DZFeedItemAction_RemoveFromSaved
+                                 text:NSLocalizedString(@"Remove from saved", nil)
+                          destructive:NO];
+    } else {
+        [self addActionWithIdentifier:DZFeedItemAction_MoveToSaved
+                                 text:NSLocalizedString(@"Move to saved", nil)
+                          destructive:NO];
+    }
 }
 
 - (void)setNeedsDisplay

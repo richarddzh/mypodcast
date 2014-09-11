@@ -22,7 +22,6 @@
 
 - (void)removeAllActions;
 - (void)addActionWithIdentifier:(NSInteger)identifier text:(NSString *)text destructive:(BOOL)destructive;
-- (void)updateActionButtons;
 - (void)triggerRightUtilityButtonWithIndex:(NSInteger)index;
 
 @end

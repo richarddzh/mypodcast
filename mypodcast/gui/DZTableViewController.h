@@ -11,6 +11,6 @@
 
 @interface DZTableViewController : UITableViewController <SWTableViewCellDelegate>
 
-@property (nonatomic,weak) SWTableViewCell * swipeRightCell;
+@property (nonatomic,weak,readonly) SWTableViewCell * swipeRightCell;
 
 @end
