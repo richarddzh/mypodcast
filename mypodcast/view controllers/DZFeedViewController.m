@@ -194,9 +194,9 @@
         [self.searchDisplayController setActive:NO animated:YES];
         NSInteger rowId = [[self->_searchResultIndexes objectAtIndex:indexPath.row]integerValue];
         NSIndexPath * path = [NSIndexPath indexPathForRow:rowId inSection:1];
-        [self.tableView selectRowAtIndexPath:path
-                                    animated:YES
-                              scrollPosition:UITableViewScrollPositionMiddle];
+        [self.tableView scrollToRowAtIndexPath:path
+                              atScrollPosition:UITableViewScrollPositionMiddle
+                                      animated:YES];
         return;
     }
     if (self.swipeRightCell != nil) {
@@ -243,6 +243,7 @@
     NSSortDescriptor * sorter = [NSSortDescriptor sortDescriptorWithKey:@"pubDate" ascending:NO];
     self->_tableItems = [[set sortedArrayUsingDescriptors:@[sorter]]mutableCopy];
     self->_searchResultIndexes = nil;
+    self->_searchString = nil;
 }
 
 - (IBAction)onRefresh:(id)sender
