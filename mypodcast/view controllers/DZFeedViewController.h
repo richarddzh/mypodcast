@@ -19,12 +19,13 @@ typedef enum _enum_dz_feed_item_filter_ {
     DZFeedItemFilterDownload = 3,
 } DZFeedItemFilterType;
 
-@interface DZFeedViewController : DZTableViewController <DZEventHandler>
+@interface DZFeedViewController : DZTableViewController <DZEventHandler, UISearchDisplayDelegate>
 
 @property (nonatomic,retain) DZChannel * feedChannel;
 @property (nonatomic,assign) DZFeedItemFilterType feedItemFilter;
 
 - (void)filterFeedItems;
+- (void)scrollToTop;
 - (IBAction)onRefresh:(id)sender;
 
 @end

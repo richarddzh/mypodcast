@@ -12,9 +12,17 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <searchBar key="tableHeaderView" contentMode="redraw" id="YDS-A0-Oip">
+                            <rect key="frame" x="0.0" y="64" width="320" height="44"/>
+                            <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                            <textInputTraits key="textInputTraits"/>
+                            <connections>
+                                <outlet property="delegate" destination="WR5-FG-fFd" id="dGj-eV-eHY"/>
+                            </connections>
+                        </searchBar>
                         <prototypes>
                             <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="DZFeedHeader" rowHeight="129" id="knv-Up-iFM" customClass="DZFeedHeaderCell">
-                                <rect key="frame" x="0.0" y="86" width="320" height="129"/>
+                                <rect key="frame" x="0.0" y="130" width="320" height="129"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="knv-Up-iFM" id="ssK-VX-bST">
                                     <rect key="frame" x="0.0" y="0.0" width="320" height="128"/>
@@ -64,7 +72,7 @@ demo</string>
                                 </connections>
                             </tableViewCell>
                             <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="DZFeedItem" rowHeight="62" id="Ev7-PU-4Fs" customClass="DZFeedItemCell">
-                                <rect key="frame" x="0.0" y="215" width="320" height="62"/>
+                                <rect key="frame" x="0.0" y="259" width="320" height="62"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Ev7-PU-4Fs" id="aUU-UX-Y3R">
                                     <rect key="frame" x="0.0" y="0.0" width="320" height="61"/>
@@ -126,8 +134,20 @@ demo</string>
                             <action selector="onRefresh:" destination="WR5-FG-fFd" eventType="valueChanged" id="BuN-6L-CSS"/>
                         </connections>
                     </refreshControl>
+                    <connections>
+                        <outlet property="searchDisplayController" destination="CuD-re-68r" id="8u5-WU-Sq6"/>
+                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="HPc-Fj-EHc" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <searchDisplayController id="CuD-re-68r">
+                    <connections>
+                        <outlet property="delegate" destination="WR5-FG-fFd" id="Ryy-vR-Ovm"/>
+                        <outlet property="searchBar" destination="YDS-A0-Oip" id="5TR-wt-ud1"/>
+                        <outlet property="searchContentsController" destination="WR5-FG-fFd" id="PcY-EX-Las"/>
+                        <outlet property="searchResultsDataSource" destination="WR5-FG-fFd" id="9ek-ic-QCE"/>
+                        <outlet property="searchResultsDelegate" destination="WR5-FG-fFd" id="kbZ-MD-E82"/>
+                    </connections>
+                </searchDisplayController>
             </objects>
             <point key="canvasLocation" x="-8080" y="-3601"/>
         </scene>

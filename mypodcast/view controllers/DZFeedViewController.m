@@ -20,6 +20,8 @@
 @interface DZFeedViewController ()
 {
     NSMutableArray * _tableItems;
+    NSMutableArray * _searchResultIndexes;
+    NSString * _searchString;
     SWTableViewCell * _swipeRightCell;
 }
 @end
@@ -55,6 +57,7 @@
     [database save];
     self.feedChannel = [database channelWithURL:url];
     [self filterFeedItems];
+    [self scrollToTop];
     [[DZEventCenter sharedInstance]addHandler:self forEventID:DZEventID_PlayerWillStartPlaying];
     [[DZEventCenter sharedInstance]addHandler:self forEventID:DZEventID_FileStreamWillStartDownload];
     [[DZEventCenter sharedInstance]addHandler:self forEventID:DZEventID_FileStreamWillReceiveDownloadData];
@@ -77,11 +80,17 @@
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
+    if (tableView == self.searchDisplayController.searchResultsTableView) {
+        return 1;
+    }
     return 2;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
+    if (tableView == self.searchDisplayController.searchResultsTableView) {
+        return [self->_searchResultIndexes count];
+    }
     switch (section) {
         case 0:
             return 1;
@@ -94,6 +103,18 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    if (tableView == self.searchDisplayController.searchResultsTableView) {
+        static NSString * cellId = @"DZSearchResult";
+        UITableViewCell * cell = [tableView dequeueReusableCellWithIdentifier:cellId];
+        if (cell == nil) {
+            cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault
+                                         reuseIdentifier:cellId];
+        }
+        NSInteger rowId = [[self->_searchResultIndexes objectAtIndex:indexPath.row]integerValue];
+        DZItem * item = [self->_tableItems objectAtIndex:rowId];
+        cell.textLabel.text = item.title;
+        return cell;
+    }
     NSString * reuseIdentifier = indexPath.section == 0 ? @"DZFeedHeader" : @"DZFeedItem";
     
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:reuseIdentifier forIndexPath:indexPath];
@@ -112,6 +133,9 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    if (tableView == self.searchDisplayController.searchResultsTableView) {
+        return [super tableView:tableView heightForRowAtIndexPath:indexPath];
+    }
     return indexPath.section == 0 ? 129 : 62;
 }
 
@@ -166,10 +190,23 @@
 // Have to trigger the segue manually after replacing UITableViewCell with SWTableViewCell.
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    if (tableView == self.searchDisplayController.searchResultsTableView) {
+        [self.searchDisplayController setActive:NO animated:YES];
+        NSInteger rowId = [[self->_searchResultIndexes objectAtIndex:indexPath.row]integerValue];
+        NSIndexPath * path = [NSIndexPath indexPathForRow:rowId inSection:1];
+        [self.tableView selectRowAtIndexPath:path
+                                    animated:YES
+                              scrollPosition:UITableViewScrollPositionMiddle];
+        return;
+    }
     if (self.swipeRightCell != nil) {
         [self.swipeRightCell hideUtilityButtonsAnimated:YES];
         [tableView deselectRowAtIndexPath:indexPath animated:NO];
         return;
+    }
+    if (indexPath.section == 0) {
+        [self scrollToTop];
+        [tableView deselectRowAtIndexPath:indexPath animated:YES];
     }
     if (indexPath.section == 1) {
         [self performSegueWithIdentifier:@"DZSeguePlayItem" sender:[tableView cellForRowAtIndexPath:indexPath]];
@@ -205,6 +242,18 @@
     NSSet * set = [self.feedChannel.items filteredSetUsingPredicate:pred];
     NSSortDescriptor * sorter = [NSSortDescriptor sortDescriptorWithKey:@"pubDate" ascending:NO];
     self->_tableItems = [[set sortedArrayUsingDescriptors:@[sorter]]mutableCopy];
+    self->_searchResultIndexes = nil;
+}
+
+- (IBAction)onRefresh:(id)sender
+{
+    [self.refreshControl endRefreshing];
+}
+
+- (void)scrollToTop
+{
+    NSIndexPath * path = [NSIndexPath indexPathForRow:0 inSection:0];
+    [self.tableView scrollToRowAtIndexPath:path atScrollPosition:UITableViewScrollPositionTop animated:YES];
 }
 
 #pragma mark - DZEventHandler
@@ -237,9 +286,26 @@
     }
 }
 
-- (IBAction)onRefresh:(id)sender
+#pragma mark - UISearchDisplayDelegate
+
+- (BOOL)searchDisplayController:(UISearchDisplayController *)controller shouldReloadTableForSearchString:(NSString *)searchString
 {
-    [self.refreshControl endRefreshing];
+    if (searchString == nil || [searchString isEqualToString:@""]) {
+        return NO;
+    }
+    searchString = [[searchString stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]]lowercaseString];
+    if ([searchString isEqualToString:self->_searchString]) {
+        return NO;
+    }
+    self->_searchString = searchString;
+    self->_searchResultIndexes = [NSMutableArray array];
+    for (int i = 0; i < self->_tableItems.count; ++i) {
+        DZItem * item = [self->_tableItems objectAtIndex:i];
+        if ([item.title rangeOfString:searchString].location != NSNotFound) {
+            [self->_searchResultIndexes addObject:@(i)];
+        }
+    }
+    return YES;
 }
 
 @end
