@@ -10,6 +10,7 @@
 #import "DZFileStream.h"
 #import "DZPlayList.h"
 #import "DZItem+DZItemOperation.h"
+#import "NSString+DZFormatter.h"
 
 static NSMutableDictionary * _mapURLToStream;
 
@@ -136,6 +137,22 @@ static NSMutableDictionary * _mapURLToStream;
 - (DZDownloadStatus)downloadStatus
 {
     return self.downloadInfo.status;
+}
+
+- (NSString *)downloadDescription
+{
+    DZDownloadInfo info = self.downloadInfo;
+    switch (info.status) {
+        case DZDownloadStatus_Complete:
+            return [NSString stringFromReadableByteSize:self.fileSizeInteger];
+        case DZDownloadStatus_Downloading:
+        case DZDownloadStatus_Paused:
+            return [NSString stringWithFormat:@"%@/%@",
+                    [NSString stringFromReadableByteSize:self.fileSizeInteger * info.progress],
+                    [NSString stringFromReadableByteSize:self.fileSizeInteger]];
+        default:
+            return @"";
+    }
 }
 
 @end

@@ -34,8 +34,9 @@
 - (void)updateWithFeedItem:(DZItem *)item
 {
     self.titleLabel.text = item.title;
-    self.descriptionLabel.text = [NSString stringWithFormat:@"%@",
-                                  [NSString stringFromTime:item.duration.doubleValue]];
+    self.descriptionLabel.text = [NSString stringWithFormat:@"%@ %@",
+                                  [NSString stringFromTime:item.duration.doubleValue],
+                                  item.downloadDescription];
     DZDownloadInfo downloadInfo = item.downloadInfo;
     self.downloadButton.progress = downloadInfo.progress;
     self.downloadButton.status = downloadInfo.status;
