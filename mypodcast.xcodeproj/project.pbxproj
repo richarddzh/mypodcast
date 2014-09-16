@@ -64,6 +64,7 @@
 		79940E9D19C7DA820065B12A /* featured.png in Resources */ = {isa = PBXBuildFile; fileRef = 79940E9919C7DA820065B12A /* featured.png */; };
 		79940E9E19C7DA820065B12A /* featured@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 79940E9A19C7DA820065B12A /* featured@2x.png */; };
 		79940EA119C7DD4B0065B12A /* DZChannelViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 79940EA019C7DD4B0065B12A /* DZChannelViewController.m */; };
+		79940EA419C7E0230065B12A /* DZChannelCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 79940EA319C7E0230065B12A /* DZChannelCell.m */; };
 		79A2E4DA19B2015000FAD4D8 /* DZFeedViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 79A2E4D719B2015000FAD4D8 /* DZFeedViewController.m */; };
 		79A2E4DB19B2015000FAD4D8 /* DZPlayViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 79A2E4D919B2015000FAD4D8 /* DZPlayViewController.m */; };
 		79A2E4E519B2015A00FAD4D8 /* DZFeedHeaderCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 79A2E4DF19B2015A00FAD4D8 /* DZFeedHeaderCell.m */; };
@@ -172,6 +173,8 @@
 		79940E9A19C7DA820065B12A /* featured@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "featured@2x.png"; sourceTree = "<group>"; };
 		79940E9F19C7DD4B0065B12A /* DZChannelViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DZChannelViewController.h; sourceTree = "<group>"; };
 		79940EA019C7DD4B0065B12A /* DZChannelViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DZChannelViewController.m; sourceTree = "<group>"; };
+		79940EA219C7E0230065B12A /* DZChannelCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DZChannelCell.h; sourceTree = "<group>"; };
+		79940EA319C7E0230065B12A /* DZChannelCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DZChannelCell.m; sourceTree = "<group>"; };
 		79A2E4D619B2015000FAD4D8 /* DZFeedViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DZFeedViewController.h; sourceTree = "<group>"; };
 		79A2E4D719B2015000FAD4D8 /* DZFeedViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DZFeedViewController.m; sourceTree = "<group>"; };
 		79A2E4D819B2015000FAD4D8 /* DZPlayViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DZPlayViewController.h; sourceTree = "<group>"; };
@@ -373,6 +376,8 @@
 		79A2E4D419B1FFDD00FAD4D8 /* gui */ = {
 			isa = PBXGroup;
 			children = (
+				79940EA219C7E0230065B12A /* DZChannelCell.h */,
+				79940EA319C7E0230065B12A /* DZChannelCell.m */,
 				7918083619B5526A0059B5B8 /* DZDownloadButton.h */,
 				7918083719B5526A0059B5B8 /* DZDownloadButton.m */,
 				79A2E4DE19B2015A00FAD4D8 /* DZFeedHeaderCell.h */,
@@ -583,6 +588,7 @@
 				796201D419A209FD005E0288 /* DZEventCenter.m in Sources */,
 				7917A40519BD87F5009DEC6B /* DZTableViewController.m in Sources */,
 				7953679919BBCBAC00CE997A /* SWUtilityButtonTapGestureRecognizer.m in Sources */,
+				79940EA419C7E0230065B12A /* DZChannelCell.m in Sources */,
 				7973FF3D19BD751C00818F4B /* DZTableViewCell.m in Sources */,
 				79046433198E418000FF6C22 /* DZAudioPlayer.mm in Sources */,
 				79B9719919BC567000E327AE /* DZItem+DZItemOperation.m in Sources */,
