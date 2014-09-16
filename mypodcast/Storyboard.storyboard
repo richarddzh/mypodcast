@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="5056" systemVersion="13E28" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="Far-aS-TTW">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="5056" systemVersion="13E28" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="ybY-qv-P3k">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3733"/>
     </dependencies>
@@ -149,27 +149,98 @@ demo</string>
                     </connections>
                 </searchDisplayController>
             </objects>
-            <point key="canvasLocation" x="-8080" y="-3601"/>
+            <point key="canvasLocation" x="-8716" y="-4138"/>
         </scene>
-        <!--Navigation Controller-->
+        <!--Navigation Controller - My books-->
         <scene sceneID="H6t-J9-q4d">
             <objects>
                 <navigationController definesPresentationContext="YES" id="Far-aS-TTW" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" title="My books" image="channels.png" id="QA9-D9-5VI"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="8bD-G4-xT6">
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <connections>
-                        <segue destination="WR5-FG-fFd" kind="relationship" relationship="rootViewController" id="lSN-ae-2GO"/>
+                        <segue destination="Dfz-hl-ZH7" kind="relationship" relationship="rootViewController" id="7WI-l2-5WX"/>
                     </connections>
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="jb8-IN-naX" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-8614" y="-3601"/>
+            <point key="canvasLocation" x="-9798" y="-4138"/>
+        </scene>
+        <!--View Controller - Featured-->
+        <scene sceneID="nkX-4t-Kph">
+            <objects>
+                <viewController id="uri-Ws-kGi" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="zf0-Gg-ygt"/>
+                        <viewControllerLayoutGuide type="bottom" id="YFn-Rq-9Ef"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="WH4-KW-nVO">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                    </view>
+                    <tabBarItem key="tabBarItem" title="Featured" image="featured.png" id="nRX-cW-IWX"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="29x-gK-E9Q" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-9804" y="-3433"/>
+        </scene>
+        <!--Channel View Controller - My books-->
+        <scene sceneID="eR2-lR-gNE">
+            <objects>
+                <tableViewController id="Dfz-hl-ZH7" customClass="DZChannelViewController" sceneMemberID="viewController">
+                    <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="8pr-KZ-xlW">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <prototypes>
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="I5f-zr-7P5">
+                                <rect key="frame" x="0.0" y="86" width="320" height="44"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="I5f-zr-7P5" id="SHV-ff-9jk">
+                                    <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                </tableViewCellContentView>
+                                <connections>
+                                    <segue destination="WR5-FG-fFd" kind="push" id="jSb-cc-zbe"/>
+                                </connections>
+                            </tableViewCell>
+                        </prototypes>
+                        <connections>
+                            <outlet property="dataSource" destination="Dfz-hl-ZH7" id="G1e-IC-fT4"/>
+                            <outlet property="delegate" destination="Dfz-hl-ZH7" id="vsa-nq-P9y"/>
+                        </connections>
+                    </tableView>
+                    <navigationItem key="navigationItem" title="My books" id="moY-b7-r7K"/>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="SnI-Yd-9eb" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-9258" y="-4138"/>
+        </scene>
+        <!--Tab Bar Controller-->
+        <scene sceneID="mDf-ae-Td7">
+            <objects>
+                <tabBarController definesPresentationContext="YES" id="ybY-qv-P3k" sceneMemberID="viewController">
+                    <nil key="simulatedBottomBarMetrics"/>
+                    <tabBar key="tabBar" contentMode="scaleToFill" id="RVP-cj-0dn">
+                        <rect key="frame" x="129" y="330" width="163" height="49"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                    </tabBar>
+                    <connections>
+                        <segue destination="uri-Ws-kGi" kind="relationship" relationship="viewControllers" id="F7C-8D-ceB"/>
+                        <segue destination="Far-aS-TTW" kind="relationship" relationship="viewControllers" id="YZf-Zk-YBX"/>
+                    </connections>
+                </tabBarController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="f0Y-j7-vVS" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-10343" y="-3433"/>
         </scene>
         <!--Play View Controller-->
         <scene sceneID="Gaa-ev-Hjl">
             <objects>
-                <viewController id="4Sc-Nx-oaU" customClass="DZPlayViewController" sceneMemberID="viewController">
+                <viewController hidesBottomBarWhenPushed="YES" id="4Sc-Nx-oaU" customClass="DZPlayViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="BRJ-fh-Vnc"/>
                         <viewControllerLayoutGuide type="bottom" id="dVF-rl-2mE"/>
@@ -255,8 +326,9 @@ demo</string>
                             <constraint firstItem="UMC-eo-6k5" firstAttribute="leading" secondItem="1HY-6S-IZx" secondAttribute="leading" id="uUt-XI-Q2C"/>
                         </constraints>
                     </view>
-                    <extendedEdge key="edgesForExtendedLayout" bottom="YES"/>
+                    <extendedEdge key="edgesForExtendedLayout"/>
                     <navigationItem key="navigationItem" id="RwW-4a-ePQ"/>
+                    <nil key="simulatedBottomBarMetrics"/>
                     <connections>
                         <outlet property="imageView" destination="UMC-eo-6k5" id="1au-bb-tpV"/>
                         <outlet property="playButton" destination="9f8-t7-bBt" id="bdu-Zg-QOu"/>
@@ -268,10 +340,12 @@ demo</string>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="9W9-6A-Jm8" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-7577" y="-3601"/>
+            <point key="canvasLocation" x="-8213" y="-4138"/>
         </scene>
     </scenes>
     <resources>
+        <image name="channels.png" width="30" height="30"/>
+        <image name="featured.png" width="30" height="30"/>
         <image name="play-button.png" width="72" height="72"/>
     </resources>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
@@ -280,6 +354,6 @@ demo</string>
         <simulatedScreenMetrics key="destination" type="retina4"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
-        <segue reference="YCe-QO-4Ph"/>
+        <segue reference="0TO-Od-95a"/>
     </inferredMetricsTieBreakers>
 </document>
