@@ -7,7 +7,8 @@
 //
 
 #import "DZTableViewController.h"
+#import "DZTableViewCell.h"
 
-@interface DZChannelViewController : DZTableViewController
+@interface DZChannelViewController : DZTableViewController <DZTabelViewCellActionDelegate>
 
 @end

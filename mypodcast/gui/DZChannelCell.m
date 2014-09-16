@@ -7,25 +7,36 @@
 //
 
 #import "DZChannelCell.h"
+#import "DZCache.h"
+#import "DZChannel.h"
+#import "DZDatabase.h"
+#import "DZPlayList.h"
+#import "DZItem.h"
 
 @implementation DZChannelCell
 
-- (id)initWithFrame:(CGRect)frame
+@synthesize channel = _channel;
+
+- (DZChannel *)channel
 {
-    self = [super initWithFrame:frame];
-    if (self) {
-        // Initialization code
-    }
-    return self;
+    return self->_channel;
 }
 
-/*
-// Only override drawRect: if you perform custom drawing.
-// An empty implementation adversely affects performance during animation.
-- (void)drawRect:(CGRect)rect
+- (void)setChannel:(DZChannel *)channel
 {
-    // Drawing code
+    DZCache * cache = [DZCache sharedInstance];
+    if (self->_channel != channel) {
+        self->_channel = channel;
+        if (channel != nil) {
+            self.descriptionLabel.text = channel.descriptions;
+            self.titleLabel.text = channel.title;
+            [cache getDataWithURL:[NSURL URLWithString:channel.image] shallDownload:YES dataHandler:^(NSData * data, NSError * error) {
+                if (data != nil && error == nil) {
+                    self.albumArtView.image = [UIImage imageWithData:data];
+                }
+            }];
+        }
+    }
 }
-*/
 
 @end

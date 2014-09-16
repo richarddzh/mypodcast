@@ -148,4 +148,24 @@
     return item;
 }
 
+- (void)deleteObject:(NSManagedObject *)object
+{
+    [self.context deleteObject:object];
+}
+
+- (NSArray *)fetchAll:(NSString *)type
+{
+    NSManagedObjectContext * context = self.context;
+    if (context == nil) {
+        return nil;
+    }
+    NSFetchRequest * req = [NSFetchRequest fetchRequestWithEntityName:type];
+    NSError * err = nil;
+    NSArray * result = [context executeFetchRequest:req error:&err];
+    if (err != nil) {
+        NSLog(@"[ERROR] unresolved error fetching object: %@, %@", err, err.userInfo);
+    }
+    return result;
+}
+
 @end

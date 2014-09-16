@@ -7,7 +7,7 @@
         <!--Feed View Controller - Contents-->
         <scene sceneID="oAg-Jt-ms5">
             <objects>
-                <tableViewController id="WR5-FG-fFd" customClass="DZFeedViewController" sceneMemberID="viewController">
+                <tableViewController hidesBottomBarWhenPushed="YES" id="WR5-FG-fFd" customClass="DZFeedViewController" sceneMemberID="viewController">
                     <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" showsSelectionImmediatelyOnTouchBegin="NO" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="j6H-zk-Y2e">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -230,7 +230,7 @@ demo</string>
                                     <outlet property="albumArtView" destination="6et-lb-aWY" id="exC-0f-YEF"/>
                                     <outlet property="descriptionLabel" destination="MCm-Ar-CzD" id="DLY-dO-Fjm"/>
                                     <outlet property="titleLabel" destination="iBz-cs-8z0" id="YBu-SL-b1y"/>
-                                    <segue destination="WR5-FG-fFd" kind="push" id="jSb-cc-zbe"/>
+                                    <segue destination="WR5-FG-fFd" kind="push" identifier="DZSegueChannel" id="jSb-cc-zbe"/>
                                 </connections>
                             </tableViewCell>
                         </prototypes>
@@ -381,6 +381,6 @@ demo</string>
         <simulatedScreenMetrics key="destination" type="retina4"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
-        <segue reference="0TO-Od-95a"/>
+        <segue reference="YCe-QO-4Ph"/>
     </inferredMetricsTieBreakers>
 </document>

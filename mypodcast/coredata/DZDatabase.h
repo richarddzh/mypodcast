@@ -19,5 +19,7 @@
 - (void)save;
 - (id)insert:(NSString *)type;
 - (id)fetch:(NSString *)type withKey:(NSString *)key value:(id)value;
+- (NSArray *)fetchAll:(NSString *)type;
+- (void)deleteObject:(NSManagedObject *)object;
 
 @end
