@@ -167,10 +167,10 @@ demo</string>
             </objects>
             <point key="canvasLocation" x="-9798" y="-4138"/>
         </scene>
-        <!--View Controller - Featured-->
+        <!--Featured View Controller - Featured-->
         <scene sceneID="nkX-4t-Kph">
             <objects>
-                <viewController id="uri-Ws-kGi" sceneMemberID="viewController">
+                <viewController id="uri-Ws-kGi" customClass="DZFeaturedViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="zf0-Gg-ygt"/>
                         <viewControllerLayoutGuide type="bottom" id="YFn-Rq-9Ef"/>
@@ -178,9 +178,20 @@ demo</string>
                     <view key="view" contentMode="scaleToFill" id="WH4-KW-nVO">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <subviews>
+                            <webView contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="eiR-Kl-csJ">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                <dataDetectorType key="dataDetectorTypes"/>
+                            </webView>
+                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
                     <tabBarItem key="tabBarItem" title="Featured" image="featured.png" id="nRX-cW-IWX"/>
+                    <connections>
+                        <outlet property="webView" destination="eiR-Kl-csJ" id="QC2-Vw-y4P"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="29x-gK-E9Q" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>

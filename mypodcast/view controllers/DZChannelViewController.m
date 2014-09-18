@@ -13,6 +13,7 @@
 #import "DZDatabase.h"
 #import "DZChannel.h"
 #import "DZItem.h"
+#import "DZChannel+DZChannelOperation.h"
 
 @interface DZChannelViewController ()
 {
@@ -47,6 +48,7 @@
         NSIndexPath * selection = [self.tableView indexPathForSelectedRow];
         if (selection != nil && self->_channels != nil) {
             vc.feedChannel = [self->_channels objectAtIndex:selection.row];
+            [vc beginRefresh];
         }
     }
 }
@@ -64,7 +66,7 @@
     switch (actionID) {
         case DZChannelAction_Remove:
             if ([[[DZPlayList sharedInstance]currentItem]channel] != channelCell.channel) {
-                [[DZDatabase sharedInstance]deleteObject:channelCell.channel];
+                [channelCell.channel deleteSelf];
                 [self->_channels removeObject:channelCell.channel];
                 NSIndexPath * indexPath = [self.tableView indexPathForCell:cell];
                 [self.tableView deleteRowsAtIndexPaths:@[indexPath]

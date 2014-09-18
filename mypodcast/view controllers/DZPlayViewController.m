@@ -109,7 +109,7 @@
     if (self->_player != nil && feedItem != nil) {
         self.title = feedItem.title;
         DZCache * cache = [DZCache sharedInstance];
-        [cache getDataWithURL:[NSURL URLWithString:feedItem.channel.image] shallDownload:YES dataHandler:^(NSData * data, NSError * error) {
+        [cache getDataWithURL:[NSURL URLWithString:feedItem.channel.image] shallAlwaysDownload:NO dataHandler:^(NSData * data, NSError * error) {
             if (data != nil && error == nil) {
                 self.imageView.image = [UIImage imageWithData:data];
             }

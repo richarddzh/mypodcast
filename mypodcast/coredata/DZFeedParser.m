@@ -78,7 +78,7 @@ NSDate * DZDateFromString(NSString * s)
 
 @implementation DZFeedParser
 
-- (DZChannel *)parseFeed:(NSData *)data atURL:(NSString *)url withObjectFactory:(id<DZObjectFactory>)factory
+- (DZChannel *)parseFeed:(NSData *)data atURL:(NSString *)url withObjectFactory:(id<DZObjectFactory>)factory error:(NSError **)error
 {
     self->_channel = [factory channelWithURL:url];
     self->_factory = factory;
@@ -89,7 +89,11 @@ NSDate * DZDateFromString(NSString * s)
     self->_inItem = NO;
     self->_innerText = nil;
     [self->_parser setDelegate:self];
-    [self->_parser parse];
+    if ([self->_parser parse]) {
+        *error = nil;
+    } else {
+        *error = self->_parser.parserError;
+    }
     return self->_channel;
 }
 

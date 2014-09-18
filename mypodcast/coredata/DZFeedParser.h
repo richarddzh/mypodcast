@@ -22,6 +22,7 @@
 
 - (DZChannel *)parseFeed:(NSData *)data
                    atURL:(NSString *)url
-       withObjectFactory:(id<DZObjectFactory>)factory;
+       withObjectFactory:(id<DZObjectFactory>)factory
+                   error:(NSError **)error;
 
 @end

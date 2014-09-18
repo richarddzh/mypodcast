@@ -73,4 +73,14 @@
     self.fileSize = @(fileSizeInteger);
 }
 
+- (BOOL)isFeed
+{
+    return [self.feed boolValue];
+}
+
+- (void)setIsFeed:(BOOL)isFeed
+{
+    self.feed = @(isFeed);
+}
+
 @end

@@ -30,7 +30,7 @@
         if (channel != nil) {
             self.descriptionLabel.text = channel.descriptions;
             self.titleLabel.text = channel.title;
-            [cache getDataWithURL:[NSURL URLWithString:channel.image] shallDownload:YES dataHandler:^(NSData * data, NSError * error) {
+            [cache getDataWithURL:[NSURL URLWithString:channel.image] shallAlwaysDownload:NO dataHandler:^(NSData * data, NSError * error) {
                 if (data != nil && error == nil) {
                     self.albumArtView.image = [UIImage imageWithData:data];
                 }

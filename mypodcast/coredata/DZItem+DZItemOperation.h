@@ -10,6 +10,7 @@
 
 @interface DZItem (DZItemOperation)
 
+@property (nonatomic) BOOL isFeed;
 @property (nonatomic) BOOL isRead;
 @property (nonatomic) BOOL isStored;
 @property (nonatomic) NSTimeInterval lastPlayTimeInterval;

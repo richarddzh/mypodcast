@@ -27,6 +27,6 @@ typedef enum : NSInteger {
 
 - (NSString *)getDownloadFilePathWithURL:(NSURL *)url;
 - (NSString *)getTemporaryFilePathWithURL:(NSURL *)url;
-- (void)getDataWithURL:(NSURL *)url shallDownload:(BOOL)shallDownload dataHandler:(void(^)(NSData *, NSError *))handler;
+- (void)getDataWithURL:(NSURL *)url shallAlwaysDownload:(BOOL)shallDownload dataHandler:(void(^)(NSData *, NSError *))handler;
 
 @end

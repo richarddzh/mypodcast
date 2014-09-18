@@ -16,6 +16,7 @@
 #import "DZDownloadButton.h"
 #import "DZFileStream.h"
 #import "DZItem+DZItemCellMapping.h"
+#import "DZChannel+DZChannelOperation.h"
 
 @interface DZFeedViewController ()
 {
@@ -24,6 +25,8 @@
     NSString * _searchString;
     SWTableViewCell * _swipeRightCell;
 }
+- (void)filterFeedItems;
+- (void)scrollToTop;
 @end
 
 @implementation DZFeedViewController
@@ -49,15 +52,6 @@
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
     
-    DZDatabase * database = [DZDatabase sharedInstance];
-    NSString * url = @"http://www.ximalaya.com/album/236326.xml";
-    NSData * data = [NSData dataWithContentsOfURL:[NSURL URLWithString:url]];
-    DZFeedParser * parser = [[DZFeedParser alloc]init];
-    [parser parseFeed:data atURL:url withObjectFactory:database];
-    [database save];
-    self.feedChannel = [database channelWithURL:url];
-    [self filterFeedItems];
-    [self scrollToTop];
     [[DZEventCenter sharedInstance]addHandler:self forEventID:DZEventID_PlayerWillStartPlaying];
     [[DZEventCenter sharedInstance]addHandler:self forEventID:DZEventID_FileStreamWillStartDownload];
     [[DZEventCenter sharedInstance]addHandler:self forEventID:DZEventID_FileStreamWillReceiveDownloadData];
@@ -74,6 +68,26 @@
     [[DZEventCenter sharedInstance]removeHandler:self forEventID:DZEventID_FileStreamWillReceiveDownloadData];
     [[DZEventCenter sharedInstance]removeHandler:self forEventID:DZEventID_FileStreamDidReceiveDownloadData];
     [[DZEventCenter sharedInstance]removeHandler:self forEventID:DZEventID_FileStreamDidCompleteDownload];
+}
+
+- (void)setFeedChannel:(DZChannel *)aFeedChannel
+{
+    if (self->feedChannel != aFeedChannel) {
+        self->feedChannel = aFeedChannel;
+        [self filterFeedItems];
+        [self.tableView reloadData];
+        [self scrollToTop];
+    }
+}
+
+- (void)setFeedItemFilter:(DZFeedItemFilterType)filter
+{
+    if (self->feedItemFilter != filter) {
+        self->feedItemFilter = filter;
+        [self filterFeedItems];
+        [self.tableView reloadData];
+        [self scrollToTop];
+    }
 }
 
 #pragma mark - Table view data source
@@ -248,7 +262,20 @@
 
 - (IBAction)onRefresh:(id)sender
 {
-    [self.refreshControl endRefreshing];
+    [self.feedChannel updateWithCompletionHandler:^(NSError * error) {
+        if (error != nil) {
+            NSLog(@"update channel failed with error: %@, %@", error, error.debugDescription);
+        }
+        [self.refreshControl endRefreshing];
+    }];
+}
+
+- (void)beginRefresh
+{
+    if (!self.refreshControl.isRefreshing) {
+        [self.refreshControl beginRefreshing];
+        [self onRefresh:nil];
+    }
 }
 
 - (void)scrollToTop

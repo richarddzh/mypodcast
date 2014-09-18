@@ -52,7 +52,7 @@
         if (channel != nil) {
             self.descriptionLabel.text = channel.descriptions;
             self.titleLabel.text = channel.title;
-            [cache getDataWithURL:[NSURL URLWithString:channel.image] shallDownload:YES dataHandler:^(NSData * data, NSError * error) {
+            [cache getDataWithURL:[NSURL URLWithString:channel.image] shallAlwaysDownload:YES dataHandler:^(NSData * data, NSError * error) {
                 if (data != nil && error == nil) {
                     self.albumArtView.image = [UIImage imageWithData:data];
                 }
@@ -64,8 +64,6 @@
 - (IBAction)onSegmentedControlValueChanged:(id)sender
 {
     self.feedViewController.feedItemFilter = (DZFeedItemFilterType)(self.filterControl.selectedSegmentIndex);
-    [self.feedViewController filterFeedItems];
-    [self.feedViewController.tableView reloadData];
 }
 
 @end

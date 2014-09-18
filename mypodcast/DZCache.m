@@ -80,11 +80,11 @@ static void _reachabilityCallback(SCNetworkReachabilityRef target,
     return [[self getDownloadFilePathWithURL:url]stringByAppendingString:@".download"];
 }
 
-- (void)getDataWithURL:(NSURL *)url shallDownload:(BOOL)shallDownload dataHandler:(void (^)(NSData *, NSError *))handler
+- (void)getDataWithURL:(NSURL *)url shallAlwaysDownload:(BOOL)shallDownload dataHandler:(void (^)(NSData *, NSError *))handler
 {
     NSString * path = [self getDownloadFilePathWithURL:url];
     NSFileManager * fmgr = [NSFileManager defaultManager];
-    if ([fmgr fileExistsAtPath:path]) {
+    if ([fmgr fileExistsAtPath:path] && !shallDownload) {
         handler([NSData dataWithContentsOfFile:path], nil);
         return;
     }
