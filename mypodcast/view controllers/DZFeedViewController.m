@@ -265,6 +265,11 @@
     [self.feedChannel updateWithCompletionHandler:^(NSError * error) {
         if (error != nil) {
             NSLog(@"update channel failed with error: %@, %@", error, error.debugDescription);
+            [self showAlert:NSLocalizedString(@"Refresh failed, try again later.", nil)];
+        } else {
+            [self filterFeedItems];
+            [self.tableView reloadData];
+            [self scrollToTop];
         }
         [self.refreshControl endRefreshing];
     }];

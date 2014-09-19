@@ -17,6 +17,7 @@
 
 - (void)updateWithCompletionHandler:(void (^)(NSError *))handler
 {
+    [[DZDatabase sharedInstance]save];
     for (DZItem * item in self.items) {
         item.isFeed = NO;
     }
@@ -30,9 +31,7 @@
                         error:&parseError];
             if (parseError != nil) {
                 error = parseError;
-                for (DZItem * item in self.items) {
-                    item.isFeed = YES;
-                }
+                [[DZDatabase sharedInstance]rollback];
             } else {
                 for (DZItem * item in self.items) {
                     if (!item.isFeed && !item.isStored) {

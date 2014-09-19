@@ -14,9 +14,11 @@
 @property (nonatomic,retain,readonly) NSManagedObjectModel * model;
 @property (nonatomic,retain,readonly) NSPersistentStoreCoordinator * storeCoordinator;
 @property (nonatomic,retain,readonly) NSManagedObjectContext * context;
+@property (nonatomic,assign,readwrite) NSInteger numInsertedObjects;
 
 + (DZDatabase *)sharedInstance;
 - (void)save;
+- (void)rollback;
 - (id)insert:(NSString *)type;
 - (id)fetch:(NSString *)type withKey:(NSString *)key value:(id)value;
 - (NSArray *)fetchAll:(NSString *)type;

@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="5056" systemVersion="13E28" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="ybY-qv-P3k">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6245" systemVersion="13F34" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="Far-aS-TTW">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3733"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6238"/>
     </dependencies>
     <scenes>
-        <!--Feed View Controller - Contents-->
+        <!--Contents-->
         <scene sceneID="oAg-Jt-ms5">
             <objects>
                 <tableViewController hidesBottomBarWhenPushed="YES" id="WR5-FG-fFd" customClass="DZFeedViewController" sceneMemberID="viewController">
@@ -30,18 +30,15 @@
                                     <subviews>
                                         <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="rV9-tT-0fa">
                                             <rect key="frame" x="10" y="10" width="72" height="72"/>
-                                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                         </imageView>
                                         <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ZK0-Pp-MnX">
                                             <rect key="frame" x="90" y="10" width="210" height="21"/>
-                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                             <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="210" translatesAutoresizingMaskIntoConstraints="NO" id="txG-Me-SvO">
                                             <rect key="frame" x="90" y="31" width="210" height="51"/>
-                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             <string key="text">Label
 demo
 demo</string>
@@ -50,7 +47,6 @@ demo</string>
                                         </label>
                                         <segmentedControl opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="top" apportionsSegmentWidthsByContent="YES" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="MNo-3L-w3C">
                                             <rect key="frame" x="20" y="90" width="280" height="29"/>
-                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             <segments>
                                                 <segment title="Unplayed"/>
                                                 <segment title="Feed"/>
@@ -80,23 +76,19 @@ demo</string>
                                     <subviews>
                                         <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="0EM-dT-sG5">
                                             <rect key="frame" x="10" y="19" width="24" height="24"/>
-                                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                         </imageView>
                                         <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mhu-31-Fhb">
                                             <rect key="frame" x="42" y="10" width="236" height="21"/>
-                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" enabled="NO" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="DW3-hA-I0q">
                                             <rect key="frame" x="42" y="31" width="236" height="21"/>
-                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <button opaque="NO" contentMode="center" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="x56-Rb-wbs" customClass="DZDownloadButton">
                                             <rect key="frame" x="278" y="0.0" width="42" height="60"/>
-                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             <state key="normal">
                                                 <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                             </state>
@@ -151,23 +143,22 @@ demo</string>
             </objects>
             <point key="canvasLocation" x="-8716" y="-4138"/>
         </scene>
-        <!--Navigation Controller - My books-->
+        <!--Navigation Controller-->
         <scene sceneID="H6t-J9-q4d">
             <objects>
                 <navigationController definesPresentationContext="YES" id="Far-aS-TTW" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="My books" image="channels.png" id="QA9-D9-5VI"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="8bD-G4-xT6">
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <connections>
-                        <segue destination="Dfz-hl-ZH7" kind="relationship" relationship="rootViewController" id="7WI-l2-5WX"/>
+                        <segue destination="ybY-qv-P3k" kind="relationship" relationship="rootViewController" id="gTg-Pl-y0Z"/>
                     </connections>
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="jb8-IN-naX" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-9798" y="-4138"/>
+            <point key="canvasLocation" x="-10302" y="-3433"/>
         </scene>
-        <!--Featured View Controller - Featured-->
+        <!--Featured-->
         <scene sceneID="nkX-4t-Kph">
             <objects>
                 <viewController id="uri-Ws-kGi" customClass="DZFeaturedViewController" sceneMemberID="viewController">
@@ -176,34 +167,38 @@ demo</string>
                         <viewControllerLayoutGuide type="bottom" id="YFn-Rq-9Ef"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="WH4-KW-nVO">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <rect key="frame" x="0.0" y="64" width="320" height="455"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <webView contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="eiR-Kl-csJ">
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
-                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                 <dataDetectorType key="dataDetectorTypes"/>
+                                <connections>
+                                    <outlet property="delegate" destination="uri-Ws-kGi" id="iOP-YB-sVp"/>
+                                </connections>
                             </webView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
+                    <extendedEdge key="edgesForExtendedLayout"/>
                     <tabBarItem key="tabBarItem" title="Featured" image="featured.png" id="nRX-cW-IWX"/>
                     <connections>
                         <outlet property="webView" destination="eiR-Kl-csJ" id="QC2-Vw-y4P"/>
+                        <segue destination="WR5-FG-fFd" kind="push" identifier="DZSegueChannel" id="BJa-Us-L9W"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="29x-gK-E9Q" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-9804" y="-3433"/>
+            <point key="canvasLocation" x="-9258" y="-3433"/>
         </scene>
-        <!--Channel View Controller - My books-->
+        <!--My books-->
         <scene sceneID="eR2-lR-gNE">
             <objects>
                 <tableViewController id="Dfz-hl-ZH7" customClass="DZChannelViewController" sceneMemberID="viewController">
-                    <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="88" sectionHeaderHeight="22" sectionFooterHeight="22" id="8pr-KZ-xlW">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                    <tableView key="view" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="88" sectionHeaderHeight="22" sectionFooterHeight="22" id="8pr-KZ-xlW">
+                        <rect key="frame" x="0.0" y="64" width="320" height="455"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
                             <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="DZChannel" id="I5f-zr-7P5" customClass="DZChannelCell">
@@ -215,18 +210,15 @@ demo</string>
                                     <subviews>
                                         <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="6et-lb-aWY">
                                             <rect key="frame" x="8" y="8" width="72" height="72"/>
-                                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                         </imageView>
                                         <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="iBz-cs-8z0">
                                             <rect key="frame" x="88" y="8" width="224" height="21"/>
-                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                             <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="224" translatesAutoresizingMaskIntoConstraints="NO" id="MCm-Ar-CzD">
                                             <rect key="frame" x="88" y="30" width="224" height="50"/>
-                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             <string key="text">Label
 demo line1
 demo line2
@@ -250,16 +242,19 @@ demo</string>
                             <outlet property="delegate" destination="Dfz-hl-ZH7" id="vsa-nq-P9y"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="My books" id="moY-b7-r7K"/>
+                    <extendedEdge key="edgesForExtendedLayout"/>
+                    <tabBarItem key="tabBarItem" title="My books" image="channels.png" id="NWi-V3-OPz"/>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="SnI-Yd-9eb" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-9258" y="-4138"/>
         </scene>
-        <!--Tab Bar Controller-->
+        <!--Books-->
         <scene sceneID="mDf-ae-Td7">
             <objects>
                 <tabBarController definesPresentationContext="YES" id="ybY-qv-P3k" sceneMemberID="viewController">
+                    <extendedEdge key="edgesForExtendedLayout" bottom="YES"/>
+                    <navigationItem key="navigationItem" title="Books" id="A9A-Ev-NWl"/>
                     <nil key="simulatedBottomBarMetrics"/>
                     <tabBar key="tabBar" contentMode="scaleToFill" id="RVP-cj-0dn">
                         <rect key="frame" x="129" y="330" width="163" height="49"/>
@@ -268,12 +263,12 @@ demo</string>
                     </tabBar>
                     <connections>
                         <segue destination="uri-Ws-kGi" kind="relationship" relationship="viewControllers" id="F7C-8D-ceB"/>
-                        <segue destination="Far-aS-TTW" kind="relationship" relationship="viewControllers" id="YZf-Zk-YBX"/>
+                        <segue destination="Dfz-hl-ZH7" kind="relationship" relationship="viewControllers" id="jOj-RH-9vT"/>
                     </connections>
                 </tabBarController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="f0Y-j7-vVS" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-10343" y="-3433"/>
+            <point key="canvasLocation" x="-9798" y="-3433"/>
         </scene>
         <!--Play View Controller-->
         <scene sceneID="Gaa-ev-Hjl">
@@ -284,16 +279,14 @@ demo</string>
                         <viewControllerLayoutGuide type="bottom" id="dVF-rl-2mE"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="1HY-6S-IZx">
-                        <rect key="frame" x="0.0" y="64" width="320" height="504"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="504"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="UMC-eo-6k5">
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="320"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </imageView>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="-00:00" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bIR-I2-L9d">
                                 <rect key="frame" x="204" y="328" width="96" height="21"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="96" id="hzp-QA-7bU"/>
                                     <constraint firstAttribute="height" constant="21" id="qaW-U7-Ho9"/>
@@ -304,7 +297,6 @@ demo</string>
                             </label>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="00:00" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="t3p-5d-AqV">
                                 <rect key="frame" x="20" y="328" width="96" height="21"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="21" id="Flq-bG-Brw"/>
                                     <constraint firstAttribute="width" constant="96" id="m76-yC-lnV"/>
@@ -315,7 +307,6 @@ demo</string>
                             </label>
                             <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="1" minValue="0.0" maxValue="1" continuous="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lpT-4T-Jd8" customClass="DZSlider">
                                 <rect key="frame" x="18" y="342" width="284" height="31"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="30" id="rWk-LW-dpO"/>
                                 </constraints>
@@ -326,14 +317,12 @@ demo</string>
                             </slider>
                             <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" progress="1" translatesAutoresizingMaskIntoConstraints="NO" id="eyo-mA-3Yz">
                                 <rect key="frame" x="20" y="357" width="280" height="2"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="2" id="C4p-JL-mI6"/>
                                 </constraints>
                             </progressView>
                             <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="249" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9f8-t7-bBt">
                                 <rect key="frame" x="124" y="380" width="72" height="72"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="72" id="Q3Z-Vo-01i"/>
                                     <constraint firstAttribute="height" constant="72" id="Z4d-M0-nup"/>
@@ -392,6 +381,7 @@ demo</string>
         <simulatedScreenMetrics key="destination" type="retina4"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
+        <segue reference="BJa-Us-L9W"/>
         <segue reference="YCe-QO-4Ph"/>
     </inferredMetricsTieBreakers>
 </document>

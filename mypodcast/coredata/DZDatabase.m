@@ -75,12 +75,21 @@
     }
 }
 
+- (void)rollback
+{
+    NSManagedObjectContext * context = self.context;
+    if (context != nil && [context hasChanges]) {
+        [context rollback];
+    }
+}
+
 - (id)insert:(NSString *)type
 {
     NSManagedObjectContext * context = self.context;
     if (context == nil) {
         return nil;
     }
+    self.numInsertedObjects = self.numInsertedObjects + 1;
     return [NSEntityDescription insertNewObjectForEntityForName:type inManagedObjectContext:context];
 }
 

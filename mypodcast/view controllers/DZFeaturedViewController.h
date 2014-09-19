@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface DZFeaturedViewController : UIViewController
+@interface DZFeaturedViewController : UIViewController <UIWebViewDelegate>
 
 @property (nonatomic,retain) IBOutlet UIWebView * webView;
 

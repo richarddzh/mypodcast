@@ -49,9 +49,11 @@
     DZCache * cache = [DZCache sharedInstance];
     if (self->_channel != channel) {
         self->_channel = channel;
-        if (channel != nil) {
-            self.descriptionLabel.text = channel.descriptions;
-            self.titleLabel.text = channel.title;
+    }
+    if (channel != nil) {
+        self.descriptionLabel.text = channel.descriptions;
+        self.titleLabel.text = channel.title;
+        if (channel.image != nil) {
             [cache getDataWithURL:[NSURL URLWithString:channel.image] shallAlwaysDownload:YES dataHandler:^(NSData * data, NSError * error) {
                 if (data != nil && error == nil) {
                     self.albumArtView.image = [UIImage imageWithData:data];

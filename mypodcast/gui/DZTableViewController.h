@@ -13,4 +13,6 @@
 
 @property (nonatomic,weak,readonly) SWTableViewCell * swipeRightCell;
 
+- (void)showAlert:(NSString *)message;
+
 @end
