@@ -97,13 +97,23 @@ static void _reachabilityCallback(SCNetworkReachabilityRef target,
     }
     NSURLSessionDownloadTask * task = [self->_urlSession downloadTaskWithURL:url completionHandler:^(NSURL *location, NSURLResponse *response, NSError *error) {
         if (error == nil && location != nil) {
-            [fmgr createDirectoryAtPath:[path stringByDeletingLastPathComponent] withIntermediateDirectories:YES attributes:nil error:&error];
-            [fmgr moveItemAtURL:location toURL:[NSURL fileURLWithPath:path] error:&error];
-            if (error != nil) {
-                handler(nil, error);
+            NSError * ferror = nil;
+            if (![fmgr createDirectoryAtPath:[path stringByDeletingLastPathComponent] withIntermediateDirectories:YES attributes:nil error:&ferror]) {
+                NSLog(@"[ERROR] create dir for path %@ failed with error %@, %@.", path, ferror, ferror.debugDescription);
             } else {
-                handler(path, nil);
+                if ([fmgr fileExistsAtPath:path]) {
+                    [fmgr removeItemAtPath:path error:&ferror];
+                }
+                [fmgr moveItemAtURL:location toURL:[NSURL fileURLWithPath:path] error:&error];
             }
+            if (ferror != nil) {
+                error = ferror;
+            }
+        }
+        if (error != nil) {
+            handler(nil, error);
+        } else {
+            handler(path, nil);
         }
     }];
     [task resume];
