@@ -29,7 +29,6 @@
 		7932AD68198A1B5000151759 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7932AD50198A1B5000151759 /* UIKit.framework */; };
 		7932AD70198A1B5000151759 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 7932AD6E198A1B5000151759 /* InfoPlist.strings */; };
 		7932AD72198A1B5000151759 /* mypodcastTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 7932AD71198A1B5000151759 /* mypodcastTests.m */; };
-		7932AD7C198A1B9D00151759 /* Storyboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7932AD7B198A1B9D00151759 /* Storyboard.storyboard */; };
 		7939208D19A0E5930097AC63 /* DZChannel.m in Sources */ = {isa = PBXBuildFile; fileRef = 7939208C19A0E5930097AC63 /* DZChannel.m */; };
 		7939208E19A0E5930097AC63 /* DZChannel.m in Sources */ = {isa = PBXBuildFile; fileRef = 7939208C19A0E5930097AC63 /* DZChannel.m */; };
 		7939209119A0E5930097AC63 /* DZItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 7939209019A0E5930097AC63 /* DZItem.m */; };
@@ -66,13 +65,14 @@
 		79940E9E19C7DA820065B12A /* featured@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 79940E9A19C7DA820065B12A /* featured@2x.png */; };
 		79940EA119C7DD4B0065B12A /* DZChannelViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 79940EA019C7DD4B0065B12A /* DZChannelViewController.m */; };
 		79940EA419C7E0230065B12A /* DZChannelCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 79940EA319C7E0230065B12A /* DZChannelCell.m */; };
-		799D21F819CC4CA4009E0B95 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 799D21F719CC4CA4009E0B95 /* Localizable.strings */; };
 		79A2E4DA19B2015000FAD4D8 /* DZFeedViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 79A2E4D719B2015000FAD4D8 /* DZFeedViewController.m */; };
 		79A2E4DB19B2015000FAD4D8 /* DZPlayViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 79A2E4D919B2015000FAD4D8 /* DZPlayViewController.m */; };
 		79A2E4E519B2015A00FAD4D8 /* DZFeedHeaderCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 79A2E4DF19B2015A00FAD4D8 /* DZFeedHeaderCell.m */; };
 		79A2E4E619B2015A00FAD4D8 /* DZFeedItemCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 79A2E4E119B2015A00FAD4D8 /* DZFeedItemCell.m */; };
 		79A2E4E719B2015A00FAD4D8 /* DZSlider.m in Sources */ = {isa = PBXBuildFile; fileRef = 79A2E4E319B2015A00FAD4D8 /* DZSlider.m */; };
 		79A2E4EB19B202D300FAD4D8 /* UIImage+DZImagePool.m in Sources */ = {isa = PBXBuildFile; fileRef = 79A2E4EA19B202D300FAD4D8 /* UIImage+DZImagePool.m */; };
+		79B4486819CDB36400798EEA /* Storyboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 79B4486A19CDB36400798EEA /* Storyboard.storyboard */; };
+		79B4486C19CDB63A00798EEA /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 79B4486E19CDB63A00798EEA /* Localizable.strings */; };
 		79B9719919BC567000E327AE /* DZItem+DZItemOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 79B9719819BC567000E327AE /* DZItem+DZItemOperation.m */; };
 		79E4F32419B6ADAC000444BA /* UIButton+DZImagePool.m in Sources */ = {isa = PBXBuildFile; fileRef = 79E4F32319B6ADAC000444BA /* UIButton+DZImagePool.m */; };
 		79E4F32719B71D50000444BA /* DZPlayList.m in Sources */ = {isa = PBXBuildFile; fileRef = 79E4F32619B71D50000444BA /* DZPlayList.m */; };
@@ -128,7 +128,6 @@
 		7932AD6D198A1B5000151759 /* mypodcastTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "mypodcastTests-Info.plist"; sourceTree = "<group>"; };
 		7932AD6F198A1B5000151759 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		7932AD71198A1B5000151759 /* mypodcastTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = mypodcastTests.m; sourceTree = "<group>"; };
-		7932AD7B198A1B9D00151759 /* Storyboard.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Storyboard.storyboard; sourceTree = "<group>"; };
 		7932AD80198A37C300151759 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
 		7939208B19A0E5930097AC63 /* DZChannel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DZChannel.h; sourceTree = "<group>"; };
 		7939208C19A0E5930097AC63 /* DZChannel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DZChannel.m; sourceTree = "<group>"; };
@@ -180,7 +179,6 @@
 		79940EA019C7DD4B0065B12A /* DZChannelViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DZChannelViewController.m; sourceTree = "<group>"; };
 		79940EA219C7E0230065B12A /* DZChannelCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DZChannelCell.h; sourceTree = "<group>"; };
 		79940EA319C7E0230065B12A /* DZChannelCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DZChannelCell.m; sourceTree = "<group>"; };
-		799D21F719CC4CA4009E0B95 /* Localizable.strings */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; path = Localizable.strings; sourceTree = "<group>"; };
 		799D21F919CC5255009E0B95 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/InfoPlist.strings"; sourceTree = "<group>"; };
 		799D21FA19CC5255009E0B95 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/InfoPlist.strings"; sourceTree = "<group>"; };
 		79A2E4D619B2015000FAD4D8 /* DZFeedViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DZFeedViewController.h; sourceTree = "<group>"; };
@@ -195,6 +193,10 @@
 		79A2E4E319B2015A00FAD4D8 /* DZSlider.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DZSlider.m; sourceTree = "<group>"; };
 		79A2E4E919B202D300FAD4D8 /* UIImage+DZImagePool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+DZImagePool.h"; sourceTree = "<group>"; };
 		79A2E4EA19B202D300FAD4D8 /* UIImage+DZImagePool.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+DZImagePool.m"; sourceTree = "<group>"; };
+		79B4486919CDB36400798EEA /* en */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = en; path = en.lproj/Storyboard.storyboard; sourceTree = "<group>"; };
+		79B4486B19CDB37D00798EEA /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = "zh-Hans"; path = "zh-Hans.lproj/Storyboard.storyboard"; sourceTree = "<group>"; };
+		79B4486D19CDB63A00798EEA /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
+		79B4486F19CDB63E00798EEA /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/Localizable.strings"; sourceTree = "<group>"; };
 		79B9719719BC567000E327AE /* DZItem+DZItemOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "DZItem+DZItemOperation.h"; sourceTree = "<group>"; };
 		79B9719819BC567000E327AE /* DZItem+DZItemOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "DZItem+DZItemOperation.m"; sourceTree = "<group>"; };
 		79E4F32219B6ADAC000444BA /* UIButton+DZImagePool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIButton+DZImagePool.h"; sourceTree = "<group>"; };
@@ -287,7 +289,7 @@
 				7932AD5C198A1B5000151759 /* DZAppDelegate.m */,
 				7932AD5E198A1B5000151759 /* Images.xcassets */,
 				7932AD53198A1B5000151759 /* Supporting Files */,
-				7932AD7B198A1B9D00151759 /* Storyboard.storyboard */,
+				79B4486A19CDB36400798EEA /* Storyboard.storyboard */,
 				7939A220199DE38A00EF6339 /* Model.xcdatamodeld */,
 				7921C378198A68AA00A6B408 /* DZCache.h */,
 				7921C379198A68AA00A6B408 /* DZCache.m */,
@@ -310,7 +312,7 @@
 				7932AD55198A1B5000151759 /* InfoPlist.strings */,
 				7932AD58198A1B5000151759 /* main.m */,
 				7932AD5A198A1B5000151759 /* mypodcast-Prefix.pch */,
-				799D21F719CC4CA4009E0B95 /* Localizable.strings */,
+				79B4486E19CDB63A00798EEA /* Localizable.strings */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -551,14 +553,14 @@
 				7918084119B553750059B5B8 /* download-button.png in Resources */,
 				79940E9D19C7DA820065B12A /* featured.png in Resources */,
 				79FD281919B2130B00359414 /* half-bullet.png in Resources */,
-				799D21F819CC4CA4009E0B95 /* Localizable.strings in Resources */,
+				79B4486C19CDB63A00798EEA /* Localizable.strings in Resources */,
 				79FD281C19B2130B00359414 /* new-bullet@2x.png in Resources */,
 				79FD281A19B2130B00359414 /* half-bullet@2x.png in Resources */,
 				7932AD5F198A1B5000151759 /* Images.xcassets in Resources */,
 				79FD281319B212A300359414 /* play-bullet.png in Resources */,
 				79940E9E19C7DA820065B12A /* featured@2x.png in Resources */,
 				795539F619971C0200D103D0 /* play-button@2x.png in Resources */,
-				7932AD7C198A1B9D00151759 /* Storyboard.storyboard in Resources */,
+				79B4486819CDB36400798EEA /* Storyboard.storyboard in Resources */,
 				79FD281B19B2130B00359414 /* new-bullet.png in Resources */,
 				79FD281419B212A300359414 /* play-bullet@2x.png in Resources */,
 				79940E9B19C7DA820065B12A /* channels.png in Resources */,
@@ -659,6 +661,24 @@
 				799D21FA19CC5255009E0B95 /* zh-Hans */,
 			);
 			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		79B4486A19CDB36400798EEA /* Storyboard.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				79B4486919CDB36400798EEA /* en */,
+				79B4486B19CDB37D00798EEA /* zh-Hans */,
+			);
+			name = Storyboard.storyboard;
+			sourceTree = "<group>";
+		};
+		79B4486E19CDB63A00798EEA /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				79B4486D19CDB63A00798EEA /* en */,
+				79B4486F19CDB63E00798EEA /* zh-Hans */,
+			);
+			name = Localizable.strings;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
