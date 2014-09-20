@@ -26,16 +26,16 @@
 {
     if (self->_channel != channel) {
         self->_channel = channel;
-        if (channel != nil) {
-            self.descriptionLabel.text = channel.descriptions;
-            self.titleLabel.text = channel.title;
-            if (channel.image != nil) {
-                [[DZCache sharedInstance]getFileReadyWithURL:[NSURL URLWithString:channel.image] shallAlwaysDownload:NO readyHandler:^(NSString * path, NSError * error) {
-                    if (path != nil && error == nil) {
-                        self.albumArtView.image = [UIImage imageWithContentsOfFile:path];
-                    }
-                }];
-            }
+    }
+    if (channel != nil) {
+        self.descriptionLabel.text = channel.descriptions;
+        self.titleLabel.text = channel.title;
+        if (channel.image != nil) {
+            [[DZCache sharedInstance]getFileReadyWithURL:[NSURL URLWithString:channel.image] shallAlwaysDownload:NO readyHandler:^(NSString * path, NSError * error) {
+                if (path != nil && error == nil) {
+                    self.albumArtView.image = [UIImage imageWithContentsOfFile:path];
+                }
+            }];
         }
     }
 }
