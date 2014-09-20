@@ -43,22 +43,12 @@ static UIColor * _blueColor;
     }
     self->_actions = nil;
     self->_sheet = nil;
-    self.rightUtilityButtons = nil;
 }
 
 - (void)addActionWithIdentifier:(NSInteger)identifier text:(NSString *)text destructive:(BOOL)destructive
 {
-    if (_redColor == nil) {
-        _redColor = [UIColor redColor];
-        _blueColor = [UIColor colorWithRed:0 green:0.5 blue:1 alpha:1];
-        _grayColor = [UIColor lightGrayColor];
-    }
     if (self->_actions == nil) {
         self->_actions = [NSMutableArray array];
-        NSMutableArray * buttons = [NSMutableArray array];
-        [buttons sw_addUtilityButtonWithColor:_grayColor title:NSLocalizedString(@"More", nil)];
-        [buttons sw_addUtilityButtonWithColor:(destructive ? _redColor : _blueColor) title:text];
-        self.rightUtilityButtons = buttons;
     }
     DZTableViewCellAction * action = [[DZTableViewCellAction alloc]init];
     action.identifier = identifier;
@@ -96,6 +86,23 @@ static UIColor * _blueColor;
     } else {
         [self actionSheet:nil clickedButtonAtIndex:0];
     }
+}
+
+- (void)setNeedsDisplay
+{
+    if (_redColor == nil) {
+        _redColor = [UIColor redColor];
+        _blueColor = [UIColor colorWithRed:0 green:0.5 blue:1 alpha:1];
+        _grayColor = [UIColor lightGrayColor];
+    }
+    NSMutableArray * buttons = [NSMutableArray array];
+    [buttons sw_addUtilityButtonWithColor:_grayColor title:NSLocalizedString(@"More", nil)];
+    if (self->_actions != nil &&  self->_actions.count > 0) {
+        DZTableViewCellAction * action = self->_actions.firstObject;
+        [buttons sw_addUtilityButtonWithColor:(action.destructive ? _redColor : _blueColor) title:action.text];
+    }
+    self.rightUtilityButtons = buttons;
+    [super setNeedsDisplay];
 }
 
 @end
