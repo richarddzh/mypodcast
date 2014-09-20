@@ -21,11 +21,11 @@
     for (DZItem * item in self.items) {
         item.isFeed = NO;
     }
-    [[DZCache sharedInstance]getDataWithURL:[NSURL URLWithString:self.url] shallAlwaysDownload:YES dataHandler:^(NSData * data, NSError * error) {
-        if (data != nil && error == nil) {
+    [[DZCache sharedInstance]getFileReadyWithURL:[NSURL URLWithString:self.url] shallAlwaysDownload:YES readyHandler:^(NSString * path, NSError * error) {
+        if (path != nil && error == nil) {
             DZFeedParser * parser = [[DZFeedParser alloc]init];
             NSError * parseError = nil;
-            [parser parseFeed:data
+            [parser parseFeed:[NSData dataWithContentsOfFile:path]
                         atURL:self.url
             withObjectFactory:[DZDatabase sharedInstance]
                         error:&parseError];

@@ -7,18 +7,15 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "DZFeedViewController.h"
+#import "DZChannelCell.h"
 
 @class DZChannel;
+@class DZFeedViewController;
 
-@interface DZFeedHeaderCell : UITableViewCell
+@interface DZFeedHeaderCell : DZChannelCell
 
 @property (nonatomic,weak) IBOutlet DZFeedViewController * feedViewController;
-@property (nonatomic,retain) IBOutlet UIImageView * albumArtView;
-@property (nonatomic,retain) IBOutlet UILabel * titleLabel;
-@property (nonatomic,retain) IBOutlet UILabel * descriptionLabel;
 @property (nonatomic,retain) IBOutlet UISegmentedControl * filterControl;
-@property (nonatomic,retain) DZChannel * channel;
 
 - (IBAction)onSegmentedControlValueChanged:(id)sender;
 

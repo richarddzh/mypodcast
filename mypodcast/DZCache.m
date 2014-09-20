@@ -33,6 +33,12 @@ static void _reachabilityCallback(SCNetworkReachabilityRef target,
     cache.networkStatus = status;
 }
 
+@interface DZCache ()
+{
+    NSURLSession * _urlSession;
+}
+@end
+
 @implementation DZCache
 
 @synthesize networkStatus;
@@ -55,6 +61,7 @@ static void _reachabilityCallback(SCNetworkReachabilityRef target,
         if (SCNetworkReachabilitySetCallback(self->_netReachability, _reachabilityCallback, &context)) {
             SCNetworkReachabilityScheduleWithRunLoop(self->_netReachability, CFRunLoopGetCurrent(), kCFRunLoopDefaultMode);
         }
+        self->_urlSession = [NSURLSession sessionWithConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration] delegate:nil delegateQueue:[NSOperationQueue mainQueue]];
     }
     return self;
 }
@@ -80,22 +87,23 @@ static void _reachabilityCallback(SCNetworkReachabilityRef target,
     return [[self getDownloadFilePathWithURL:url]stringByAppendingString:@".download"];
 }
 
-- (void)getDataWithURL:(NSURL *)url shallAlwaysDownload:(BOOL)shallDownload dataHandler:(void (^)(NSData *, NSError *))handler
+- (void)getFileReadyWithURL:(NSURL *)url shallAlwaysDownload:(BOOL)shallAlwaysDownload readyHandler:(void (^)(NSString *, NSError *))handler
 {
     NSString * path = [self getDownloadFilePathWithURL:url];
     NSFileManager * fmgr = [NSFileManager defaultManager];
-    if ([fmgr fileExistsAtPath:path] && !shallDownload) {
-        handler([NSData dataWithContentsOfFile:path], nil);
+    if ([fmgr fileExistsAtPath:path] && !shallAlwaysDownload) {
+        handler(path, nil);
         return;
     }
-    NSURLSession * session = [NSURLSession sharedSession];
-    NSURLSessionTask * task = [session dataTaskWithURL:url completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
-        dispatch_async(dispatch_get_main_queue(), ^{
-            handler(data, error);
-        });
-        if (data != nil && error == nil) {
+    NSURLSessionDownloadTask * task = [self->_urlSession downloadTaskWithURL:url completionHandler:^(NSURL *location, NSURLResponse *response, NSError *error) {
+        if (error == nil && location != nil) {
             [fmgr createDirectoryAtPath:[path stringByDeletingLastPathComponent] withIntermediateDirectories:YES attributes:nil error:&error];
-            [fmgr createFileAtPath:path contents:data attributes:nil];
+            [fmgr moveItemAtURL:location toURL:[NSURL fileURLWithPath:path] error:&error];
+            if (error != nil) {
+                handler(nil, error);
+            } else {
+                handler(path, nil);
+            }
         }
     }];
     [task resume];

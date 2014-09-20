@@ -108,10 +108,9 @@
     DZItem * feedItem = self->_playList.currentItem;
     if (self->_player != nil && feedItem != nil) {
         self.title = feedItem.title;
-        DZCache * cache = [DZCache sharedInstance];
-        [cache getDataWithURL:[NSURL URLWithString:feedItem.channel.image] shallAlwaysDownload:NO dataHandler:^(NSData * data, NSError * error) {
-            if (data != nil && error == nil) {
-                self.imageView.image = [UIImage imageWithData:data];
+        [[DZCache sharedInstance]getFileReadyWithURL:[NSURL URLWithString:feedItem.channel.image] shallAlwaysDownload:NO readyHandler:^(NSString * path, NSError * error) {
+            if (path != nil && error == nil) {
+                self.imageView.image = [UIImage imageWithContentsOfFile:path];
             }
         }];
     }
