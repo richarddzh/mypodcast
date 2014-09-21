@@ -107,6 +107,7 @@
     [cell addActionWithIdentifier:DZChannelAction_Remove
                              text:NSLocalizedString(@"Delete", nil)
                       destructive:YES];
+    [cell updateUtilityButtons];
     return cell;
 }
 

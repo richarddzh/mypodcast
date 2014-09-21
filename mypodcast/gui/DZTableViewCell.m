@@ -90,6 +90,12 @@ static UIColor * _blueColor;
 
 - (void)setNeedsDisplay
 {
+    [self updateUtilityButtons];
+    [super setNeedsDisplay];
+}
+
+- (void)updateUtilityButtons
+{
     if (_redColor == nil) {
         _redColor = [UIColor redColor];
         _blueColor = [UIColor colorWithRed:0 green:0.5 blue:1 alpha:1];
@@ -102,7 +108,6 @@ static UIColor * _blueColor;
         [buttons sw_addUtilityButtonWithColor:(action.destructive ? _redColor : _blueColor) title:action.text];
     }
     self.rightUtilityButtons = buttons;
-    [super setNeedsDisplay];
 }
 
 @end

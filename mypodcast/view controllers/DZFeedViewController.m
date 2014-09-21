@@ -271,16 +271,15 @@
             [self.tableView reloadData];
             [self scrollToTop];
         }
-        [self.refreshControl endRefreshing];
+        if (sender != nil) {
+            [self.refreshControl endRefreshing];
+        }
     }];
 }
 
 - (void)beginRefresh
 {
-    if (!self.refreshControl.isRefreshing) {
-        [self.refreshControl beginRefreshing];
-        [self onRefresh:nil];
-    }
+    [self onRefresh:nil];
 }
 
 - (void)scrollToTop
